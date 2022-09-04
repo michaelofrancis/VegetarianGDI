@@ -31,6 +31,8 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
 
@@ -333,7 +335,7 @@ $(document).ready(function () {
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-gear"></span>
      
-    Part 0: QC prep
+    Pheno/geno prep
      
     <span class="caret"></span>
   </a>
@@ -355,29 +357,49 @@ $(document).ready(function () {
   <a href="DefineVeg.html">
     <span class="fa fa-info"></span>
      
-    Part 1: Defining high quality vegetarians
+    Define Vegetarians
   </a>
 </li>
 <li>
   <a href="MatchEffect.html">
-    <span class="fa fa-info"></span>
+    <span class="fa fa-solid fa-code-compare"></span>
      
-    Part 2: Matched vegetarianism exposure analysis
+    Matching + exposure analysis
   </a>
 </li>
-<li>
-  <a href="about.html">
-    <span class="fa fa-info"></span>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-solid fa-dna"></span>
      
-    Part 3: GWAS of vegetarianism
+    Vegetarianism GWAS
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWAS.html">GWAS in regenie</a>
+    </li>
+    <li>
+      <a href="plotGWAS.html">Plot GWAS results</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="about.html">
-    <span class="fa fa-info"></span>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-light fa-salad"></span>
      
-    Part 4: Genome wide interaction analysis
+    Gene x Vegetarianism GWIS
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWIS.html">GWIS in GEM</a>
+    </li>
+    <li>
+      <a href="plotGWIS.html">Plot GWIS results</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -388,9 +410,6 @@ $(document).ready(function () {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="page-a.html">Extra Scripts</a>
-    </li>
     <li>
       <a href="GxEplots.html">GxE plots</a>
     </li>
@@ -406,12 +425,7 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://example.com">
-    <span class="fa fa-question fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -428,11 +442,81 @@ $(document).ready(function () {
 
 <div id="TOC">
 <ul>
+<li><a
+href="#defining-high-quality-vegetarians-for-use-in-this-analysis"
+id="toc-defining-high-quality-vegetarians-for-use-in-this-analysis">Defining
+“high quality” vegetarians for use in this analysis</a>
+<ul>
+<li><a href="#purpose-of-this-script"
+id="toc-purpose-of-this-script">Purpose of this script:</a></li>
 <li><a href="#load-data" id="toc-load-data">Load data</a></li>
+<li><a
+href="#identify-instances-where-24-hour-dietary-recall-24hr-was-taken-by-participants.-possible-instances-are-0-through-4."
+id="toc-identify-instances-where-24-hour-dietary-recall-24hr-was-taken-by-participants.-possible-instances-are-0-through-4.">Identify
+instances where 24 hour dietary recall (24HR) was taken by participants.
+Possible instances are 0 through 4.</a></li>
+<li><a href="#plot-how-many-times-did-participants-take-24hr-surveys"
+id="toc-plot-how-many-times-did-participants-take-24hr-surveys">Plot:
+How many times did participants take 24HR surveys</a></li>
+<li><a
+href="#plot-how-many-repeat-participants-were-in-each-instance-of-the-24hr"
+id="toc-plot-how-many-repeat-participants-were-in-each-instance-of-the-24hr">Plot:
+How many repeat participants were in each instance of the 24HR?</a></li>
+<li><a
+href="#continue-with-veg-definitions-start-a-new-dataframe-called-new-and-add-age-and-sex-columns"
+id="toc-continue-with-veg-definitions-start-a-new-dataframe-called-new-and-add-age-and-sex-columns">Continue
+with veg definitions: start a new dataframe called “new” and add Age and
+Sex columns</a></li>
+<li><a href="#add-dietary-change-column"
+id="toc-add-dietary-change-column">Add dietary change column</a></li>
+<li><a
+href="#check-meat-and-fish-eater-fields-of-initial-assessment-ia."
+id="toc-check-meat-and-fish-eater-fields-of-initial-assessment-ia.">Check
+meat and fish eater fields of initial assessment (IA).</a></li>
+<li><a
+href="#special-diet-column-in-24hr-where-participants-self-identified-as-vegetarianvegan"
+id="toc-special-diet-column-in-24hr-where-participants-self-identified-as-vegetarianvegan">Special
+diet column in 24HR where participants self-identified as
+vegetarian/vegan</a></li>
+<li><a
+href="#plot-percent-consistent-vegetarians-vs-number-of-recall-surveys-taken-across-3-years"
+id="toc-plot-percent-consistent-vegetarians-vs-number-of-recall-surveys-taken-across-3-years">Plot:
+Percent consistent vegetarians vs number of recall survey’s taken across
+3 years</a></li>
+<li><a
+href="#identify-those-who-were-vegetarian-at-just-first-24hr-they-took"
+id="toc-identify-those-who-were-vegetarian-at-just-first-24hr-they-took">Identify
+those who were vegetarian at just first 24HR they took</a></li>
+<li><a
+href="#identify-those-who-were-vegetarian-at-two-consecutive-24hr-instances2"
+id="toc-identify-those-who-were-vegetarian-at-two-consecutive-24hr-instances2">Identify
+those who were vegetarian at two consecutive 24HR instances</a></li>
+<li><a href="#identify-those-who-ate-meat-or-fish-in-the-24hr"
+id="toc-identify-those-who-ate-meat-or-fish-in-the-24hr">Identify those
+who ate meat or fish in the 24HR</a></li>
+<li><a
+href="#plot-those-who-indicated-being-a-vegetarianvegan-and-also-indicated-meat-or-fish-eating-on-that-same-survey"
+id="toc-plot-those-who-indicated-being-a-vegetarianvegan-and-also-indicated-meat-or-fish-eating-on-that-same-survey">Plot:
+those who indicated being a vegetarian/vegan and also indicated meat or
+fish eating on that same survey</a></li>
+<li><a href="#create-new-vegetarian-columns"
+id="toc-create-new-vegetarian-columns">Create new vegetarian
+columns</a></li>
+<li><a
+href="#table-reason-self-identified-vegetarian-was-disqualified-from-study"
+id="toc-table-reason-self-identified-vegetarian-was-disqualified-from-study">Table:
+reason self-identified vegetarian was disqualified from study</a></li>
+<li><a href="#write-output-files." id="toc-write-output-files.">Write
+output files.</a></li>
+</ul></li>
 </ul>
 </div>
 
-<p>The purpose of this script is to:</p>
+<div id="defining-high-quality-vegetarians-for-use-in-this-analysis"
+class="section level1">
+<h1>Defining “high quality” vegetarians for use in this analysis</h1>
+<div id="purpose-of-this-script" class="section level3">
+<h3>Purpose of this script:</h3>
 <ul>
 <li><p>Find the self-identified vegetarians in the UK Biobank dietary
 recall survey instances</p></li>
@@ -441,21 +525,1187 @@ survey.</p></li>
 <li><p>Obtain a list of high quality vegetarians to use for subsequent
 analyses.</p></li>
 </ul>
+<hr />
+<p><strong>Veg5yr1 is the vegetarian variable used in the main analysis.
+This means:</strong></p>
+<ul>
+<li><p><strong>Indicated no major dietary changes over past 5
+years</strong></p></li>
+<li><p><strong>No meat eating on initial assessment
+(IA)</strong></p></li>
+<li><p><strong>Self-identified as a vegetarian or vegan the first time
+they were asked on a 24HR survey</strong></p></li>
+<li><p><strong>Didn’t indicate eating any meat or fish on that same
+first 24HR survey they took</strong></p></li>
+</ul>
+<hr />
+<p>The biomarker data that we use in this analysis was taken at the IA.
+Therefore this is a combination of several columns that describe the
+quality of vegetarianism at that same time point.</p>
+<p>There are also some plots here showing general qualities of the 24HR
+recall survey that were done in my data exploration that don’t factor
+into the main analysis (i.e., <a
+href="#plot-how-many-repeat-participants-were-in-each-instance-of-the-24hr">Plot:
+How many repeat participants were in each instance of the 24HR?</a> , <a
+href="#plot-percent-consistent-vegetarians-vs-number-of-recall-surveys-taken-across-3-years">Plot:
+Percent consistent vegetarians vs number of recall survey’s taken across
+3 years</a>, [Identify those who were vegetarian at two consecutive 24HR
+instances])</p>
+</div>
 <div id="load-data" class="section level3">
 <h3>Load data</h3>
-<p>Load packages + make it so table always displays NA’s</p>
+<div id="load-packages-special-functions" class="section level4">
+<h4>Load packages + special functions</h4>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(silent <span class="ot">&lt;-</span> <span class="fu">lapply</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;plyr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;vroom&quot;</span>, <span class="st">&quot;knitr&quot;</span>), </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;plyr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;vroom&quot;</span>, <span class="st">&quot;knitr&quot;</span>,<span class="st">&quot;kableExtra&quot;</span>), </span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    library, <span class="at">character.only=</span>T))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>table <span class="ot">=</span> <span class="cf">function</span> (..., <span class="at">useNA =</span> <span class="st">&#39;always&#39;</span>) base<span class="sc">::</span><span class="fu">table</span>(..., <span class="at">useNA =</span> useNA)</span></code></pre></div>
-<p>Load UK Biobank dataset</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">vroom</span>(<span class="st">&quot;/Users/mike/Documents/R_files/UKBpheno/pheno/ukb34137.tab&quot;</span>, <span class="at">delim=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<pre><code>## Warning: One or more parsing issues, see `problems()` for details</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">as_tibble</span>(bd)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#source(&quot;src/components/ukb34137_factordata.R&quot;) #file provided by UKB &quot;ukbxxxxx_loaddata.R&quot; without the loading part, to label the responses in survey questions</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bd)</span></code></pre></div>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>table <span class="ot">=</span> <span class="cf">function</span> (..., <span class="at">useNA =</span> <span class="st">&#39;always&#39;</span>) base<span class="sc">::</span><span class="fu">table</span>(..., <span class="at">useNA =</span> useNA)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>mutate_when <span class="ot">&lt;-</span> <span class="cf">function</span>(data, ...) {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    dots <span class="ot">&lt;-</span> <span class="fu">eval</span>(<span class="fu">substitute</span>(<span class="fu">alist</span>(...)))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> (i <span class="cf">in</span> <span class="fu">seq</span>(<span class="dv">1</span>, <span class="fu">length</span>(dots), <span class="at">by =</span> <span class="dv">2</span>)) {</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        condition <span class="ot">&lt;-</span> <span class="fu">eval</span>(dots[[i]], <span class="at">envir =</span> data)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        mutations <span class="ot">&lt;-</span> <span class="fu">eval</span>(dots[[i <span class="sc">+</span> <span class="dv">1</span>]], </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>                          <span class="at">envir =</span> data[condition, , <span class="at">drop =</span> <span class="cn">FALSE</span>])</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        data[condition, <span class="fu">names</span>(mutations)] <span class="ot">&lt;-</span> mutations</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    data</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="load-uk-biobank-dataset" class="section level4">
+<h4>Load UK Biobank dataset</h4>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">vroom</span>(<span class="st">&quot;/Users/mike/Documents/R_files/UKBpheno/pheno/ukb34137.tab&quot;</span>, <span class="at">delim=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">as_tibble</span>(bd)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;src/components/ukb34137_factordata.R&quot;</span>) <span class="co">#file provided by UKB &quot;ukb34137_loaddata.R&quot; without the loading part, to label the responses in survey questions</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bd)</span></code></pre></div>
 <pre><code>## [1] 502527   5172</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>knitr<span class="sc">::</span><span class="fu">knit_exit</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#knitr::knit_exit()</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">vroom</span>(<span class="st">&quot;/Users/mike/Documents/R_files/UKBpheno/pheno/ukbXXXXX.tab&quot;</span>, <span class="at">delim=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">as_tibble</span>(bd)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;src/components/ukbXXXXX_factordata.R&quot;</span>) <span class="co">#file provided by UKB &quot;ukbXXXXX_loaddata.R&quot; without the loading part, to label the responses in survey questions</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bd)</span></code></pre></div>
+</div>
+</div>
+<div
+id="identify-instances-where-24-hour-dietary-recall-24hr-was-taken-by-participants.-possible-instances-are-0-through-4."
+class="section level3">
+<h3>Identify instances where 24 hour dietary recall (24HR) was taken by
+participants. Possible instances are 0 through 4.</h3>
+<p>“daycols” are days of the week that the 24HR was taken, i.e. a proxy
+for whether the survey was completed. In these columns, NA=survey wasn’t
+taken that instance.</p>
+<p>We change the days of the week to 1 because we’re not interested in
+which day it actually was.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>daycols<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;f.20080.0.0&quot;</span>, <span class="st">&quot;f.20080.1.0&quot;</span>, <span class="st">&quot;f.20080.2.0&quot;</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>           <span class="st">&quot;f.20080.3.0&quot;</span>, <span class="st">&quot;f.20080.4.0&quot;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>bd1<span class="ot">&lt;-</span>bd[,<span class="fu">c</span>(<span class="st">&quot;f.eid&quot;</span>, daycols)]</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Change all the factors to characters</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>bd1[,daycols]<span class="ot">&lt;-</span><span class="fu">sapply</span>(bd1[,daycols], as.character)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#Change NA&#39;s to zeros and days to 1&#39;s</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>bd1[,daycols][(<span class="fu">is.na</span>(bd1[,daycols]))]<span class="ot">&lt;-</span><span class="st">&quot;0&quot;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>bd1[,daycols][bd1[,daycols]<span class="sc">!=</span><span class="st">&quot;0&quot;</span>] <span class="ot">&lt;-</span><span class="st">&quot;1&quot;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#Change these back to numeric</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>bd1[,daycols]<span class="ot">&lt;-</span><span class="fu">sapply</span>(bd1[,daycols], as.integer)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#Now make a new column, everyone with rowSums zero never took recall</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#and those with &gt;0 took it at least once</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>bd1<span class="sc">$</span>times_taken_24HR<span class="ot">&lt;-</span><span class="fu">rowSums</span>(bd1[,daycols])</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>bd1<span class="sc">$</span>ever_took_24HR<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>bd1<span class="sc">$</span>ever_took_24HR[bd1<span class="sc">$</span>times_taken_24HR<span class="sc">&gt;</span><span class="dv">0</span>]<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>bd1<span class="sc">$</span>times_taken_24HR[bd1<span class="sc">$</span>times_taken_24HR<span class="sc">==</span><span class="dv">0</span>]<span class="ot">&lt;-</span><span class="cn">NA</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(bd1<span class="sc">$</span>ever_took_24HR) <span class="co">#[1] 211018</span></span></code></pre></div>
+<pre><code>## [1] 211018</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#TP = time point</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(bd1)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;IID&quot;</span>, <span class="st">&quot;RecallTP0&quot;</span>, <span class="st">&quot;RecallTP1&quot;</span>,</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;RecallTP2&quot;</span>,<span class="st">&quot;RecallTP3&quot;</span>,<span class="st">&quot;RecallTP4&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;times_taken_24HR&quot;</span>, <span class="st">&quot;ever_took_24HR&quot;</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Optional save here</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#write.csv(bd1, &quot;UKB_24hourRecall-ParticipantInstancesTaken.csv&quot;, quote=F, row.names=F)</span></span></code></pre></div>
+<p>During what time periods did the questionnaire cycles occur?</p>
+<p><img src="images/paste-31AC8130.png" /></p>
+</div>
+<div id="plot-how-many-times-did-participants-take-24hr-surveys"
+class="section level3">
+<h3>Plot: How many times did participants take 24HR surveys</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;How many participants in each 24HR instance?&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;How many participants in each 24HR instance?&quot;</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>perinstance<span class="ot">=</span>bd1<span class="sc">%&gt;%</span><span class="fu">select</span>(RecallTP0<span class="sc">:</span>RecallTP4)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colSums</span>(perinstance)</span></code></pre></div>
+<pre><code>## RecallTP0 RecallTP1 RecallTP2 RecallTP3 RecallTP4 
+##     70714    100598     83265    103790    100247</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;How many times did participants take 24HR surveys?&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;How many times did participants take 24HR surveys?&quot;</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(bd1<span class="sc">$</span>times_taken_24HR)</span></code></pre></div>
+<pre><code>## 
+##      1      2      3      4      5   &lt;NA&gt; 
+##  84166  48119  42488  30479   5766 291509</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>timestaken<span class="ot">&lt;-</span>bd1<span class="sc">%&gt;%</span><span class="fu">select</span>(times_taken_24HR)<span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(times_taken_24HR)<span class="sc">%&gt;%</span><span class="fu">summarise</span>(<span class="at">N=</span><span class="fu">n</span>())</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>timestaken, <span class="fu">aes</span>(<span class="at">x=</span>times_taken_24HR, <span class="at">y=</span>N)) <span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Number of participants&quot;</span>)<span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Number of times taken 24 hour recall&quot;</span>)<span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">&quot;N=&quot;</span>, <span class="fu">sum</span>(timestaken<span class="sc">$</span>N[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]), <span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 1 rows containing missing values (position_stack).</code></pre>
+<p><img src="DefineVeg_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+</div>
+<div
+id="plot-how-many-repeat-participants-were-in-each-instance-of-the-24hr"
+class="section level3">
+<h3>Plot: How many repeat participants were in each instance of the
+24HR?</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>take<span class="ot">=</span>bd1[<span class="fu">paste</span>(<span class="st">&quot;RecallTP&quot;</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>take<span class="ot">=</span>take[<span class="sc">!</span><span class="fu">rowSums</span>(take)<span class="sc">==</span><span class="dv">0</span>,]</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>take.plot<span class="ot">=</span>take<span class="sc">%&gt;%</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gather</span>(<span class="at">key =</span> v, <span class="at">value =</span> total, RecallTP0<span class="sc">:</span>RecallTP4, <span class="at">na.rm =</span> T)<span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(v)<span class="sc">%&gt;%</span><span class="fu">count</span>(total)<span class="sc">%&gt;%</span><span class="fu">filter</span>(total<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(take.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;RecallTP&quot;</span>, <span class="st">&quot;Group&quot;</span>, <span class="st">&quot;n&quot;</span>)</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>take.plot<span class="sc">$</span>RecallTP<span class="ot">=</span><span class="dv">0</span><span class="sc">:</span><span class="dv">4</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(take.plot)</span></code></pre></div>
+<pre><code>## # A tibble: 5 × 3
+##   RecallTP Group      n
+##      &lt;int&gt; &lt;int&gt;  &lt;int&gt;
+## 1        0     1  70714
+## 2        1     1 100598
+## 3        2     1  83265
+## 4        3     1 103790
+## 5        4     1 100247</code></pre>
+<p>This next script chunk is incredibly repetitive and I’m sure there is
+a function for it but it was faster for me to do it “manually”.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>rep<span class="ot">=</span><span class="fu">paste</span>(<span class="st">&quot;repeat&quot;</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>take[rep]<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>take[rep[<span class="dv">1</span>]]<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(take[<span class="sc">!</span><span class="fu">rowSums</span>(take)<span class="sc">==</span><span class="dv">0</span>,])</span></code></pre></div>
+<pre><code>## [1] 211018</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co">#TP1, previously took once</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat1[take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>                 take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a><span class="co">#TP2, previously took at least once</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat2[(take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> </span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>                  take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span>) <span class="sc">&amp;</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                 take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a><span class="co">#TP2, previously took twice</span></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat2[(take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> </span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                  take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span>) <span class="sc">&amp;</span></span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                 take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-14"><a href="#cb23-14" aria-hidden="true" tabindex="-1"></a><span class="co">#TP3, previously took at least once</span></span>
+<span id="cb23-15"><a href="#cb23-15" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat3[(take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> </span>
+<span id="cb23-16"><a href="#cb23-16" aria-hidden="true" tabindex="-1"></a>                take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span><span class="sc">|</span> </span>
+<span id="cb23-17"><a href="#cb23-17" aria-hidden="true" tabindex="-1"></a>                take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span>) <span class="sc">&amp;</span></span>
+<span id="cb23-18"><a href="#cb23-18" aria-hidden="true" tabindex="-1"></a>                 take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb23-19"><a href="#cb23-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-20"><a href="#cb23-20" aria-hidden="true" tabindex="-1"></a><span class="co">#TP3, previously took at least twice</span></span>
+<span id="cb23-21"><a href="#cb23-21" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat3[(</span>
+<span id="cb23-22"><a href="#cb23-22" aria-hidden="true" tabindex="-1"></a>    (take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|</span> </span>
+<span id="cb23-23"><a href="#cb23-23" aria-hidden="true" tabindex="-1"></a>    (take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|</span></span>
+<span id="cb23-24"><a href="#cb23-24" aria-hidden="true" tabindex="-1"></a>    (take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb23-25"><a href="#cb23-25" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb23-26"><a href="#cb23-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-27"><a href="#cb23-27" aria-hidden="true" tabindex="-1"></a><span class="co">#TP3, previously took three times</span></span>
+<span id="cb23-28"><a href="#cb23-28" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat3[(</span>
+<span id="cb23-29"><a href="#cb23-29" aria-hidden="true" tabindex="-1"></a>            take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span>  </span>
+<span id="cb23-30"><a href="#cb23-30" aria-hidden="true" tabindex="-1"></a>            take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span>  <span class="sc">&amp;</span> </span>
+<span id="cb23-31"><a href="#cb23-31" aria-hidden="true" tabindex="-1"></a>             take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span></span>
+<span id="cb23-32"><a href="#cb23-32" aria-hidden="true" tabindex="-1"></a>             take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span>) ] <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb23-33"><a href="#cb23-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-34"><a href="#cb23-34" aria-hidden="true" tabindex="-1"></a><span class="co">#TP4, previously took at least once</span></span>
+<span id="cb23-35"><a href="#cb23-35" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat4[(take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> </span>
+<span id="cb23-36"><a href="#cb23-36" aria-hidden="true" tabindex="-1"></a>                  take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span><span class="sc">|</span> </span>
+<span id="cb23-37"><a href="#cb23-37" aria-hidden="true" tabindex="-1"></a>                  take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span><span class="sc">|</span> </span>
+<span id="cb23-38"><a href="#cb23-38" aria-hidden="true" tabindex="-1"></a>                  take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span>) <span class="sc">&amp;</span></span>
+<span id="cb23-39"><a href="#cb23-39" aria-hidden="true" tabindex="-1"></a>                 take<span class="sc">$</span>RecallTP4<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="dv">1</span></span>
+<span id="cb23-40"><a href="#cb23-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-41"><a href="#cb23-41" aria-hidden="true" tabindex="-1"></a><span class="co">#TP4, previously took at least twice</span></span>
+<span id="cb23-42"><a href="#cb23-42" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat4[(</span>
+<span id="cb23-43"><a href="#cb23-43" aria-hidden="true" tabindex="-1"></a>    (take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|</span> </span>
+<span id="cb23-44"><a href="#cb23-44" aria-hidden="true" tabindex="-1"></a>    (take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|</span></span>
+<span id="cb23-45"><a href="#cb23-45" aria-hidden="true" tabindex="-1"></a>    (take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|</span></span>
+<span id="cb23-46"><a href="#cb23-46" aria-hidden="true" tabindex="-1"></a>    (take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|</span> </span>
+<span id="cb23-47"><a href="#cb23-47" aria-hidden="true" tabindex="-1"></a>    (take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|</span></span>
+<span id="cb23-48"><a href="#cb23-48" aria-hidden="true" tabindex="-1"></a>    (take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span>) </span>
+<span id="cb23-49"><a href="#cb23-49" aria-hidden="true" tabindex="-1"></a>    ) <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP4<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="dv">2</span></span>
+<span id="cb23-50"><a href="#cb23-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-51"><a href="#cb23-51" aria-hidden="true" tabindex="-1"></a><span class="co">#TP4, previously took at least three times</span></span>
+<span id="cb23-52"><a href="#cb23-52" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat4[(</span>
+<span id="cb23-53"><a href="#cb23-53" aria-hidden="true" tabindex="-1"></a>(take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|</span></span>
+<span id="cb23-54"><a href="#cb23-54" aria-hidden="true" tabindex="-1"></a>(take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span>) <span class="sc">|</span></span>
+<span id="cb23-55"><a href="#cb23-55" aria-hidden="true" tabindex="-1"></a>(take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span>) </span>
+<span id="cb23-56"><a href="#cb23-56" aria-hidden="true" tabindex="-1"></a>) <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP4<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="dv">3</span></span>
+<span id="cb23-57"><a href="#cb23-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-58"><a href="#cb23-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-59"><a href="#cb23-59" aria-hidden="true" tabindex="-1"></a><span class="co">#TP4, previously took four times</span></span>
+<span id="cb23-60"><a href="#cb23-60" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat4[</span>
+<span id="cb23-61"><a href="#cb23-61" aria-hidden="true" tabindex="-1"></a>    take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">1</span></span>
+<span id="cb23-62"><a href="#cb23-62" aria-hidden="true" tabindex="-1"></a>     <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">1</span> </span>
+<span id="cb23-63"><a href="#cb23-63" aria-hidden="true" tabindex="-1"></a>    <span class="sc">&amp;</span> take<span class="sc">$</span>RecallTP4<span class="sc">==</span><span class="dv">1</span>] <span class="ot">=</span> <span class="dv">4</span></span>
+<span id="cb23-64"><a href="#cb23-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-65"><a href="#cb23-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-66"><a href="#cb23-66" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat0[take<span class="sc">$</span>RecallTP0<span class="sc">==</span><span class="dv">0</span>]<span class="ot">=</span><span class="cn">NA</span></span>
+<span id="cb23-67"><a href="#cb23-67" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat1[take<span class="sc">$</span>RecallTP1<span class="sc">==</span><span class="dv">0</span>]<span class="ot">=</span><span class="cn">NA</span></span>
+<span id="cb23-68"><a href="#cb23-68" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat2[take<span class="sc">$</span>RecallTP2<span class="sc">==</span><span class="dv">0</span>]<span class="ot">=</span><span class="cn">NA</span></span>
+<span id="cb23-69"><a href="#cb23-69" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat3[take<span class="sc">$</span>RecallTP3<span class="sc">==</span><span class="dv">0</span>]<span class="ot">=</span><span class="cn">NA</span></span>
+<span id="cb23-70"><a href="#cb23-70" aria-hidden="true" tabindex="-1"></a>take<span class="sc">$</span>repeat4[take<span class="sc">$</span>RecallTP4<span class="sc">==</span><span class="dv">0</span>]<span class="ot">=</span><span class="cn">NA</span></span>
+<span id="cb23-71"><a href="#cb23-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-72"><a href="#cb23-72" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">&quot;Count repeats at each instance&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;Count repeats at each instance&quot;</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(take, table)[<span class="dv">6</span><span class="sc">:</span><span class="dv">10</span>]</span></code></pre></div>
+<pre><code>## $repeat0
+## 
+##      0   &lt;NA&gt; 
+##  70714 140304 
+## 
+## $repeat1
+## 
+##      0      1   &lt;NA&gt; 
+##  79613  20985 110420 
+## 
+## $repeat2
+## 
+##      0      1      2   &lt;NA&gt; 
+##  27113  46018  10134 127753 
+## 
+## $repeat3
+## 
+##      0      1      2      3   &lt;NA&gt; 
+##  19643  38864  37776   7507 107228 
+## 
+## $repeat4
+## 
+##      0      1      2      3      4   &lt;NA&gt; 
+##  13935  20985  34129  25432   5766 110771</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>take.plot<span class="ot">=</span><span class="fu">data.frame</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="fu">sapply</span>(take, sum)[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], <span class="at">row.names =</span> <span class="cn">NULL</span>)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(take.plot)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;RecallTP&quot;</span>, <span class="st">&quot;N&quot;</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>y<span class="ot">=</span><span class="fu">data.frame</span>()</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    x<span class="ot">=</span>take<span class="sc">%&gt;%</span><span class="fu">group_by_</span>(<span class="fu">paste</span>(<span class="st">&quot;RecallTP&quot;</span>, i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="fu">paste</span>(<span class="st">&quot;repeat&quot;</span>,i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>        <span class="fu">summarise</span>(<span class="at">count=</span><span class="fu">n</span>())<span class="sc">%&gt;%</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename_</span>(<span class="st">&quot;RecallTP&quot;</span> <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">&quot;RecallTP&quot;</span>, i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">rename_</span>(<span class="st">&quot;group&quot;</span> <span class="ot">=</span> <span class="fu">paste</span>(<span class="st">&quot;repeat&quot;</span>, i,<span class="at">sep=</span><span class="st">&quot;&quot;</span>))</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    x<span class="ot">=</span>x[x<span class="sc">$</span>RecallTP<span class="sc">==</span><span class="dv">1</span>,]</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">$</span>RecallTP<span class="ot">=</span>i</span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>    y<span class="ot">=</span><span class="fu">rbind</span>(y,x)</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;RecallTP0&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP1&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP2&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP3&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP4&#39;. You can override using the
+## `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>y<span class="sc">$</span>group<span class="ot">=</span><span class="fu">mapvalues</span>(y<span class="sc">$</span>group, <span class="at">from=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;First time taking&quot;</span>,</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;Second time taking&quot;</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;Third time taking&quot;</span>,</span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;Fourth time taking&quot;</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;Fifth time taking&quot;</span>))</span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>y<span class="sc">$</span>group<span class="ot">=</span><span class="fu">factor</span>(y<span class="sc">$</span>group, </span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">levels =</span><span class="fu">rev</span>(<span class="fu">unique</span>(y<span class="sc">$</span>group)))</span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>y, <span class="fu">aes</span>(<span class="at">x=</span>RecallTP, <span class="at">y=</span>count, <span class="at">fill=</span>group)) <span class="sc">+</span></span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Count participants&quot;</span>)<span class="sc">+</span></span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Instance of 24 hour recall&quot;</span>)<span class="sc">+</span></span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>))<span class="sc">+</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())</span></code></pre></div>
+<p><img src="DefineVeg_files/figure-html/rep-take-3-1.png" width="672" /></p>
+</div>
+<div
+id="continue-with-veg-definitions-start-a-new-dataframe-called-new-and-add-age-and-sex-columns"
+class="section level3">
+<h3>Continue with veg definitions: start a new dataframe called “new”
+and add Age and Sex columns</h3>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span>bd1</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="co">#PUT AGE AND SEX COLUMNS</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>agesex<span class="ot">&lt;-</span>bd<span class="sc">%&gt;%</span><span class="fu">select</span>(f.eid, f.<span class="dv">21003</span>.<span class="fl">0.0</span>, f.<span class="dv">31</span>.<span class="fl">0.0</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(agesex)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;IID&quot;</span>, <span class="st">&quot;Age&quot;</span>, <span class="st">&quot;Sex&quot;</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span><span class="fu">left_join</span>(new,agesex)<span class="sc">%&gt;%</span><span class="fu">select</span>(IID, Age, Sex, <span class="fu">everything</span>())</span></code></pre></div>
+<pre><code>## Joining, by = &quot;IID&quot;</code></pre>
+</div>
+<div id="add-dietary-change-column" class="section level3">
+<h3>Add dietary change column</h3>
+<p><a
+href="https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=1538">f.1538</a> =
+“Have you made any major changes to your diet in the last 5 years?”</p>
+<ul>
+<li><p>0 = “No”</p></li>
+<li><p>1= “Yes, because of illness | Yes, because of other reasons |
+Prefer not to answer”</p></li>
+</ul>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>changevar<span class="ot">=</span>bd<span class="sc">%&gt;%</span><span class="fu">select</span>(f.eid, f.<span class="dv">1538</span>.<span class="fl">0.0</span>)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(changevar)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;IID&quot;</span>, <span class="st">&quot;DietChanges5yr&quot;</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>changevar[<span class="dv">2</span>]<span class="ot">&lt;-</span><span class="fu">sapply</span>(changevar[<span class="dv">2</span>], mapvalues, </span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">c</span>(<span class="st">&quot;Prefer not to answer&quot;</span>, </span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Yes, because of illness&quot;</span>, <span class="st">&quot;Yes, because of other reasons&quot;</span>,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;No&quot;</span>),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">0</span>))</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(changevar<span class="sc">$</span>DietChanges5yr)</span></code></pre></div>
+<pre><code>## 
+##      0      1   &lt;NA&gt; 
+## 303495 198135    897</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>new<span class="ot">=</span><span class="fu">left_join</span>(new,changevar)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;IID&quot;</code></pre>
+</div>
+<div id="check-meat-and-fish-eater-fields-of-initial-assessment-ia."
+class="section level3">
+<h3>Check meat and fish eater fields of initial assessment (IA).</h3>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Category 100052: Diet. Initial assessment</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>IAcols<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;f.1329.0.0&quot;</span>, <span class="st">&quot;f.1339.0.0&quot;</span>, </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;f.1349.0.0&quot;</span>, <span class="st">&quot;f.1359.0.0&quot;</span>, </span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;f.1369.0.0&quot;</span>, <span class="st">&quot;f.1379.0.0&quot;</span>, </span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>          <span class="st">&quot;f.1389.0.0&quot;</span>)</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(IAcols)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;IAOilyfish&quot;</span>, <span class="st">&quot;IANonoilyfish&quot;</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;IAProcessedmeat&quot;</span>,<span class="st">&quot;IAPoultry&quot;</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;IABeef&quot;</span>,<span class="st">&quot;IALamb&quot;</span>,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;IAPork&quot;</span>)</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>IAcols.new<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">sapply</span>(bd[IAcols], as.character))</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(IAcols.new)<span class="ot">&lt;-</span><span class="fu">names</span>(IAcols)</span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>IAcols.new<span class="sc">$</span>IAveg<span class="ot">&lt;-</span><span class="fu">rowSums</span>(bd[IAcols]<span class="sc">==</span><span class="st">&quot;Never&quot;</span>)<span class="sc">==</span><span class="dv">7</span></span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(IAcols.new<span class="sc">$</span>IAveg,<span class="at">na.rm=</span><span class="cn">TRUE</span>)</span></code></pre></div>
+<pre><code>## [1] 9129</code></pre>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co">#[1] 9129</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>IAcols.new<span class="sc">$</span>IID<span class="ot">&lt;-</span>bd<span class="sc">$</span>f.eid</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span><span class="fu">left_join</span>(new, IAcols.new)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;IID&quot;</code></pre>
+<p>Add the column “Age when last ate meat”</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="co"># IA Age when last ate meat/&quot;Never eaten meat&quot; -----------------------</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a><span class="co">#https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=3680</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&quot;How old were you when you last ate any kind of meat? </span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a><span class="co">#(Enter &quot;0&quot; if you have never eaten meat in your lifetime)&quot;</span></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a><span class="co">#on the initial assessment</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>IA.ageLastAteMeat<span class="ot">&lt;-</span>bd<span class="sc">%&gt;%</span><span class="fu">select</span>(f.eid, f.<span class="dv">3680</span>.<span class="fl">0.0</span>)</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(IA.ageLastAteMeat)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;IID&quot;</span>, <span class="st">&quot;IAageLastAteMeat&quot;</span>)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span><span class="fu">left_join</span>(new, IA.ageLastAteMeat)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;IID&quot;</code></pre>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(new<span class="sc">%&gt;%</span><span class="fu">filter</span>(ever_took_24HR<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span> IAveg<span class="sc">==</span><span class="cn">TRUE</span>))</span></code></pre></div>
+<pre><code>## [1] 4749</code></pre>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co">#[1] 4749</span></span></code></pre></div>
+</div>
+<div
+id="special-diet-column-in-24hr-where-participants-self-identified-as-vegetarianvegan"
+class="section level3">
+<h3>Special diet column in 24HR where participants self-identified as
+vegetarian/vegan</h3>
+<p>This next section solves the problem that if someone has an NA in
+field <a
+href="https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=20086">20086</a>
+(24hr-recall: special diet followed), it could mean two possible
+things:</p>
+<ul>
+<li><p>They did not answer this question in the affirmative or</p></li>
+<li><p>They didn’t take the 24h recall in that instance,</p></li>
+</ul>
+<p>since it is marked as NA in both of these situations. (I.e. there is
+no “I didn’t follow a special diet” response in UKB Data-Coding <a
+href="https://biobank.ndph.ox.ac.uk/ukb/coding.cgi?id=76">76</a>).</p>
+<p>Therefore response in this column was compared to the column
+indicating whether they took the survey in that instance to get that
+information.<a href="#fn1" class="footnote-ref"
+id="fnref1"><sup>1</sup></a></p>
+<p>The question on the survey:</p>
+<p><img src="images/paste-9FEB2BC3.png" /></p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>Special<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;f.eid&quot;</span>, <span class="st">&quot;f.20086.0.0&quot;</span>, <span class="st">&quot;f.20086.1.0&quot;</span>,</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;f.20086.2.0&quot;</span>, <span class="st">&quot;f.20086.3.0&quot;</span>, <span class="st">&quot;f.20086.4.0&quot;</span>)</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Special)<span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;IID&quot;</span>, <span class="st">&quot;SpecialVeg0&quot;</span>,<span class="st">&quot;SpecialVeg1&quot;</span>, <span class="st">&quot;SpecialVeg2&quot;</span>, </span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;SpecialVeg3&quot;</span>, <span class="st">&quot;SpecialVeg4&quot;</span>)</span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>Special.cols<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">sapply</span>(bd[Special], as.character))</span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Special.cols)<span class="ot">&lt;-</span><span class="fu">names</span>(Special)</span></code></pre></div>
+<p>Vegetarian = 1 ; Vegan = 1 all others and NA get 0 here, Will switch
+“true NAs” who didn’t take the survey at this instance back to NA in
+next step</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>Special.veg<span class="ot">=</span>Special.cols</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>Special.veg[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>]<span class="ot">&lt;-</span><span class="fu">sapply</span>(Special.cols[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>], mapvalues, </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Low calorie&quot;</span>, <span class="st">&quot;Gluten-free&quot;</span>, </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;Lactose-free&quot;</span>, <span class="st">&quot;Other&quot;</span>,</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>                      <span class="st">&quot;Vegetarian&quot;</span>, <span class="st">&quot;Vegan&quot;</span>),</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>))</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a>Special.veg<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">sapply</span>(Special.veg, as.numeric))</span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span><span class="fu">left_join</span>(new, Special.veg)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;IID&quot;</code></pre>
+<p>Switch those zeros in Special Veg columns back to NAs for those who
+didn’t take survey at that instance</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>    new[<span class="fu">paste</span>(<span class="st">&quot;SpecialVeg&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)][</span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>        new[<span class="fu">paste</span>(<span class="st">&quot;RecallTP&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">0</span></span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    ]<span class="ot">=</span><span class="cn">NA</span></span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Make separate column indicating self-identified <em>vegans</em></p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>Special.vegan<span class="ot">&lt;-</span>Special.cols</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>Special.vegan[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>]<span class="ot">&lt;-</span><span class="fu">sapply</span>(Special.cols[<span class="dv">2</span><span class="sc">:</span><span class="dv">6</span>], mapvalues, </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">c</span>(<span class="cn">NA</span>, <span class="st">&quot;Low calorie&quot;</span>, <span class="st">&quot;Gluten-free&quot;</span>, </span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Lactose-free&quot;</span>, <span class="st">&quot;Other&quot;</span>,</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>                           <span class="st">&quot;Vegetarian&quot;</span>, <span class="st">&quot;Vegan&quot;</span>),</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>                         <span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">1</span>))</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Special.vegan)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;IID&quot;</span>, <span class="st">&quot;SpecialVegan0&quot;</span>,<span class="st">&quot;SpecialVegan1&quot;</span>, </span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;SpecialVegan2&quot;</span>, </span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;SpecialVegan3&quot;</span>, <span class="st">&quot;SpecialVegan4&quot;</span>)</span>
+<span id="cb49-10"><a href="#cb49-10" aria-hidden="true" tabindex="-1"></a>Special.vegan<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">sapply</span>(Special.vegan, as.numeric))</span>
+<span id="cb49-11"><a href="#cb49-11" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span><span class="fu">left_join</span>(new, Special.vegan)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;IID&quot;</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Switch those zeros in Special Veg columns back to NAs </span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="co">#for those who didn&#39;t take survey at that instance</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a>    new[<span class="fu">paste</span>(<span class="st">&quot;SpecialVegan&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)][</span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a>        new[<span class="fu">paste</span>(<span class="st">&quot;RecallTP&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">0</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a>    ]<span class="ot">=</span><span class="cn">NA</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Make column: SpecialAlwaysVeg for those special diet who #answered
+vegetarian / vegan every time.</p>
+<p>If the whole row is NA, put an NA in this column (AKA didn’t ever
+take 24HR).</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>SpecialTimesVeg<span class="ot">=</span><span class="fu">ifelse</span>(</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span>(</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">is.na</span>(new[<span class="fu">paste</span>(<span class="st">&quot;SpecialVeg&quot;</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]),<span class="dv">1</span>,all),<span class="cn">NA</span>,</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowSums</span>(new[<span class="fu">paste</span>(<span class="st">&quot;SpecialVeg&quot;</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)], <span class="at">na.rm =</span> T</span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Proportion of times taken 24HR that answered vegetarian</span></span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>SpecialPropVeg<span class="ot">=</span></span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>    new<span class="sc">$</span>SpecialTimesVeg<span class="sc">/</span>new<span class="sc">$</span>times_taken_24HR</span></code></pre></div>
+</div>
+<div
+id="plot-percent-consistent-vegetarians-vs-number-of-recall-surveys-taken-across-3-years"
+class="section level3">
+<h3>Plot: Percent consistent vegetarians vs number of recall survey’s
+taken across 3 years</h3>
+<p>Tracking the percentage of participants who self-identified as
+vegetarian every time they took the 24HR (100% of responses were
+vegetarian/vegan) versus the number of times the recall was taken by
+said participants</p>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>times<span class="ot">&lt;-</span>new<span class="sc">%&gt;%</span><span class="fu">select</span>(times_taken_24HR, SpecialTimesVeg)<span class="sc">%&gt;%</span></span>
+<span id="cb53-2"><a href="#cb53-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">filter</span>(<span class="fu">complete.cases</span>(.), SpecialTimesVeg<span class="sc">&gt;</span><span class="dv">0</span>)</span>
+<span id="cb53-3"><a href="#cb53-3" aria-hidden="true" tabindex="-1"></a><span class="fu">sapply</span>(times, table)</span></code></pre></div>
+<pre><code>##      times_taken_24HR SpecialTimesVeg
+## 1                2539            4152
+## 2                1876            1789
+## 3                1973            1340
+## 4                1547             848
+## 5                 346             152
+## &lt;NA&gt;                0               0</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>times<span class="sc">%&gt;%</span><span class="fu">filter</span>(times_taken_24HR<span class="sc">&gt;=</span><span class="dv">2</span>, SpecialTimesVeg<span class="sc">&gt;=</span><span class="dv">2</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 4,129 × 2
+##    times_taken_24HR SpecialTimesVeg
+##               &lt;dbl&gt;           &lt;dbl&gt;
+##  1                2               2
+##  2                3               3
+##  3                4               4
+##  4                3               3
+##  5                5               4
+##  6                3               3
+##  7                2               2
+##  8                4               3
+##  9                2               2
+## 10                3               3
+## # … with 4,119 more rows</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>times.res<span class="ot">&lt;-</span><span class="fu">matrix</span>(<span class="at">data=</span><span class="cn">NA</span>, <span class="at">nrow=</span><span class="dv">5</span>, <span class="at">ncol=</span><span class="dv">4</span>)</span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>){</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    times.res[i,<span class="dv">1</span>]<span class="ot">&lt;-</span>i</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a>    times.res[i,<span class="dv">2</span>]<span class="ot">&lt;-</span><span class="fu">nrow</span>(times<span class="sc">%&gt;%</span><span class="fu">filter</span>(times_taken_24HR<span class="sc">==</span>i)) </span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>    times.res[i,<span class="dv">3</span>]<span class="ot">&lt;-</span><span class="fu">nrow</span>(times<span class="sc">%&gt;%</span><span class="fu">filter</span>(SpecialTimesVeg<span class="sc">==</span>i,</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>                                        times_taken_24HR<span class="sc">==</span>i))</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a>    times.res[i,<span class="dv">4</span>]<span class="ot">&lt;-</span>(times.res[i,<span class="dv">3</span>]<span class="sc">/</span>times.res[i,<span class="dv">2</span>])<span class="sc">*</span><span class="dv">100</span></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(times.res)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;Times24HR&quot;</span>,</span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;N took 24HR this many times and said vegetarian at least once on a survey&quot;</span>, </span>
+<span id="cb57-12"><a href="#cb57-12" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;N who took 24HR this many times said Veg in every 24HR they took&quot;</span>,</span>
+<span id="cb57-13"><a href="#cb57-13" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;PercentVeg&quot;</span>)</span>
+<span id="cb57-14"><a href="#cb57-14" aria-hidden="true" tabindex="-1"></a>(times.res<span class="ot">&lt;-</span><span class="fu">as.data.frame</span>(times.res))</span></code></pre></div>
+<pre><code>##   Times24HR
+## 1         1
+## 2         2
+## 3         3
+## 4         4
+## 5         5
+##   N took 24HR this many times and said vegetarian at least once on a survey
+## 1                                                                      2539
+## 2                                                                      1876
+## 3                                                                      1973
+## 4                                                                      1547
+## 5                                                                       346
+##   N who took 24HR this many times said Veg in every 24HR they took PercentVeg
+## 1                                                             2539  100.00000
+## 2                                                             1182   63.00640
+## 3                                                             1071   54.28282
+## 4                                                              794   51.32515
+## 5                                                              152   43.93064</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>times.res<span class="sc">$</span>Times24HR<span class="ot">&lt;-</span><span class="fu">as.factor</span>(times.res<span class="sc">$</span>Times24HR)</span>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>times.res, <span class="fu">aes</span>(<span class="at">x=</span>Times24HR,</span>
+<span id="cb59-4"><a href="#cb59-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y=</span>PercentVeg))<span class="sc">+</span></span>
+<span id="cb59-5"><a href="#cb59-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>, <span class="at">fill =</span><span class="st">&quot;#36E072&quot;</span>)<span class="sc">+</span></span>
+<span id="cb59-6"><a href="#cb59-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">&quot;N=8281 participants who indicated</span></span>
+<span id="cb59-7"><a href="#cb59-7" aria-hidden="true" tabindex="-1"></a><span class="st">being vegetarian/vegan at least once on</span></span>
+<span id="cb59-8"><a href="#cb59-8" aria-hidden="true" tabindex="-1"></a><span class="st">a 24HR dietary assessment&quot;</span>)<span class="sc">+</span></span>
+<span id="cb59-9"><a href="#cb59-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Times a participant took a 24HR survey</span></span>
+<span id="cb59-10"><a href="#cb59-10" aria-hidden="true" tabindex="-1"></a><span class="st">between April 2009 and June 2012&quot;</span>)<span class="sc">+</span></span>
+<span id="cb59-11"><a href="#cb59-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;% participants who indicated </span></span>
+<span id="cb59-12"><a href="#cb59-12" aria-hidden="true" tabindex="-1"></a><span class="st">Vegetarian/Vegan </span></span>
+<span id="cb59-13"><a href="#cb59-13" aria-hidden="true" tabindex="-1"></a><span class="st">on all recalls taken&quot;</span>)<span class="sc">+</span></span>
+<span id="cb59-14"><a href="#cb59-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
+<p><img src="DefineVeg_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div
+id="identify-those-who-were-vegetarian-at-just-first-24hr-they-took"
+class="section level3">
+<h3>Identify those who were vegetarian at just first 24HR they took</h3>
+<p>(First 24HR is called “next” in the script, as in next after the
+initial assessment).</p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>specialVeg<span class="ot">=</span>new<span class="sc">%&gt;%</span><span class="fu">select</span>(SpecialVeg0<span class="sc">:</span>SpecialVeg4)</span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Find positions of all NA&#39;s</span></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>NonNAindex<span class="ot">=</span><span class="fu">apply</span>(specialVeg, <span class="dv">1</span>,<span class="at">FUN =</span> <span class="cf">function</span>(x) <span class="fu">which</span>(<span class="sc">!</span><span class="fu">is.na</span>(x)), </span>
+<span id="cb60-5"><a href="#cb60-5" aria-hidden="true" tabindex="-1"></a>                 <span class="at">simplify =</span> T)</span>
+<span id="cb60-6"><a href="#cb60-6" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb60-7"><a href="#cb60-7" aria-hidden="true" tabindex="-1"></a><span class="co">#Take first non-NA value</span></span>
+<span id="cb60-8"><a href="#cb60-8" aria-hidden="true" tabindex="-1"></a>specialVeg<span class="sc">$</span>NonNAindex1<span class="ot">=</span><span class="fu">sapply</span>(NonNAindex,<span class="st">&quot;[&quot;</span>,<span class="dv">1</span>)</span>
+<span id="cb60-9"><a href="#cb60-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-10"><a href="#cb60-10" aria-hidden="true" tabindex="-1"></a>specialVeg<span class="sc">$</span>nextSpecialVeg<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb60-11"><a href="#cb60-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(specialVeg)){</span>
+<span id="cb60-12"><a href="#cb60-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.na</span>(specialVeg<span class="sc">$</span>NonNAindex1[i])){</span>
+<span id="cb60-13"><a href="#cb60-13" aria-hidden="true" tabindex="-1"></a>        <span class="co">#If the first non-NA special Veg = 1, set this to 1</span></span>
+<span id="cb60-14"><a href="#cb60-14" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (specialVeg[i, specialVeg<span class="sc">$</span>NonNAindex1[i]]<span class="sc">==</span><span class="dv">1</span>)</span>
+<span id="cb60-15"><a href="#cb60-15" aria-hidden="true" tabindex="-1"></a>            {specialVeg<span class="sc">$</span>nextSpecialVeg[i]<span class="ot">=</span><span class="dv">1</span>}</span>
+<span id="cb60-16"><a href="#cb60-16" aria-hidden="true" tabindex="-1"></a>        <span class="co">#else set to zero</span></span>
+<span id="cb60-17"><a href="#cb60-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> {specialVeg<span class="sc">$</span>nextSpecialVeg[i]<span class="ot">=</span><span class="dv">0</span>}</span>
+<span id="cb60-18"><a href="#cb60-18" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb60-19"><a href="#cb60-19" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Else set to NA</span></span>
+<span id="cb60-20"><a href="#cb60-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>{specialVeg<span class="sc">$</span>nextSpecialVeg[i]<span class="ot">=</span><span class="cn">NA</span>}</span>
+<span id="cb60-21"><a href="#cb60-21" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb60-22"><a href="#cb60-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-23"><a href="#cb60-23" aria-hidden="true" tabindex="-1"></a><span class="co">#Add to main table</span></span>
+<span id="cb60-24"><a href="#cb60-24" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>nextSpecialVeg<span class="ot">=</span>specialVeg<span class="sc">$</span>nextSpecialVeg</span></code></pre></div>
+</div>
+<div
+id="identify-those-who-were-vegetarian-at-two-consecutive-24hr-instances2"
+class="section level3">
+<h3>Identify those who were vegetarian at two consecutive 24HR
+instances<a href="#fn2" class="footnote-ref"
+id="fnref2"><sup>2</sup></a></h3>
+<p>I didn’t end up using this in the main analysis but it was good to
+know.</p>
+</div>
+<div id="identify-those-who-ate-meat-or-fish-in-the-24hr"
+class="section level3">
+<h3>Identify those who ate meat or fish in the 24HR</h3>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Category 100106: Meat/fish yesterday. 24HR.</span></span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a>Meatfish24<span class="ot">&lt;-</span>bd<span class="sc">%&gt;%</span><span class="fu">select</span>(f.<span class="dv">103000</span>.<span class="fl">0.0</span>, f.<span class="dv">103000</span>.<span class="fl">1.0</span>, f.<span class="dv">103000</span>.<span class="fl">2.0</span>, </span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>                        f.<span class="dv">103000</span>.<span class="fl">3.0</span>, f.<span class="dv">103000</span>.<span class="fl">4.0</span>, </span>
+<span id="cb61-4"><a href="#cb61-4" aria-hidden="true" tabindex="-1"></a>                        f.<span class="dv">103140</span>.<span class="fl">0.0</span>, f.<span class="dv">103140</span>.<span class="fl">1.0</span>, f.<span class="dv">103140</span>.<span class="fl">2.0</span>,</span>
+<span id="cb61-5"><a href="#cb61-5" aria-hidden="true" tabindex="-1"></a>                        f.<span class="dv">103140</span>.<span class="fl">3.0</span>, f.<span class="dv">103140</span>.<span class="fl">4.0</span>)</span>
+<span id="cb61-6"><a href="#cb61-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-7"><a href="#cb61-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-8"><a href="#cb61-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(Meatfish24)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;Meat0&quot;</span>, <span class="st">&quot;Meat1&quot;</span>,<span class="st">&quot;Meat2&quot;</span>,</span>
+<span id="cb61-9"><a href="#cb61-9" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Meat3&quot;</span>,<span class="st">&quot;Meat4&quot;</span>,</span>
+<span id="cb61-10"><a href="#cb61-10" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Fish0&quot;</span>,<span class="st">&quot;Fish1&quot;</span>,<span class="st">&quot;Fish2&quot;</span>,</span>
+<span id="cb61-11"><a href="#cb61-11" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;Fish3&quot;</span>,<span class="st">&quot;Fish4&quot;</span>)</span>
+<span id="cb61-12"><a href="#cb61-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-13"><a href="#cb61-13" aria-hidden="true" tabindex="-1"></a>Meatfish24<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">sapply</span>(Meatfish24, </span>
+<span id="cb61-14"><a href="#cb61-14" aria-hidden="true" tabindex="-1"></a>                         mapvalues, <span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>), <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)))</span>
+<span id="cb61-15"><a href="#cb61-15" aria-hidden="true" tabindex="-1"></a>Meatfish24<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">sapply</span>(Meatfish24, as.numeric))</span>
+<span id="cb61-16"><a href="#cb61-16" aria-hidden="true" tabindex="-1"></a>Meatfish24</span></code></pre></div>
+<pre><code>## # A tibble: 502,527 × 10
+##    Meat0 Meat1 Meat2 Meat3 Meat4 Fish0 Fish1 Fish2 Fish3 Fish4
+##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  2    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  3     0    NA    NA    NA    NA     0    NA    NA    NA    NA
+##  4    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+##  5    NA    NA    NA     1     1    NA    NA    NA     1     0
+##  6    NA     0     1    NA     1    NA     0     0    NA     0
+##  7    NA    NA     0    NA    NA    NA    NA     0    NA    NA
+##  8    NA     1    NA     0    NA    NA     1    NA     1    NA
+##  9    NA    NA    NA    NA    NA    NA    NA    NA    NA    NA
+## 10    NA    NA    NA    NA     0    NA    NA    NA    NA     0
+## # … with 502,517 more rows</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>Meatfish24<span class="sc">$</span>Meatfish24Sum<span class="ot">&lt;-</span><span class="fu">ifelse</span>(</span>
+<span id="cb63-2"><a href="#cb63-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">apply</span>(</span>
+<span id="cb63-3"><a href="#cb63-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">is.na</span>(Meatfish24),<span class="dv">1</span>,all),<span class="cn">NA</span>,</span>
+<span id="cb63-4"><a href="#cb63-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">rowSums</span>(Meatfish24, <span class="at">na.rm =</span> T)</span>
+<span id="cb63-5"><a href="#cb63-5" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb63-6"><a href="#cb63-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-7"><a href="#cb63-7" aria-hidden="true" tabindex="-1"></a>Meatfish24<span class="sc">$</span>IID<span class="ot">&lt;-</span>bd<span class="sc">$</span>f.eid</span>
+<span id="cb63-8"><a href="#cb63-8" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span><span class="fu">left_join</span>(new, Meatfish24)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;IID&quot;</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>MeatFish24Veg<span class="ot">&lt;-</span><span class="cn">NA</span></span>
+<span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>MeatFish24Veg[new<span class="sc">$</span>Meatfish24Sum<span class="sc">==</span><span class="dv">0</span>]<span class="ot">&lt;-</span><span class="dv">1</span></span>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(new<span class="sc">$</span>MeatFish24Veg)</span></code></pre></div>
+<pre><code>## 
+##      1   &lt;NA&gt; 
+##  18638 483889</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a>meat2<span class="ot">=</span>new<span class="sc">%&gt;%</span><span class="fu">select</span>(Meat0<span class="sc">:</span>Meat4)</span>
+<span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a>fish2<span class="ot">=</span>new<span class="sc">%&gt;%</span><span class="fu">select</span>(Fish0<span class="sc">:</span>Fish4)</span>
+<span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a><span class="co">#Find positions of all NA&#39;s</span></span>
+<span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a><span class="co">#NonNAindex #from above, identical for Special, Meat and Fish cols.</span></span>
+<span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a>meat2<span class="sc">$</span>NonNAindex1<span class="ot">=</span><span class="fu">sapply</span>(NonNAindex,<span class="st">&quot;[&quot;</span>,<span class="dv">1</span>)</span>
+<span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a>fish2<span class="sc">$</span>NonNAindex1<span class="ot">=</span><span class="fu">sapply</span>(NonNAindex,<span class="st">&quot;[&quot;</span>,<span class="dv">1</span>)</span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Just the first 24HR time point -------------------------------------</span></span>
+<span id="cb67-11"><a href="#cb67-11" aria-hidden="true" tabindex="-1"></a>meat2<span class="sc">$</span>nextMeat24<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb67-12"><a href="#cb67-12" aria-hidden="true" tabindex="-1"></a><span class="co">#0= didn&#39;t eat meat. 1 = ate meat</span></span>
+<span id="cb67-13"><a href="#cb67-13" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(meat2)){</span>
+<span id="cb67-14"><a href="#cb67-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.na</span>(meat2<span class="sc">$</span>NonNAindex1[i])){</span>
+<span id="cb67-15"><a href="#cb67-15" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (meat2[i, meat2<span class="sc">$</span>NonNAindex1[i]]<span class="sc">==</span><span class="dv">1</span>){meat2<span class="sc">$</span>nextMeat24[i]<span class="ot">=</span><span class="dv">1</span>}</span>
+<span id="cb67-16"><a href="#cb67-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> {meat2<span class="sc">$</span>nextMeat24[i]<span class="ot">=</span><span class="dv">0</span>}</span>
+<span id="cb67-17"><a href="#cb67-17" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb67-18"><a href="#cb67-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>{meat2<span class="sc">$</span>nextMeat24[i]<span class="ot">=</span><span class="cn">NA</span>}</span>
+<span id="cb67-19"><a href="#cb67-19" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb67-20"><a href="#cb67-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-21"><a href="#cb67-21" aria-hidden="true" tabindex="-1"></a>fish2<span class="sc">$</span>nextFish24<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb67-22"><a href="#cb67-22" aria-hidden="true" tabindex="-1"></a><span class="co">#0= didn&#39;t eat fish. 1 = ate fish</span></span>
+<span id="cb67-23"><a href="#cb67-23" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(fish2)){</span>
+<span id="cb67-24"><a href="#cb67-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span>(<span class="sc">!</span><span class="fu">is.na</span>(fish2<span class="sc">$</span>NonNAindex1[i])){</span>
+<span id="cb67-25"><a href="#cb67-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> (fish2[i, fish2<span class="sc">$</span>NonNAindex1[i]]<span class="sc">==</span><span class="dv">1</span>){fish2<span class="sc">$</span>nextFish24[i]<span class="ot">=</span><span class="dv">1</span>}</span>
+<span id="cb67-26"><a href="#cb67-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span> {fish2<span class="sc">$</span>nextFish24[i]<span class="ot">=</span><span class="dv">0</span>}</span>
+<span id="cb67-27"><a href="#cb67-27" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb67-28"><a href="#cb67-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>{fish2<span class="sc">$</span>nextFish24[i]<span class="ot">=</span><span class="cn">NA</span>}</span>
+<span id="cb67-29"><a href="#cb67-29" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb67-30"><a href="#cb67-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-31"><a href="#cb67-31" aria-hidden="true" tabindex="-1"></a><span class="co">#Add to main table</span></span>
+<span id="cb67-32"><a href="#cb67-32" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>nextMeat24<span class="ot">=</span>meat2<span class="sc">$</span>nextMeat24</span>
+<span id="cb67-33"><a href="#cb67-33" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>nextFish24<span class="ot">=</span>fish2<span class="sc">$</span>nextFish24</span></code></pre></div>
+</div>
+<div
+id="plot-those-who-indicated-being-a-vegetarianvegan-and-also-indicated-meat-or-fish-eating-on-that-same-survey"
+class="section level3">
+<h3>Plot: those who indicated being a vegetarian/vegan and also
+indicated meat or fish eating on that same survey</h3>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" aria-hidden="true" tabindex="-1"></a><span class="co">#ate&lt;-dat[c(17:21, 35:44)]</span></span>
+<span id="cb68-2"><a href="#cb68-2" aria-hidden="true" tabindex="-1"></a>ate<span class="ot">=</span>new<span class="sc">%&gt;%</span><span class="fu">select</span>(SpecialVeg0<span class="sc">:</span>SpecialVeg4, Meat0<span class="sc">:</span>Fish4)</span>
+<span id="cb68-3"><a href="#cb68-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-4"><a href="#cb68-4" aria-hidden="true" tabindex="-1"></a>Vegatemeat<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;vegAteMeatOnly&quot;</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb68-5"><a href="#cb68-5" aria-hidden="true" tabindex="-1"></a>ate[Vegatemeat]<span class="ot">&lt;-</span><span class="cn">NA</span></span>
+<span id="cb68-6"><a href="#cb68-6" aria-hidden="true" tabindex="-1"></a>Vegatefish<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;vegAteFishOnly&quot;</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb68-7"><a href="#cb68-7" aria-hidden="true" tabindex="-1"></a>ate[Vegatefish]<span class="ot">&lt;-</span><span class="cn">NA</span></span>
+<span id="cb68-8"><a href="#cb68-8" aria-hidden="true" tabindex="-1"></a>Vegatemeatandfish<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;vegAteMeatAndFish&quot;</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb68-9"><a href="#cb68-9" aria-hidden="true" tabindex="-1"></a>ate[Vegatemeatandfish]<span class="ot">&lt;-</span><span class="cn">NA</span></span>
+<span id="cb68-10"><a href="#cb68-10" aria-hidden="true" tabindex="-1"></a>Vegdidnt<span class="ot">&lt;-</span><span class="fu">paste</span>(<span class="st">&quot;vegDidnt&quot;</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)</span>
+<span id="cb68-11"><a href="#cb68-11" aria-hidden="true" tabindex="-1"></a>ate[Vegdidnt]<span class="ot">&lt;-</span><span class="cn">NA</span></span>
+<span id="cb68-12"><a href="#cb68-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-13"><a href="#cb68-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-14"><a href="#cb68-14" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb68-15"><a href="#cb68-15" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Loop over instances 0:4 of 24HR survey</span></span>
+<span id="cb68-16"><a href="#cb68-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">print</span>(<span class="fu">paste</span>(<span class="fu">sum</span>(ate[<span class="fu">paste</span>(<span class="st">&quot;SpecialVeg&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">1</span>), <span class="st">&quot;self-identified veg at tp&quot;</span>, i))</span>
+<span id="cb68-17"><a href="#cb68-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb68-18"><a href="#cb68-18" aria-hidden="true" tabindex="-1"></a>    ate[<span class="fu">paste</span>(<span class="st">&quot;vegAteMeatOnly&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)][</span>
+<span id="cb68-19"><a href="#cb68-19" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;Meat&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span></span>
+<span id="cb68-20"><a href="#cb68-20" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;Fish&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span></span>
+<span id="cb68-21"><a href="#cb68-21" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;SpecialVeg&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">1</span></span>
+<span id="cb68-22"><a href="#cb68-22" aria-hidden="true" tabindex="-1"></a>        ]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb68-23"><a href="#cb68-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb68-24"><a href="#cb68-24" aria-hidden="true" tabindex="-1"></a>    ate[<span class="fu">paste</span>(<span class="st">&quot;vegAteFishOnly&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)][</span>
+<span id="cb68-25"><a href="#cb68-25" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;Meat&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span></span>
+<span id="cb68-26"><a href="#cb68-26" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;Fish&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span></span>
+<span id="cb68-27"><a href="#cb68-27" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;SpecialVeg&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">1</span></span>
+<span id="cb68-28"><a href="#cb68-28" aria-hidden="true" tabindex="-1"></a>        ]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb68-29"><a href="#cb68-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb68-30"><a href="#cb68-30" aria-hidden="true" tabindex="-1"></a>    ate[<span class="fu">paste</span>(<span class="st">&quot;vegAteMeatAndFish&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)][</span>
+<span id="cb68-31"><a href="#cb68-31" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;Meat&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span></span>
+<span id="cb68-32"><a href="#cb68-32" aria-hidden="true" tabindex="-1"></a>            ate[<span class="fu">paste</span>(<span class="st">&quot;Fish&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span></span>
+<span id="cb68-33"><a href="#cb68-33" aria-hidden="true" tabindex="-1"></a>            ate[<span class="fu">paste</span>(<span class="st">&quot;SpecialVeg&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">1</span></span>
+<span id="cb68-34"><a href="#cb68-34" aria-hidden="true" tabindex="-1"></a>    ]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb68-35"><a href="#cb68-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb68-36"><a href="#cb68-36" aria-hidden="true" tabindex="-1"></a>    ate[<span class="fu">paste</span>(<span class="st">&quot;vegDidnt&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)][</span>
+<span id="cb68-37"><a href="#cb68-37" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;Meat&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span></span>
+<span id="cb68-38"><a href="#cb68-38" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;Fish&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span></span>
+<span id="cb68-39"><a href="#cb68-39" aria-hidden="true" tabindex="-1"></a>        ate[<span class="fu">paste</span>(<span class="st">&quot;SpecialVeg&quot;</span>, i, <span class="at">sep=</span><span class="st">&quot;&quot;</span>)]<span class="sc">==</span><span class="dv">1</span></span>
+<span id="cb68-40"><a href="#cb68-40" aria-hidden="true" tabindex="-1"></a>        ]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb68-41"><a href="#cb68-41" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>## [1] &quot;NA self-identified veg at tp 0&quot;
+## [1] &quot;NA self-identified veg at tp 1&quot;
+## [1] &quot;NA self-identified veg at tp 2&quot;
+## [1] &quot;NA self-identified veg at tp 3&quot;
+## [1] &quot;NA self-identified veg at tp 4&quot;</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ate)</span></code></pre></div>
+<pre><code>##  [1] &quot;SpecialVeg0&quot;        &quot;SpecialVeg1&quot;        &quot;SpecialVeg2&quot;       
+##  [4] &quot;SpecialVeg3&quot;        &quot;SpecialVeg4&quot;        &quot;Meat0&quot;             
+##  [7] &quot;Meat1&quot;              &quot;Meat2&quot;              &quot;Meat3&quot;             
+## [10] &quot;Meat4&quot;              &quot;Fish0&quot;              &quot;Fish1&quot;             
+## [13] &quot;Fish2&quot;              &quot;Fish3&quot;              &quot;Fish4&quot;             
+## [16] &quot;vegAteMeatOnly0&quot;    &quot;vegAteMeatOnly1&quot;    &quot;vegAteMeatOnly2&quot;   
+## [19] &quot;vegAteMeatOnly3&quot;    &quot;vegAteMeatOnly4&quot;    &quot;vegAteFishOnly0&quot;   
+## [22] &quot;vegAteFishOnly1&quot;    &quot;vegAteFishOnly2&quot;    &quot;vegAteFishOnly3&quot;   
+## [25] &quot;vegAteFishOnly4&quot;    &quot;vegAteMeatAndFish0&quot; &quot;vegAteMeatAndFish1&quot;
+## [28] &quot;vegAteMeatAndFish2&quot; &quot;vegAteMeatAndFish3&quot; &quot;vegAteMeatAndFish4&quot;
+## [31] &quot;vegDidnt0&quot;          &quot;vegDidnt1&quot;          &quot;vegDidnt2&quot;         
+## [34] &quot;vegDidnt3&quot;          &quot;vegDidnt4&quot;</code></pre>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a>ate<span class="ot">=</span>ate[<span class="dv">16</span><span class="sc">:</span><span class="dv">35</span>]</span>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>ate</span></code></pre></div>
+<pre><code>## # A tibble: 502,527 × 20
+##    vegAteMeatOnly0 vegAteMeatOnly1 vegAteMeatOnly2 vegAteMeatOnly3
+##              &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;           &lt;dbl&gt;
+##  1              NA              NA              NA              NA
+##  2              NA              NA              NA              NA
+##  3              NA              NA              NA              NA
+##  4              NA              NA              NA              NA
+##  5              NA              NA              NA              NA
+##  6              NA              NA              NA              NA
+##  7              NA              NA              NA              NA
+##  8              NA              NA              NA              NA
+##  9              NA              NA              NA              NA
+## 10              NA              NA              NA              NA
+## # … with 502,517 more rows, and 16 more variables: vegAteMeatOnly4 &lt;dbl&gt;,
+## #   vegAteFishOnly0 &lt;dbl&gt;, vegAteFishOnly1 &lt;dbl&gt;, vegAteFishOnly2 &lt;dbl&gt;,
+## #   vegAteFishOnly3 &lt;dbl&gt;, vegAteFishOnly4 &lt;dbl&gt;, vegAteMeatAndFish0 &lt;dbl&gt;,
+## #   vegAteMeatAndFish1 &lt;dbl&gt;, vegAteMeatAndFish2 &lt;dbl&gt;,
+## #   vegAteMeatAndFish3 &lt;dbl&gt;, vegAteMeatAndFish4 &lt;dbl&gt;, vegDidnt0 &lt;dbl&gt;,
+## #   vegDidnt1 &lt;dbl&gt;, vegDidnt2 &lt;dbl&gt;, vegDidnt3 &lt;dbl&gt;, vegDidnt4 &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>ate.plot<span class="ot">&lt;-</span>ate<span class="sc">%&gt;%</span> </span>
+<span id="cb74-2"><a href="#cb74-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">gather</span>(v, value,vegAteMeatOnly0<span class="sc">:</span>vegDidnt4, <span class="at">na.rm =</span> T)<span class="sc">%&gt;%</span></span>
+<span id="cb74-3"><a href="#cb74-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">group_by</span>(v)<span class="sc">%&gt;%</span><span class="fu">count</span>(value)</span>
+<span id="cb74-4"><a href="#cb74-4" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb74-5"><a href="#cb74-5" aria-hidden="true" tabindex="-1"></a><span class="fu">as_tibble</span>(ate.plot)</span></code></pre></div>
+<pre><code>## # A tibble: 20 × 3
+##    v                  value     n
+##    &lt;chr&gt;              &lt;dbl&gt; &lt;int&gt;
+##  1 vegAteFishOnly0        1   214
+##  2 vegAteFishOnly1        1   246
+##  3 vegAteFishOnly2        1   187
+##  4 vegAteFishOnly3        1   198
+##  5 vegAteFishOnly4        1   218
+##  6 vegAteMeatAndFish0     1    19
+##  7 vegAteMeatAndFish1     1     7
+##  8 vegAteMeatAndFish2     1     7
+##  9 vegAteMeatAndFish3     1    11
+## 10 vegAteMeatAndFish4     1    11
+## 11 vegAteMeatOnly0        1    76
+## 12 vegAteMeatOnly1        1    49
+## 13 vegAteMeatOnly2        1    46
+## 14 vegAteMeatOnly3        1    58
+## 15 vegAteMeatOnly4        1    53
+## 16 vegDidnt0              1  2207
+## 17 vegDidnt1              1  3195
+## 18 vegDidnt2              1  2619
+## 19 vegDidnt3              1  3331
+## 20 vegDidnt4              1  3150</code></pre>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a>ate.plot<span class="ot">=</span>ate.plot<span class="sc">%&gt;%</span><span class="fu">separate</span>(v, <span class="at">into=</span><span class="fu">c</span>(<span class="st">&quot;group&quot;</span>, <span class="st">&quot;TP&quot;</span>), <span class="at">sep=</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">convert=</span>T)<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="sc">-</span>value)</span>
+<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="fu">as.data.frame</span>(ate.plot)</span></code></pre></div>
+<pre><code>##                group TP    n
+## 1     vegAteFishOnly  0  214
+## 2     vegAteFishOnly  1  246
+## 3     vegAteFishOnly  2  187
+## 4     vegAteFishOnly  3  198
+## 5     vegAteFishOnly  4  218
+## 6  vegAteMeatAndFish  0   19
+## 7  vegAteMeatAndFish  1    7
+## 8  vegAteMeatAndFish  2    7
+## 9  vegAteMeatAndFish  3   11
+## 10 vegAteMeatAndFish  4   11
+## 11    vegAteMeatOnly  0   76
+## 12    vegAteMeatOnly  1   49
+## 13    vegAteMeatOnly  2   46
+## 14    vegAteMeatOnly  3   58
+## 15    vegAteMeatOnly  4   53
+## 16          vegDidnt  0 2207
+## 17          vegDidnt  1 3195
+## 18          vegDidnt  2 2619
+## 19          vegDidnt  3 3331
+## 20          vegDidnt  4 3150</code></pre>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a>ate.plot<span class="sc">$</span>group<span class="ot">=</span><span class="fu">mapvalues</span>(ate.plot<span class="sc">$</span>group,</span>
+<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a>                         <span class="at">from=</span><span class="fu">unique</span>(ate.plot<span class="sc">$</span>group),</span>
+<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;Ate fish&quot;</span>, <span class="st">&quot;Ate meat and fish&quot;</span>,</span>
+<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;Ate meat&quot;</span>, <span class="st">&quot;Did not eat meat or fish&quot;</span>))</span>
+<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a>prop<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (i <span class="cf">in</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">4</span>){</span>
+<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>    y<span class="ot">=</span>ate.plot[ate.plot<span class="sc">$</span>TP<span class="sc">==</span>i,]</span>
+<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a>    prop[i<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span><span class="fu">sum</span>(y<span class="sc">$</span>n[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>])<span class="sc">/</span>y<span class="sc">$</span>n[<span class="dv">4</span>]</span>
+<span id="cb78-10"><a href="#cb78-10" aria-hidden="true" tabindex="-1"></a>    prop[i<span class="sc">+</span><span class="dv">1</span>]<span class="ot">=</span><span class="fu">round</span>(prop[i<span class="sc">+</span><span class="dv">1</span>]<span class="sc">*</span><span class="dv">100</span>, <span class="at">digits =</span> <span class="dv">2</span>)</span>
+<span id="cb78-11"><a href="#cb78-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb78-12"><a href="#cb78-12" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb78-13"><a href="#cb78-13" aria-hidden="true" tabindex="-1"></a>ate.plot<span class="ot">=</span>ate.plot<span class="sc">%&gt;%</span></span>
+<span id="cb78-14"><a href="#cb78-14" aria-hidden="true" tabindex="-1"></a>       <span class="fu">mutate_when</span>(group<span class="sc">==</span><span class="st">&quot;Did not eat meat or fish&quot;</span>, <span class="fu">list</span>(<span class="at">value=</span>prop))</span>
+<span id="cb78-15"><a href="#cb78-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb78-16"><a href="#cb78-16" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ate.plot, <span class="fu">aes</span>(<span class="at">x=</span>TP, <span class="at">y=</span>n, <span class="at">fill=</span>group)) <span class="sc">+</span></span>
+<span id="cb78-17"><a href="#cb78-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;stack&quot;</span>, <span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb78-18"><a href="#cb78-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb78-19"><a href="#cb78-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="st">&quot;Self-identified &#39;vegetarian/vegan&#39; who indicated meat or fish eating </span></span>
+<span id="cb78-20"><a href="#cb78-20" aria-hidden="true" tabindex="-1"></a><span class="st">on the same survey instance&quot;</span>)<span class="sc">+</span></span>
+<span id="cb78-21"><a href="#cb78-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;blue&quot;</span>,<span class="st">&quot;red&quot;</span>, </span>
+<span id="cb78-22"><a href="#cb78-22" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;green&quot;</span>, <span class="st">&quot;grey&quot;</span>))<span class="sc">+</span></span>
+<span id="cb78-23"><a href="#cb78-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Instance of 24 hour recall&quot;</span>)<span class="sc">+</span></span>
+<span id="cb78-24"><a href="#cb78-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylim</span>(<span class="dv">0</span>,<span class="dv">3750</span>)<span class="sc">+</span></span>
+<span id="cb78-25"><a href="#cb78-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(value), <span class="st">&quot;&quot;</span>,</span>
+<span id="cb78-26"><a href="#cb78-26" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">paste</span>(value, <span class="st">&quot;%&quot;</span>,<span class="at">sep=</span><span class="st">&quot;&quot;</span>)), <span class="at">vjust=</span><span class="sc">-</span><span class="fl">2.35</span>))<span class="sc">+</span></span>
+<span id="cb78-27"><a href="#cb78-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Vegetarian/vegan who:&quot;</span>)<span class="sc">+</span></span>
+<span id="cb78-28"><a href="#cb78-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Number of participants&quot;</span>)</span></code></pre></div>
+<p><img src="DefineVeg_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+</div>
+<div id="create-new-vegetarian-columns" class="section level3">
+<h3>Create new vegetarian columns</h3>
+<p>Veg5yr1 is the vegetarian variable used in the main analysis. Again
+the criteria are:</p>
+<ul>
+<li><p>Indicated no dietary changes over past 5 years</p></li>
+<li><p>Consistent no meat eating on initial assessment</p></li>
+<li><p>Self-identified as a vegetarian or vegan the first time they were
+asked on a 24HR survey</p></li>
+<li><p>Didn’t indicate eating any meat or fish on that same 24HR
+survey</p></li>
+</ul>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>Veg5yr1<span class="ot">&lt;-</span><span class="dv">0</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>Veg5yr1[new<span class="sc">$</span>DietChanges5yr<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span> </span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a>             new<span class="sc">$</span>IAveg<span class="sc">==</span><span class="cn">TRUE</span> <span class="sc">&amp;</span> </span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a>             new<span class="sc">$</span>nextSpecialVeg<span class="sc">==</span><span class="dv">1</span> <span class="sc">&amp;</span></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>             new<span class="sc">$</span>nextMeat24<span class="sc">==</span><span class="dv">0</span> <span class="sc">&amp;</span> </span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a>             new<span class="sc">$</span>nextFish24<span class="sc">==</span><span class="dv">0</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a>new<span class="sc">$</span>Veg5yr1[<span class="fu">is.na</span>(new<span class="sc">$</span>times_taken_24HR)]<span class="ot">=</span><span class="cn">NA</span></span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(new<span class="sc">$</span>Veg5yr1) <span class="co">#3086</span></span></code></pre></div>
+<pre><code>## 
+##      0      1   &lt;NA&gt; 
+## 207932   3086 291509</code></pre>
+</div>
+<div
+id="table-reason-self-identified-vegetarian-was-disqualified-from-study"
+class="section level3">
+<h3>Table: reason self-identified vegetarian was disqualified from
+study</h3>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a>dq<span class="ot">=</span>new<span class="sc">%&gt;%</span><span class="fu">select</span>(Veg5yr1, DietChanges5yr, IAveg, nextSpecialVeg, nextMeat24, nextFish24, SpecialTimesVeg)<span class="sc">%&gt;%</span><span class="fu">filter</span>(SpecialTimesVeg<span class="sc">&gt;=</span><span class="dv">1</span>)</span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(dq) <span class="co">#8281 participants who ever said they were vegetarian</span></span></code></pre></div>
+<pre><code>## [1] 8281</code></pre>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>dq<span class="sc">$</span>nextMeatFish24<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a>dq<span class="sc">$</span>nextMeatFish24[dq<span class="sc">$</span>nextMeat24<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> dq<span class="sc">$</span>nextFish24<span class="sc">==</span><span class="dv">1</span>]<span class="ot">=</span><span class="dv">1</span></span>
+<span id="cb83-3"><a href="#cb83-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb83-4"><a href="#cb83-4" aria-hidden="true" tabindex="-1"></a>dq1<span class="ot">=</span><span class="fu">as.data.frame</span>(dq<span class="sc">%&gt;%</span><span class="fu">group_by</span>(nextSpecialVeg, IAveg, nextMeatFish24, DietChanges5yr)<span class="sc">%&gt;%</span><span class="fu">summarize</span>(<span class="fu">n</span>()))</span></code></pre></div>
+<pre><code>## `summarise()` has grouped output by &#39;nextSpecialVeg&#39;, &#39;IAveg&#39;,
+## &#39;nextMeatFish24&#39;. You can override using the `.groups` argument.</code></pre>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">$</span>nextSpecialVeg<span class="ot">=</span><span class="fu">mapvalues</span>(dq1<span class="sc">$</span>nextSpecialVeg, <span class="at">from=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>))</span>
+<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">$</span>IAveg<span class="ot">=</span><span class="fu">mapvalues</span>(dq1<span class="sc">$</span>IAveg, <span class="at">from=</span><span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;FALSE&quot;</span>),</span>
+<span id="cb85-4"><a href="#cb85-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>)) <span class="co">#reversing the point of this column from &quot;were they veg&quot; to &quot;did they eat meat&quot;</span></span>
+<span id="cb85-5"><a href="#cb85-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-6"><a href="#cb85-6" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">$</span>nextMeatFish24<span class="ot">=</span><span class="fu">mapvalues</span>(dq1<span class="sc">$</span>nextMeatFish24, <span class="at">from=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb85-7"><a href="#cb85-7" aria-hidden="true" tabindex="-1"></a>                         <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>))</span>
+<span id="cb85-8"><a href="#cb85-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-9"><a href="#cb85-9" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">$</span>DietChanges5yr<span class="ot">=</span><span class="fu">mapvalues</span>(dq1<span class="sc">$</span>DietChanges5yr, <span class="at">from=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb85-10"><a href="#cb85-10" aria-hidden="true" tabindex="-1"></a>                         <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>))</span>
+<span id="cb85-11"><a href="#cb85-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-12"><a href="#cb85-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(dq1)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Veg. on first 24HR taken&quot;</span>,</span>
+<span id="cb85-13"><a href="#cb85-13" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Ate meat/fish on initial assessment&quot;</span>,</span>
+<span id="cb85-14"><a href="#cb85-14" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Ate meat/fish on first 24HR taken&quot;</span>,</span>
+<span id="cb85-15"><a href="#cb85-15" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;Major dietary changes past 5 years&quot;</span>,</span>
+<span id="cb85-16"><a href="#cb85-16" aria-hidden="true" tabindex="-1"></a>                <span class="st">&quot;N&quot;</span>)</span>
+<span id="cb85-17"><a href="#cb85-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb85-18"><a href="#cb85-18" aria-hidden="true" tabindex="-1"></a>novegfirst<span class="ot">=</span><span class="fu">unlist</span>(dq1<span class="sc">%&gt;%</span><span class="fu">filter</span>(<span class="st">`</span><span class="at">Veg. on first 24HR taken</span><span class="st">`</span><span class="sc">==</span><span class="st">&quot;No&quot;</span>)<span class="sc">%&gt;%</span><span class="fu">summarize</span>(<span class="fu">sum</span>(N)))</span>
+<span id="cb85-19"><a href="#cb85-19" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">%&gt;%</span><span class="fu">add_row</span>(<span class="st">`</span><span class="at">Veg. on first 24HR taken</span><span class="st">`</span><span class="ot">=</span><span class="st">&quot;No&quot;</span>, <span class="at">N=</span><span class="dv">1000</span>)</span></code></pre></div>
+<pre><code>##    Veg. on first 24HR taken Ate meat/fish on initial assessment
+## 1                        No                                 Yes
+## 2                        No                                 Yes
+## 3                        No                                 Yes
+## 4                        No                                 Yes
+## 5                        No                                  No
+## 6                        No                                  No
+## 7                        No                                  No
+## 8                        No                                  No
+## 9                        No                                &lt;NA&gt;
+## 10                      Yes                                 Yes
+## 11                      Yes                                 Yes
+## 12                      Yes                                 Yes
+## 13                      Yes                                 Yes
+## 14                      Yes                                  No
+## 15                      Yes                                  No
+## 16                      Yes                                  No
+## 17                      Yes                                  No
+## 18                      Yes                                &lt;NA&gt;
+## 19                       No                                &lt;NA&gt;
+##    Ate meat/fish on first 24HR taken Major dietary changes past 5 years    N
+## 1                                 No                                 No  274
+## 2                                 No                                Yes  202
+## 3                                Yes                                 No  308
+## 4                                Yes                                Yes  205
+## 5                                 No                                 No   86
+## 6                                 No                                Yes   85
+## 7                                Yes                                 No    2
+## 8                                Yes                                Yes    5
+## 9                                 No                               &lt;NA&gt;    2
+## 10                                No                                 No 1511
+## 11                                No                                Yes  774
+## 12                               Yes                                 No  431
+## 13                               Yes                                Yes  278
+## 14                                No                                 No 3086
+## 15                                No                                Yes 1007
+## 16                               Yes                                 No   11
+## 17                               Yes                                Yes    9
+## 18                                No                               &lt;NA&gt;    5
+## 19                              &lt;NA&gt;                               &lt;NA&gt; 1000</code></pre>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a><span class="co">#https://haozhu233.github.io/kableExtra/awesome_table_in_html.html</span></span>
+<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb87-3"><a href="#cb87-3" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">%&gt;%</span><span class="fu">filter</span>(<span class="st">`</span><span class="at">Veg. on first 24HR taken</span><span class="st">`</span><span class="sc">==</span><span class="st">&quot;Yes&quot;</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb87-4"><a href="#cb87-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">add_row</span>(<span class="st">`</span><span class="at">Veg. on first 24HR taken</span><span class="st">`</span><span class="ot">=</span><span class="st">&quot;No&quot;</span>, </span>
+<span id="cb87-5"><a href="#cb87-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Ate meat/fish on initial assessment</span><span class="st">`</span><span class="ot">=</span><span class="st">&quot;-&quot;</span>, </span>
+<span id="cb87-6"><a href="#cb87-6" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Ate meat/fish on first 24HR taken</span><span class="st">`</span><span class="ot">=</span><span class="st">&quot;-&quot;</span>, </span>
+<span id="cb87-7"><a href="#cb87-7" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Major dietary changes past 5 years</span><span class="st">`</span><span class="ot">=</span><span class="st">&quot;-&quot;</span>,</span>
+<span id="cb87-8"><a href="#cb87-8" aria-hidden="true" tabindex="-1"></a>            <span class="at">N=</span>novegfirst)<span class="sc">%&gt;%</span></span>
+<span id="cb87-9"><a href="#cb87-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">arrange</span>(<span class="fu">desc</span>(<span class="st">`</span><span class="at">Veg. on first 24HR taken</span><span class="st">`</span>),</span>
+<span id="cb87-10"><a href="#cb87-10" aria-hidden="true" tabindex="-1"></a>            <span class="st">`</span><span class="at">Ate meat/fish on initial assessment</span><span class="st">`</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb87-11"><a href="#cb87-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">kbl</span>(<span class="at">align=</span><span class="st">&quot;c&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb87-12"><a href="#cb87-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_classic_2</span>(<span class="at">full_width =</span> F)<span class="sc">%&gt;%</span></span>
+<span id="cb87-13"><a href="#cb87-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">row_spec</span>(<span class="dv">1</span>, <span class="at">background=</span><span class="st">&quot;#36E072&quot;</span>)</span></code></pre></div>
+<table class=" lightable-classic-2" style='font-family: "Arial Narrow", "Source Sans Pro", sans-serif; width: auto !important; margin-left: auto; margin-right: auto;'>
+<thead>
+<tr>
+<th style="text-align:center;">
+Veg. on first 24HR taken
+</th>
+<th style="text-align:center;">
+Ate meat/fish on initial assessment
+</th>
+<th style="text-align:center;">
+Ate meat/fish on first 24HR taken
+</th>
+<th style="text-align:center;">
+Major dietary changes past 5 years
+</th>
+<th style="text-align:center;">
+N
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;background-color: #36E072 !important;">
+Yes
+</td>
+<td style="text-align:center;background-color: #36E072 !important;">
+No
+</td>
+<td style="text-align:center;background-color: #36E072 !important;">
+No
+</td>
+<td style="text-align:center;background-color: #36E072 !important;">
+No
+</td>
+<td style="text-align:center;background-color: #36E072 !important;">
+3086
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+1007
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+11
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+9
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+1511
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+774
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+431
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+278
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+Yes
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+NA
+</td>
+<td style="text-align:center;">
+5
+</td>
+</tr>
+<tr>
+<td style="text-align:center;">
+No
+</td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+<ul>
+<li></td>
+<td style="text-align:center;">
+1169
+</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="write-output-files." class="section level3">
+<h3>Write output files.</h3>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write output ------------------------------------------</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(new, <span class="st">&quot;DefineVeg-09032022.csv&quot;</span>, <span class="at">row.names=</span>F, <span class="at">quote=</span>F)</span>
+<span id="cb88-3"><a href="#cb88-3" aria-hidden="true" tabindex="-1"></a>vegonly<span class="ot">=</span>new<span class="sc">%&gt;%</span><span class="fu">filter</span>(SpecialPropVeg<span class="sc">&gt;</span><span class="dv">0</span>)</span>
+<span id="cb88-4"><a href="#cb88-4" aria-hidden="true" tabindex="-1"></a><span class="fu">write.csv</span>(vegonly, <span class="st">&quot;Vegonly-09032022.csv&quot;</span>, <span class="at">row.names=</span>F, <span class="at">quote=</span>F)</span></code></pre></div>
+</div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>This seemed unnecessarily complicated, so I verified
+with UKB and they confirmed:</p>
+<p>“If a day is recorded in field 20080-x.0, but a null value is given
+for field 20086-x.0, then it means that the participant did not follow
+any of the six possible special diets during that period. Each diet that
+they did follow is recorded sequentially in fields 20086-x.0 through
+20086-x.5 (i.e. the last is only populated if all diets were selected).
+No entry in field 20080-x.0 indicates the participant did not complete
+instance x of the dietary questionnaire (and all of 20086-x.0 through
+20086-x.5 will be empty).”</p>
+<p>–Sean Watson, UK Biobank data analyst, 8/31/2022<a href="#fnref1"
+class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>```{r identify-veg1}
+specialVeg=new%&gt;%select(SpecialVeg0:SpecialVeg4)</p>
+<p>#Find positions of all NA’s NonNAindex=apply(specialVeg, 1,FUN =
+function(x) which(!is.na(x)), simplify = T)</p>
+<p>#Take first non-NA value specialVeg<span
+class="math inline">\(NonNAindex1=sapply(NonNAindex,&quot;[&quot;,1)
+#Take second non-NA value
+specialVeg\)</span>NonNAindex2=sapply(NonNAindex,“[“,2)]==1 &amp;
+specialVeg[i, specialVeg<span class="math inline">\(NonNAindex2[i]]==1)
+{specialVeg\)</span>consecSpecialVeg[i]=1} #Else set it to zero if they
+weren’t both 1 else {specialVeg<span
+class="math inline">\(consecSpecialVeg[i]=0} } #Else set it to NA
+else{specialVeg\)</span>consecSpecialVeg[i]=NA} } #3578-3199 = 379 more
+people than using all time points.</p>
+<p>#Add to main table new<span
+class="math inline">\(consecSpecialVeg=specialVeg\)</span>consecSpecialVeg
+```<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
 </div>
 
 
