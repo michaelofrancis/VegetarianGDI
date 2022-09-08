@@ -11,8 +11,9 @@
 
 <meta name="author" content="Mike Francis" />
 
+<meta name="date" content="2022-09-08" />
 
-<title>Vegetarianism gene-diet interactions</title>
+<title>GWIS</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -436,82 +437,100 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">Vegetarianism gene-diet interactions</h1>
+<h1 class="title toc-ignore">GWIS</h1>
 <h4 class="author">Mike Francis</h4>
+<h4 class="date">2022-09-08</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a
+href="#gem-script-that-makes-individual-scripts-for-each-phenotype"
+id="toc-gem-script-that-makes-individual-scripts-for-each-phenotype">GEM
+script that makes individual scripts for each phenotype</a></li>
+</ul>
+</div>
 
-<p><img
-src="images/food-natural-foods-whole-food-Food-group-superfood-cuisine-1621684-pxhere.com.jpg"
-width="320" /></p>
-<p>Here, you will find the code used in my current manuscript, working
-title: “Vegetarianism gene-diet interactions”</p>
-<p>The current version of the RMD site is for Ye lab internal teaching
-purposes only as it has not been completely scrubbed of UKB private
-data.</p>
-<p>What is the reason to use R Markdown?</p>
-<ul>
-<li>Capture code, text, and output in a single document</li>
-<li>Makes workflow more easily reproducible</li>
-<li>Literate programming : code with natural language interspersed</li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">+</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 4</code></pre>
-<ul>
-<li>Ye lab UK Biobank files are found here:</li>
-</ul>
-<blockquote>
-<p>/project/kylab/lab_shared/UKB</p>
-</blockquote>
-<ul>
-<li><p>Icons from <a href="fontawesome.com">fontawesome.com</a> are
-integrated for use in navbar.</p></li>
-<li><p>Parallelizing rendering was achieved with the following code
-using the foreach package. Note that more detailed error messages are
-provided when using non-parallelized Rmd knitting.</p>
-<ul>
-<li>Ref: <a
-href="https://www.mattroumaya.com/post/using-foreach-to-speed-up-parameterized-rmarkdown-reports/"
-class="uri">https://www.mattroumaya.com/post/using-foreach-to-speed-up-parameterized-rmarkdown-reports/</a></li>
-</ul></li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>n_cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cluster <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(n_cores<span class="dv">-1</span>) </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(cluster)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">i=</span><span class="dv">1</span>, <span class="at">.combine =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%dopar%</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;DefineVeg.Rmd&quot;</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">output_format=</span><span class="st">&quot;html_document&quot;</span>,</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">envir =</span> <span class="fu">new.env</span>(), </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">run_pandoc =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cluster)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Or do the whole site:</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>n_cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>cluster <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(n_cores<span class="dv">-1</span>)     </span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(cluster)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">i=</span><span class="dv">1</span>, <span class="at">.combine =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%dopar%</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    rmarkdown<span class="sc">::</span><span class="fu">render_site</span>(<span class="at">output_format=</span><span class="st">&quot;html_document&quot;</span>,</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>                      <span class="at">envir =</span> <span class="fu">new.env</span>()) </span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cluster)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code></pre></div>
+<div id="gem-script-that-makes-individual-scripts-for-each-phenotype"
+class="section level2">
+<h2>GEM script that makes individual scripts for each phenotype</h2>
+<p>Same script was also run with BMI in –covar-names for BMI-adjusted
+analysis</p>
+<p>Cluster users–make sure to run ml GEM/1.4.3-intel-2020b which has
+been optimized with fast C++ libraries.</p>
+<p>Using robust standard errors to account for P-value inflation due to
+heteroskedasticity.</p>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /work/kylab/mike/BioxVeg/GEM3</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">phenotypes</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;bioavailableTest_rint&quot;</span> <span class="st">&quot;freeTest_rint&quot;</span> <span class="st">&quot;logSHBG&quot;</span> <span class="st">&quot;SHBG_rint&quot;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Testosterone_rint&quot;</span> <span class="st">&quot;Vitamin_D_rint&quot;</span> <span class="st">&quot;Cholesterol_rint&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Alanine_aminotransferase_rint&quot;</span> <span class="st">&quot;Albumin_rint&quot;</span> <span class="st">&quot;Alkaline_phosphatase_rint&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Apolipoprotein_A_rint&quot;</span> <span class="st">&quot;Apolipoprotein_B_rint&quot;</span> <span class="st">&quot;Aspartate_aminotransferase_rint&quot;</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Calcium_rint&quot;</span>  <span class="st">&quot;Creatinine_rint&quot;</span> <span class="st">&quot;Cystatin_C_rint&quot;</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Direct_bilirubin_rint&quot;</span> <span class="st">&quot;Gamma_glutamyltransferase_rint&quot;</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;HbA1c_rint&quot;</span> <span class="st">&quot;HDL_cholesterol_rint&quot;</span> <span class="st">&quot;LDL_direct_rint&quot;</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Lipoprotein_A_rint&quot;</span> <span class="st">&quot;Phosphate_rint&quot;</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Total_bilirubin_rint&quot;</span> <span class="st">&quot;Total_protein_rint&quot;</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Triglycerides_rint&quot;</span> <span class="st">&quot;Urate_rint&quot;</span> <span class="st">&quot;Urea_rint&quot;</span>  <span class="st">&quot;eGFR_rint&quot;</span><span class="va">)</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="va">genoindir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/LipidsxVeg/genotypeQC/GEM2&quot;</span><span class="va">)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="va">outdir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/gem3&quot;</span><span class="va">)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="va">pheno</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/pheno/GEM-PLINK-INTERACTION.csv&quot;</span><span class="va">)</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="va">${phenotypes</span><span class="op">[@]</span><span class="va">}</span> </span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> /work/kylab/mike/BioxVeg/GEM3/byPheno/<span class="va">$j</span></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;#!/bin/bash</span></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --partition=batch</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --job-name=GEM-BioxVeg-&quot;</span><span class="va">$j</span><span class="st">&quot;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --nodes=1</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --ntasks-per-node=8</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --time=144:00:00</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --mem=30000</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --output=%x.%j.out</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --error=%x.%j.err</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --constraint=EDR</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="st">#SBATCH --array=1-22</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="st">i=</span><span class="dt">\$</span><span class="st">SLURM_ARRAY_TASK_ID</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="st">cd /work/kylab/mike/BioxVeg/GEM3/byPheno/</span><span class="va">$j</span></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="st">ml GEM/1.4.3-intel-2020b</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="st">mkdir -p </span><span class="va">$outdir</span><span class="st">/</span><span class="va">$j</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="st">GEM </span><span class="dt">\</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="st">--bgen </span><span class="va">$genoindir</span><span class="st">/chr</span><span class="dt">\$</span><span class="st">i.bgen </span><span class="dt">\</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="st">--sample </span><span class="va">$genoindir</span><span class="st">/chr</span><span class="dt">\$</span><span class="st">i.sample </span><span class="dt">\</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="st">--pheno-file </span><span class="va">$pheno</span><span class="st"> </span><span class="dt">\</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="st">--sampleid-name IID </span><span class="dt">\</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="st">--pheno-name </span><span class="va">$j</span><span class="st"> </span><span class="dt">\</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="st">--covar-names zAge PCA1 PCA2 PCA3 PCA4 PCA5 </span><span class="dt">\</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="st">PCA6 PCA7 PCA8 PCA9 PCA10 PCA11 PCA12 PCA13 </span><span class="dt">\</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="st">PCA14 PCA15 PCA16 PCA17 PCA18 PCA19 PCA20 </span><span class="dt">\</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="st">zTownsend zblood Sex Geno_batch </span><span class="dt">\</span></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="st">AlcoholFreq PreviousSmoker CurrentSmoker </span><span class="dt">\</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="st">--robust 1 </span><span class="dt">\</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="st">--exposure-names Veg5yr1 </span><span class="dt">\</span></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="st">--threads 8 </span><span class="dt">\</span></span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="st">--output-style meta </span><span class="dt">\</span></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="st">--out </span><span class="va">$outdir</span><span class="st">/</span><span class="va">$j</span><span class="st">/chr</span><span class="dt">\$</span><span class="st">i</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span> <span class="op">&gt;</span> /work/kylab/mike/BioxVeg/GEM3/byPheno/<span class="va">$j</span>/GEM3-<span class="va">$j</span>.sh</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="co">#Uncomment to run all those scripts</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> /work/kylab/mike/BioxVeg/GEM3/byPheno/<span class="va">$j</span>/GEM3-<span class="va">$j</span>.sh</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="co">#end pheno loop</span></span></code></pre></div>
+</div>
 
 
 

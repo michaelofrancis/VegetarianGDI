@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mike Francis" />
+
+
+<title>Participant QC</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Vegetarianism gene-diet interactions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Pheno/geno prep
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Phenotype</li>
+    <li>
+      <a href="UKB_participantQC.html">Participant QC</a>
+    </li>
+    <li>
+      <a href="pheno.html">Prepare phenotype table</a>
+    </li>
+    <li>
+      <a href="skimr.html">Pheno skim</a>
+    </li>
+    <li class="dropdown-header">Genotype</li>
+    <li>
+      <a href="genoQC.html">QC genotype bgen files</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DefineVeg.html">
+    <span class="fa fa-info"></span>
+     
+    Define Vegetarians
+  </a>
+</li>
+<li>
+  <a href="MatchEffect.html">
+    <span class="fa fa-solid fa-code-compare"></span>
+     
+    Matching + exposure analysis
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-solid fa-dna"></span>
+     
+    Vegetarianism GWAS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWAS.html">GWAS in regenie</a>
+    </li>
+    <li>
+      <a href="plotGWAS.html">Plot GWAS results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-light fa-salad"></span>
+     
+    Gene x Vegetarianism GWIS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWIS.html">GWIS in GEM</a>
+    </li>
+    <li>
+      <a href="plotGWIS.html">Plot GWIS results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GxEplots.html">GxE plots</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Heading 2</li>
+    <li>
+      <a href="maxunrelated.html">Max unrelated script</a>
+    </li>
+    <li>
+      <a href="page-d.html">Page D</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Participant QC</h1>
+<h4 class="author">Mike Francis</h4>
+<h4 class="date">2022-09-08 02:02:19</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#load-packages-make-it-so-table-always-displays-nas"
+id="toc-load-packages-make-it-so-table-always-displays-nas">Load
+packages + make it so table always displays NA’s</a></li>
+<li><a href="#load-uk-biobank-data" id="toc-load-uk-biobank-data">Load
+UK Biobank data</a></li>
+<li><a
+href="#load-the-files-that-came-from-pan-ukbb-list-of-participants-and-bridge-key"
+id="toc-load-the-files-that-came-from-pan-ukbb-list-of-participants-and-bridge-key">Load
+the files that came from Pan UKBB, list of participants and bridge
+(key)</a></li>
+<li><a href="#retrieve-relevant-qc-columns-from-ukb"
+id="toc-retrieve-relevant-qc-columns-from-ukb">Retrieve relevant QC
+columns from UKB</a></li>
+<li><a href="#join-ukb-cols-with-with-pan-ukbb"
+id="toc-join-ukb-cols-with-with-pan-ukbb">Join UKB cols with with Pan
+UKBB</a></li>
+<li><a href="#filter-by-selected-criteria"
+id="toc-filter-by-selected-criteria">Filter by selected
+criteria</a></li>
+<li><a
+href="#filter-related-file-by-those-in-qc-from-maximum_set_of_unrelated_individuals.pl1-output"
+id="toc-filter-related-file-by-those-in-qc-from-maximum_set_of_unrelated_individuals.pl1-output">Filter
+related file by those in QC from maximum_set_of_unrelated_individuals.pl
+output:</a></li>
+<li><a
+href="#save-list-of-participants-for-use-in-future-filtering-steps"
+id="toc-save-list-of-participants-for-use-in-future-filtering-steps">Save
+list of participants for use in future filtering steps</a></li>
+</ul>
+</div>
+
+<p>The purpose of this script is to generate a list of UK Biobank
+participants which meet QC/filtering criteria:</p>
+<ol style="list-style-type: decimal">
+<li>Genetic ethnicity = Caucasian VIA PAN UKBB</li>
+<li>Not an outlier for heterogeneity and missing genotype rate (poor
+quality genotype)</li>
+<li>No Sex chromosome aneuploidy</li>
+<li>Self-reported sex matches genetic sex</li>
+<li>Do not have high degree of genetic kinship (Ten or more third-degree
+relatives identified)</li>
+<li>Does not appear in “maximum_set_of_unrelated_individuals.pl”</li>
+</ol>
+<div id="load-packages-make-it-so-table-always-displays-nas"
+class="section level3">
+<h3>Load packages + make it so table always displays NA’s</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(silent <span class="ot">&lt;-</span> <span class="fu">lapply</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;plyr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;vroom&quot;</span>, <span class="st">&quot;knitr&quot;</span>), </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    library, <span class="at">character.only=</span>T))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>table <span class="ot">=</span> <span class="cf">function</span> (..., <span class="at">useNA =</span> <span class="st">&#39;always&#39;</span>) base<span class="sc">::</span><span class="fu">table</span>(..., <span class="at">useNA =</span> useNA)</span></code></pre></div>
+</div>
+<div id="load-uk-biobank-data" class="section level3">
+<h3>Load UK Biobank data</h3>
+<pre><code>## [1] 502527   5172</code></pre>
+<p>This code chunk has been modified for display to hide the 5-digit
+code that came with our data table</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">vroom</span>(<span class="st">&quot;/Users/mike/Documents/R_files/UKBpheno/pheno/ukbXXXXX.tab&quot;</span>, <span class="at">delim=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;src/components/ukbXXXXX_factordata.R&quot;</span>) <span class="co">#file provided by UKB &quot;ukbxxxxx_loaddata.R&quot; without the loading part, to label the responses in survey questions</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">as_tibble</span>(bd)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bd)</span></code></pre></div>
+</div>
+<div
+id="load-the-files-that-came-from-pan-ukbb-list-of-participants-and-bridge-key"
+class="section level3">
+<h3>Load the files that came from Pan UKBB, list of participants and
+bridge (key)</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pan<span class="ot">&lt;-</span><span class="fu">read_tsv</span>(<span class="st">&quot;src/components/PanUKBB/all_pops_non_eur_pruned_within_pop_pc_covs.tsv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 448216 Columns: 28
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;\t&quot;
+## chr  (1): pop
+## dbl (26): s, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10, PC11, PC12, ...
+## lgl  (1): related
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pan<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(pan)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>pan<span class="sc">$</span>s<span class="ot">&lt;-</span><span class="fu">as.integer</span>(pan<span class="sc">$</span>s)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(pan<span class="sc">$</span>pop)<span class="sc">%&gt;%</span><span class="fu">kbl</span>()</span></code></pre></div>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+Var1
+</th>
+<th style="text-align:right;">
+Freq
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+AFR
+</td>
+<td style="text-align:right;">
+6805
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AMR
+</td>
+<td style="text-align:right;">
+996
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CSA
+</td>
+<td style="text-align:right;">
+9109
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+EAS
+</td>
+<td style="text-align:right;">
+2783
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+EUR
+</td>
+<td style="text-align:right;">
+426901
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+MID
+</td>
+<td style="text-align:right;">
+1622
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0
+</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>bridge<span class="ot">&lt;-</span><span class="fu">read.table</span>(<span class="st">&quot;src/components/PanUKBB/ukb48818bridge31063.txt&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>bridge<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(bridge)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(bridge)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;IID&quot;</span>, <span class="st">&quot;panID&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>pan2<span class="ot">&lt;-</span>pan<span class="sc">%&gt;%</span><span class="fu">select</span>(s, pop)<span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">left_join</span>(bridge, <span class="at">by=</span><span class="fu">c</span>(<span class="st">&quot;s&quot;</span><span class="ot">=</span><span class="st">&quot;panID&quot;</span>))</span></code></pre></div>
+</div>
+<div id="retrieve-relevant-qc-columns-from-ukb" class="section level3">
+<h3>Retrieve relevant QC columns from UKB</h3>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>bd_QC<span class="ot">&lt;-</span> bd <span class="sc">%&gt;%</span> <span class="fu">select</span>(f.eid, f.<span class="dv">31</span>.<span class="fl">0.0</span>, f.<span class="dv">22001</span>.<span class="fl">0.0</span>, f.<span class="dv">21000</span>.<span class="fl">0.0</span>, f.<span class="dv">22027</span>.<span class="fl">0.0</span>, f.<span class="dv">22019</span>.<span class="fl">0.0</span>, f.<span class="dv">22021</span>.<span class="fl">0.0</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(bd_QC)<span class="ot">&lt;-</span><span class="fu">c</span>(<span class="st">&quot;IID&quot;</span>, <span class="st">&quot;Sex&quot;</span>, <span class="st">&quot;Genetic_Sex&quot;</span>, <span class="st">&quot;Race&quot;</span>, <span class="st">&quot;Outliers_for_het_or_missing&quot;</span>, <span class="st">&quot;SexchrAneuploidy&quot;</span>, <span class="st">&quot;Genetic_kinship&quot;</span>)</span></code></pre></div>
+</div>
+<div id="join-ukb-cols-with-with-pan-ukbb" class="section level3">
+<h3>Join UKB cols with with Pan UKBB</h3>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>bd_QC<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(bd_QC) <span class="co">#502,527 </span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(bd_QC) <span class="co">#[1] 502527 </span></span></code></pre></div>
+<pre><code>## [1] 502527</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>bd_QC<span class="ot">&lt;-</span>bd_QC<span class="sc">%&gt;%</span><span class="fu">inner_join</span>(pan2, <span class="at">by=</span><span class="st">&quot;IID&quot;</span>)</span></code></pre></div>
+</div>
+<div id="filter-by-selected-criteria" class="section level3">
+<h3>Filter by selected criteria</h3>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Filter by Genetic ethnicity = Caucasian VIA PAN UKBB </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>bd_QC<span class="ot">&lt;-</span>bd_QC[bd_QC<span class="sc">$</span>pop<span class="sc">==</span><span class="st">&quot;EUR&quot;</span>,] <span class="co">#nrow(bd_QC) #[1] 426881</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>bd_QC<span class="ot">&lt;-</span>bd_QC<span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(Outliers_for_het_or_missing) <span class="sc">|</span> Outliers_for_het_or_missing <span class="sc">!=</span><span class="st">&quot;Yes&quot;</span>) <span class="co">#nrow(bd_QC) #[1] 426433</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>bd_QC<span class="ot">&lt;-</span>bd_QC<span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(SexchrAneuploidy) <span class="sc">|</span> SexchrAneuploidy <span class="sc">!=</span> <span class="st">&quot;Yes&quot;</span>) <span class="co">#nrow(bd_QC) #[1] 425854</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>bd_QC<span class="ot">&lt;-</span> bd_QC<span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">is.na</span>(Genetic_kinship) <span class="sc">|</span> Genetic_kinship <span class="sc">!=</span> <span class="st">&quot;Ten or more third-degree relatives identified&quot;</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#If Sex does not equal genetic sex, exclude participant </span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>bd_QC<span class="ot">&lt;-</span>bd_QC[bd_QC<span class="sc">$</span>Sex <span class="sc">==</span> bd_QC<span class="sc">$</span>Genetic_Sex,] </span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">nrow</span>(bd_QC) <span class="co">#[1] 425683</span></span></code></pre></div>
+<pre><code>## [1] 426373</code></pre>
+</div>
+<div
+id="filter-related-file-by-those-in-qc-from-maximum_set_of_unrelated_individuals.pl1-output"
+class="section level3">
+<h3>Filter related file by those in QC from
+maximum_set_of_unrelated_individuals.pl<a href="#fn1"
+class="footnote-ref" id="fnref1"><sup>1</sup></a> output:</h3>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>max_unrelated<span class="ot">&lt;-</span> <span class="fu">read.table</span>(<span class="st">&quot;src/components/ukb48818_rel_s488282_output.dat&quot;</span>) </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>max_unrelated<span class="ot">&lt;-</span><span class="fu">as.integer</span>(<span class="fu">unlist</span>(max_unrelated)) </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>bd_QC<span class="ot">&lt;-</span>bd_QC<span class="sc">%&gt;%</span><span class="fu">filter</span>(<span class="sc">!</span>IID <span class="sc">%in%</span> max_unrelated)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(bd_QC<span class="sc">$</span>pop) <span class="co">#Pan UKBB designation</span></span></code></pre></div>
+<pre><code>## 
+##    EUR   &lt;NA&gt; 
+## 357778      0</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">table</span>(bd_QC<span class="sc">$</span>Race) <span class="co">#self identified</span></span></code></pre></div>
+<pre><code>## 
+##       Prefer not to answer                Do not know 
+##                        872                         64 
+##                      White                      Mixed 
+##                        357                          4 
+##     Asian or Asian British     Black or Black British 
+##                          0                          1 
+##                    Chinese         Other ethnic group 
+##                          1                        187 
+##                    British                      Irish 
+##                     342708                       7098 
+## Any other white background  White and Black Caribbean 
+##                       6203                          4 
+##    White and Black African            White and Asian 
+##                          3                         16 
+## Any other mixed background                     Indian 
+##                         81                          2 
+##                  Pakistani                Bangladeshi 
+##                          0                          0 
+## Any other Asian background                  Caribbean 
+##                          0                          0 
+##                    African Any other Black background 
+##                          0                          0 
+##                       &lt;NA&gt; 
+##                        177</code></pre>
+</div>
+<div id="save-list-of-participants-for-use-in-future-filtering-steps"
+class="section level3">
+<h3>Save list of participants for use in future filtering steps</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>QCkeepparticipants<span class="ot">&lt;-</span>bd_QC<span class="sc">%&gt;%</span><span class="fu">select</span>(IID)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">write.table</span>(QCkeepparticipants, <span class="at">file=</span> <span class="st">&quot;bd_QC-keep.txt&quot;</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>, <span class="at">quote =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p><a href="maxunrelated.html">Max unrelated script</a><a
+href="#fnref1" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

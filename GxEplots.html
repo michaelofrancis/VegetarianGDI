@@ -11,9 +11,8 @@
 
 <meta name="author" content="Mike Francis" />
 
-<meta name="date" content="2022-09-01" />
 
-<title>GxEplots</title>
+<title>Gene-vegetarianism interaction Manhattan and QQ plots (gene-based)</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -45,96 +44,6 @@
     </style>
 
 
-<style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
-</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; } /* Alert */
-code span.an { color: #008000; } /* Annotation */
-code span.at { } /* Attribute */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #0000ff; } /* ControlFlow */
-code span.ch { color: #008080; } /* Char */
-code span.cn { } /* Constant */
-code span.co { color: #008000; } /* Comment */
-code span.cv { color: #008000; } /* CommentVar */
-code span.do { color: #008000; } /* Documentation */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.im { } /* Import */
-code span.in { color: #008000; } /* Information */
-code span.kw { color: #0000ff; } /* Keyword */
-code span.op { } /* Operator */
-code span.ot { color: #ff4000; } /* Other */
-code span.pp { color: #ff4000; } /* Preprocessor */
-code span.sc { color: #008080; } /* SpecialChar */
-code span.ss { color: #008080; } /* SpecialString */
-code span.st { color: #008080; } /* String */
-code span.va { } /* Variable */
-code span.vs { color: #008080; } /* VerbatimString */
-code span.wa { color: #008000; font-weight: bold; } /* Warning */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -334,7 +243,7 @@ $(document).ready(function () {
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-gear"></span>
      
-    Part 0: QC prep
+    Pheno/geno prep
      
     <span class="caret"></span>
   </a>
@@ -346,6 +255,9 @@ $(document).ready(function () {
     <li>
       <a href="pheno.html">Prepare phenotype table</a>
     </li>
+    <li>
+      <a href="skimr.html">Pheno skim</a>
+    </li>
     <li class="dropdown-header">Genotype</li>
     <li>
       <a href="genoQC.html">QC genotype bgen files</a>
@@ -356,29 +268,49 @@ $(document).ready(function () {
   <a href="DefineVeg.html">
     <span class="fa fa-info"></span>
      
-    Part 1: Defining high quality vegetarians
+    Define Vegetarians
   </a>
 </li>
 <li>
   <a href="MatchEffect.html">
-    <span class="fa fa-info"></span>
+    <span class="fa fa-solid fa-code-compare"></span>
      
-    Part 2: Matched vegetarianism exposure analysis
+    Matching + exposure analysis
   </a>
 </li>
-<li>
-  <a href="about.html">
-    <span class="fa fa-info"></span>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-solid fa-dna"></span>
      
-    Part 3: GWAS of vegetarianism
+    Vegetarianism GWAS
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWAS.html">GWAS in regenie</a>
+    </li>
+    <li>
+      <a href="plotGWAS.html">Plot GWAS results</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="about.html">
-    <span class="fa fa-info"></span>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-light fa-salad"></span>
      
-    Part 4: Genome wide interaction analysis
+    Gene x Vegetarianism GWIS
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWIS.html">GWIS in GEM</a>
+    </li>
+    <li>
+      <a href="plotGWIS.html">Plot GWIS results</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -390,15 +322,12 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="page-a.html">Extra Scripts</a>
-    </li>
-    <li>
       <a href="GxEplots.html">GxE plots</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Heading 2</li>
     <li>
-      <a href="page-c.html">Page C</a>
+      <a href="maxunrelated.html">Max unrelated script</a>
     </li>
     <li>
       <a href="page-d.html">Page D</a>
@@ -407,12 +336,7 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://example.com">
-    <span class="fa fa-question fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -422,134 +346,39 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">GxEplots</h1>
+<h1 class="title toc-ignore">Gene-vegetarianism interaction Manhattan
+and QQ plots (gene-based)</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-09-01</h4>
+<h4 class="date">2022-09-08 01:28:46</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#r-markdown" id="toc-r-markdown">R Markdown</a>
+<ul>
+<li><a href="#alanine-aminotransferase"
+id="toc-alanine-aminotransferase">Alanine aminotransferase</a></li>
+<li><a href="#albumin" id="toc-albumin">Albumin</a></li>
+</ul></li>
+</ul>
+</div>
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>files <span class="ot">&lt;-</span> <span class="fu">list.files</span>(<span class="at">path =</span> <span class="st">&quot;/Users/mike/Documents/Research/Vegetarian/GEM3&quot;</span>, <span class="at">pattern =</span> <span class="st">&quot;png&quot;</span>, <span class="at">full.names =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (f <span class="cf">in</span> files) {</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="fu">paste0</span>(<span class="st">&quot;![image_label](&quot;</span>, f, <span class="st">&quot;)</span><span class="sc">\n</span><span class="st">&quot;</span>))</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  }</span></code></pre></div>
+<div id="r-markdown" class="section level1 tabset tabset-dropdown">
+<h1 class="tabset tabset-dropdown">R Markdown</h1>
+<div id="alanine-aminotransferase" class="section level2">
+<h2>Alanine aminotransferase</h2>
 <p><img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Alanine_aminotransferase_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Alanine_aminotransferase_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Albumin_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Albumin_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Alkaline_phosphatase_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Alkaline_phosphatase_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Apolipoprotein_A_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Apolipoprotein_A_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Apolipoprotein_B_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Apolipoprotein_B_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Aspartate_aminotransferase_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Aspartate_aminotransferase_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/bioavailableTest_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/bioavailableTest_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Calcium_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Calcium_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Cholesterol_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Cholesterol_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Creatinine_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Creatinine_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Cystatin_C_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Cystatin_C_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Direct_bilirubin_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Direct_bilirubin_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/eGFR_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/eGFR_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/freeTest_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/freeTest_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Gamma_glutamyltransferase_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Gamma_glutamyltransferase_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/HbA1c_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/HbA1c_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/HDL_cholesterol_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/HDL_cholesterol_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/LDL_direct_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/LDL_direct_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Lipoprotein_A_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Lipoprotein_A_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/logSHBG-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/logSHBG.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Phosphate_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Phosphate_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/SHBG_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/SHBG_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Testosterone_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Testosterone_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Total_bilirubin_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Total_bilirubin_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Total_protein_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Total_protein_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Triglycerides_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Triglycerides_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Urate_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Urate_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Urea_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Urea_rint.qq.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Vitamin_D_rint-Manhattan.png"
-alt="image_label" /> <img
-src="/Users/mike/Documents/Research/Vegetarian/GEM3/Vitamin_D_rint.qq.png"
-alt="image_label" /></p>
+src="/Users/mike/Documents/Research/Vegetarian/MAGMA/Alanine_aminotransferase_rint_MAGMA.png"
+width="1200" /></p>
+</div>
+<div id="albumin" class="section level2">
+<h2>Albumin</h2>
+<p><img
+src="/Users/mike/Documents/Research/Vegetarian/MAGMA/Albumin_rint_MAGMA.png"
+width="1200" /></p>
+</div>
+</div>
 
 
 

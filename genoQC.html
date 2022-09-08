@@ -333,7 +333,7 @@ $(document).ready(function () {
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-gear"></span>
      
-    Part 0: QC prep
+    Pheno/geno prep
      
     <span class="caret"></span>
   </a>
@@ -345,6 +345,9 @@ $(document).ready(function () {
     <li>
       <a href="pheno.html">Prepare phenotype table</a>
     </li>
+    <li>
+      <a href="skimr.html">Pheno skim</a>
+    </li>
     <li class="dropdown-header">Genotype</li>
     <li>
       <a href="genoQC.html">QC genotype bgen files</a>
@@ -355,29 +358,49 @@ $(document).ready(function () {
   <a href="DefineVeg.html">
     <span class="fa fa-info"></span>
      
-    Part 1: Defining high quality vegetarians
+    Define Vegetarians
   </a>
 </li>
 <li>
   <a href="MatchEffect.html">
-    <span class="fa fa-info"></span>
+    <span class="fa fa-solid fa-code-compare"></span>
      
-    Part 2: Matched vegetarianism exposure analysis
+    Matching + exposure analysis
   </a>
 </li>
-<li>
-  <a href="about.html">
-    <span class="fa fa-info"></span>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-solid fa-dna"></span>
      
-    Part 3: GWAS of vegetarianism
+    Vegetarianism GWAS
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWAS.html">GWAS in regenie</a>
+    </li>
+    <li>
+      <a href="plotGWAS.html">Plot GWAS results</a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="about.html">
-    <span class="fa fa-info"></span>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-light fa-salad"></span>
      
-    Part 4: Genome wide interaction analysis
+    Gene x Vegetarianism GWIS
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWIS.html">GWIS in GEM</a>
+    </li>
+    <li>
+      <a href="plotGWIS.html">Plot GWIS results</a>
+    </li>
+  </ul>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -389,15 +412,12 @@ $(document).ready(function () {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="page-a.html">Extra Scripts</a>
-    </li>
-    <li>
       <a href="GxEplots.html">GxE plots</a>
     </li>
     <li class="divider"></li>
     <li class="dropdown-header">Heading 2</li>
     <li>
-      <a href="page-c.html">Page C</a>
+      <a href="maxunrelated.html">Max unrelated script</a>
     </li>
     <li>
       <a href="page-d.html">Page D</a>
@@ -406,12 +426,7 @@ $(document).ready(function () {
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <li>
-  <a href="https://example.com">
-    <span class="fa fa-question fa-lg"></span>
-     
-  </a>
-</li>
+        
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->

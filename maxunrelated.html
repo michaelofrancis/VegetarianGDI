@@ -9,9 +9,10 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Mike Francis" />
 
 
-<title>About This Website</title>
+<title>Maximum set of unrelated individuals</title>
 
 <script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
@@ -345,12 +346,76 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">About This Website</h1>
+<h1 class="title toc-ignore">Maximum set of unrelated individuals</h1>
+<h4 class="author">Mike Francis</h4>
+<h4 class="date">2022-09-08 01:30:46</h4>
 
 </div>
 
+<div id="TOC">
+<ul>
+<li><a href="#this-program-is-to" id="toc-this-program-is-to">This
+program is to ;</a></li>
+<li><a href="#date-2015.12.31" id="toc-date-2015.12.31">Date :
+2015.12.31</a></li>
+<li><a href="#programmer-yekaixiong"
+id="toc-programmer-yekaixiong">Programmer : yekaixiong</a></li>
+<li><a href="#is-not-a-symbol-in-perl-rather-i-should-use"
+id="toc-is-not-a-symbol-in-perl-rather-i-should-use">^ is not a symbol
+in perl, rather I should use **</a></li>
+</ul>
+</div>
 
-<p>More about this website.</p>
+<p>#!/usr/bin/perl use strict; use warnings;</p>
+<div id="this-program-is-to" class="section level2">
+<h2>This program is to ;</h2>
+</div>
+<div id="date-2015.12.31" class="section level2">
+<h2>Date : 2015.12.31</h2>
+</div>
+<div id="programmer-yekaixiong" class="section level2">
+<h2>Programmer : yekaixiong</h2>
+</div>
+<div id="is-not-a-symbol-in-perl-rather-i-should-use"
+class="section level2">
+<h2>^ is not a symbol in perl, rather I should use **</h2>
+die “Usage:<input of UKB rel file>
+<output of ind to remove>
+<p>” unless <span class="citation">@ARGV</span> == 2;</p>
+<p>open IA, “$ARGV[0]” || die “Can’t open IA: <span
+class="math inline">\(!\n&quot;; open OA, &quot;&gt;\)</span>ARGV[1]” ||
+die “OA:$!”; <IA>; my %hash; my %ind; my $num_pairs = 0; while (<IA>) {
+chomp; my <span class="citation">@tmp</span> = split; <span
+class="math inline">\(hash{\)</span>tmp[0]}-&gt;{$tmp[1]} = 1; <span
+class="math inline">\(ind{\)</span>tmp[0]}++; <span
+class="math inline">\(ind{\)</span>tmp[1]}++; $num_pairs++; } close IA;
+print “Total number of related pairs: <span
+class="math inline">\(num_pairs\n&quot;; my %removed; my @sorted_ind =
+sort {\)</span>ind{$b} &lt;=&gt; <span
+class="math inline">\(ind{\)</span>a}} keys %ind; unless(defined
+$sorted_ind[0]){ exit; } my $rmvind = $sorted_ind[0]; my $rmpair = <span
+class="math inline">\(ind{\)</span>rmvind};</p>
+<p>while($num_pairs != 0){ <span
+class="math inline">\(removed{\)</span>rmvind} = $rmpair; print “Removed
+individual $rmvind, involving in $rmpair pairs”; $num_pairs = 0; my
+%new_ind; foreach my $k1 (keys %hash){ delete <span
+class="math inline">\(hash{\)</span>k1} if (defined <span
+class="math inline">\(removed{\)</span>k1}); foreach my <span
+class="math inline">\(k2 (keys %{\)</span>hash{$k1}}){ if (defined <span
+class="math inline">\(removed{\)</span>k2}){ delete <span
+class="math inline">\(hash{\)</span>k1}-&gt;{$k2}; }else{ $num_pairs++;
+<span class="math inline">\(new_ind{\)</span>k1}++; <span
+class="math inline">\(new_ind{\)</span>k2}++; } } } print “Current
+number of related pairs: <span
+class="math inline">\(num_pairs\n&quot;;  if(\)</span>num_pairs &gt; 0){
+my <span class="citation">@new_sorted_ind</span> = sort {<span
+class="math inline">\(new_ind{\)</span>b} &lt;=&gt; <span
+class="math inline">\(new_ind{\)</span>a}} keys %new_ind; $rmvind =
+$new_sorted_ind[0]; $rmpair = <span
+class="math inline">\(new_ind{\)</span>new_sorted_ind[0]}; } }</p>
+<p>foreach my <span class="math inline">\(k (keys %removed){  print OA
+&quot;\)</span>k“; } close OA;</p>
+</div>
 
 
 

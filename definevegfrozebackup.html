@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mike Francis" />
+
+
+<title>Define Vegetarians</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Vegetarianism gene-diet interactions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Pheno/geno prep
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Phenotype</li>
+    <li>
+      <a href="UKB_participantQC.html">Participant QC</a>
+    </li>
+    <li>
+      <a href="pheno.html">Prepare phenotype table</a>
+    </li>
+    <li>
+      <a href="skimr.html">Pheno skim</a>
+    </li>
+    <li class="dropdown-header">Genotype</li>
+    <li>
+      <a href="genoQC.html">QC genotype bgen files</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="DefineVeg.html">
+    <span class="fa fa-info"></span>
+     
+    Define Vegetarians
+  </a>
+</li>
+<li>
+  <a href="MatchEffect.html">
+    <span class="fa fa-solid fa-code-compare"></span>
+     
+    Matching + exposure analysis
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-solid fa-dna"></span>
+     
+    Vegetarianism GWAS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWAS.html">GWAS in regenie</a>
+    </li>
+    <li>
+      <a href="plotGWAS.html">Plot GWAS results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-light fa-salad"></span>
+     
+    Gene x Vegetarianism GWIS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWIS.html">GWIS in GEM</a>
+    </li>
+    <li>
+      <a href="plotGWIS.html">Plot GWIS results</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-gear"></span>
+     
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GxEplots.html">GxE plots</a>
+    </li>
+    <li class="divider"></li>
+    <li class="dropdown-header">Heading 2</li>
+    <li>
+      <a href="maxunrelated.html">Max unrelated script</a>
+    </li>
+    <li>
+      <a href="page-d.html">Page D</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Define Vegetarians</h1>
+<h4 class="author">Mike Francis</h4>
+<h4 class="date">2022-09-08 01:28:43</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#just-the-first-24hr-time-point--"
+id="toc-just-the-first-24hr-time-point--">Just the first 24HR time point
+————————————-</a></li>
+</ul>
+</div>
+
+<p>Defining “high quality” vegetarians for use in this analysis</p>
+<p>Purpose of this script:</p>
+<p>Find the self-identified vegetarians in the UK Biobank dietary recall
+survey instances</p>
+<p>Assess their consistency with other parts of the dietary survey.</p>
+<p>Obtain a list of high quality vegetarians to use for subsequent
+analyses.</p>
+<p>Veg5yr1 is the vegetarian variable used in the main analysis. This
+means:</p>
+<p>Indicated no major dietary changes over past 5 years</p>
+<p>No meat eating on initial assessment (IA)</p>
+<p>Self-identified as a vegetarian or vegan the first time they were
+asked on a 24HR survey</p>
+<p>Didn’t indicate eating any meat or fish on that same first 24HR
+survey they took</p>
+<p>The biomarker data that we use in this analysis was taken at the IA.
+Therefore this is a combination of several columns that describe the
+quality of vegetarianism at that same time point.</p>
+<p>There are also some plots here showing general qualities of the 24HR
+recall survey that were done in my data exploration that don’t factor
+into the main analysis (i.e., Plot: How many repeat participants were in
+each instance of the 24HR? , Plot: Percent consistent vegetarians vs
+number of recall survey’s taken across 3 years, [Identify those who were
+vegetarian at two consecutive 24HR instances])</p>
+<p>Load data</p>
+<p>Load packages + special functions</p>
+<p>{r Load-packages} suppressMessages(silent &lt;- lapply( c(“plyr”,
+“dplyr”, “tidyverse”, “data.table”, “vroom”, “knitr”,“kableExtra”),
+library, character.only=T))</p>
+<p>table = function (…, useNA = ‘always’) base::table(…, useNA =
+useNA)</p>
+<p>mutate_when &lt;- function(data, …) { dots &lt;-
+eval(substitute(alist(…))) for (i in seq(1, length(dots), by = 2)) {
+condition &lt;- eval(dots[[i]], envir = data) mutations &lt;-
+eval(dots[[i + 1]], envir = data[condition, , drop = FALSE])
+data[condition, names(mutations)] &lt;- mutations } data }</p>
+<p>Load UK Biobank dataset</p>
+<p>{r vroom-load-UKB, warning=FALSE}
+bd=vroom(“/Users/mike/Documents/R_files/UKBpheno/pheno/ukb34137.tab”,
+delim=“, show_col_types = FALSE) bd=as_tibble(bd)
+source(”src/components/ukb34137_factordata.R”) #file provided by UKB
+“ukb34137_loaddata.R” without the loading part, to label the responses
+in survey questions dim(bd)</p>
+<p>{r vroom-load-UKB-show, eval=FALSE, echo=TRUE}
+bd=vroom(“/Users/mike/Documents/R_files/UKBpheno/pheno/ukbXXXXX.tab”,
+delim=“, show_col_types = FALSE) bd=as_tibble(bd)
+source(”src/components/ukbXXXXX_factordata.R”) #file provided by UKB
+“ukbXXXXX_loaddata.R” without the loading part, to label the responses
+in survey questions dim(bd)</p>
+<p>Identify instances where 24 hour dietary recall (24HR) was taken by
+participants. Possible instances are 0 through 4.</p>
+<p>“daycols” are days of the week that the 24HR was taken, i.e. a proxy
+for whether the survey was completed. In these columns, NA=survey wasn’t
+taken that instance.</p>
+<p>We change the days of the week to 1 because we’re not interested in
+which day it actually was.</p>
+<p>{r Identify-24HR-participants, echo=TRUE}
+daycols&lt;-c(“f.20080.0.0”, “f.20080.1.0”, “f.20080.2.0”,
+“f.20080.3.0”, “f.20080.4.0”)</p>
+<p>bd1&lt;-bd[,c(“f.eid”, daycols)] #Change all the factors to
+characters bd1[,daycols]&lt;-sapply(bd1[,daycols], as.character)</p>
+<p>#Change NA’s to zeros and days to 1’s
+bd1[,daycols][(is.na(bd1[,daycols]))]&lt;-“0”
+bd1[,daycols][bd1[,daycols]!=“0”] &lt;-“1”</p>
+<p>#Change these back to numeric bd1[,daycols]&lt;-sapply(bd1[,daycols],
+as.integer)</p>
+<p>#Now make a new column, everyone with rowSums zero never took recall
+#and those with &gt;0 took it at least once bd1<span
+class="math inline">\(times_taken_24HR&lt;-rowSums(bd1[,daycols])
+bd1\)</span>ever_took_24HR&lt;-0 bd1<span
+class="math inline">\(ever_took_24HR[bd1\)</span>times_taken_24HR&gt;0]&lt;-1
+bd1<span
+class="math inline">\(times_taken_24HR[bd1\)</span>times_taken_24HR==0]&lt;-NA</p>
+<p>sum(bd1$ever_took_24HR) #[1] 211018 #TP = time point
+colnames(bd1)&lt;-c(“IID”, “RecallTP0”, “RecallTP1”,
+“RecallTP2”,“RecallTP3”,“RecallTP4”, “times_taken_24HR”,
+“ever_took_24HR”) #Optional save here #write.csv(bd1,
+“UKB_24hourRecall-ParticipantInstancesTaken.csv”, quote=F,
+row.names=F)</p>
+<p>During what time periods did the questionnaire cycles occur?</p>
+<p>Plot: How many times did participants take 24HR surveys</p>
+<p>{r plot} perinstance=bd1%&gt;%select(RecallTP0:RecallTP4)</p>
+<p>timestaken&lt;-bd1%&gt;%select(times_taken_24HR)%&gt;%
+group_by(times_taken_24HR)%&gt;%summarise(N=n())</p>
+<p>timestaken%&gt;%kbl()</p>
+<p>ggplot(data=timestaken, aes(x=times_taken_24HR, y=N)) +
+geom_bar(stat=“identity”, width=0.5)+ ylab(“Number of participants”)+
+xlab(“Number of times taken 24 hour recall”)+ ggtitle(paste(“N=”,
+sum(timestaken$N[1:5]), sep=““))+ theme_bw()</p>
+<p>Plot: How many repeat participants were in each instance of the
+24HR?</p>
+<p>{r rep-take-1} take=bd1[paste(“RecallTP”, 0:4, sep=““)]
+take=take[!rowSums(take)==0,]</p>
+<p>take.plot=take%&gt;% gather(key = v, value = total,
+RecallTP0:RecallTP4, na.rm = T)%&gt;%
+group_by(v)%&gt;%count(total)%&gt;%filter(total==1)</p>
+<p>colnames(take.plot)=c(“RecallTP”, “Group”, “n”)
+take.plot$RecallTP=0:4 as_tibble(take.plot)%&gt;%kbl()</p>
+<p>This next script chunk is incredibly repetitive and I’m sure there is
+a function for it but it was faster for me to do it “manually”.</p>
+<p>{r rep-take-2} rep=paste(“repeat”, 0:4, sep=““) take[rep]=0
+take[rep[1]]=0 nrow(take[!rowSums(take)==0,])</p>
+<p>#TP1, previously took once take<span
+class="math inline">\(repeat1[take\)</span>RecallTP0==1 &amp;
+take$RecallTP1==1] = 1</p>
+<p>#TP2, previously took at least once take<span
+class="math inline">\(repeat2[(take\)</span>RecallTP0==1 | take<span
+class="math inline">\(RecallTP1==1) &amp; take\)</span>RecallTP2==1] = 1
+#TP2, previously took twice take<span
+class="math inline">\(repeat2[(take\)</span>RecallTP0==1 &amp; take<span
+class="math inline">\(RecallTP1==1) &amp; take\)</span>RecallTP2==1] =
+2</p>
+<p>#TP3, previously took at least once take<span
+class="math inline">\(repeat3[(take\)</span>RecallTP0==1 | take<span
+class="math inline">\(RecallTP1==1| take\)</span>RecallTP2==1) &amp;
+take$RecallTP3==1] = 1</p>
+<p>#TP3, previously took at least twice take<span
+class="math inline">\(repeat3[( (take\)</span>RecallTP0==1 &amp;
+take<span class="math inline">\(RecallTP1==1) |
+(take\)</span>RecallTP1==1 &amp; take<span
+class="math inline">\(RecallTP2==1) | (take\)</span>RecallTP0==1 &amp;
+take<span class="math inline">\(RecallTP2==1) ) &amp;
+take\)</span>RecallTP3==1] = 2</p>
+<p>#TP3, previously took three times take<span
+class="math inline">\(repeat3[( take\)</span>RecallTP0==1 &amp;<br />
+take<span class="math inline">\(RecallTP1==1 &amp;
+take\)</span>RecallTP2==1 &amp; take$RecallTP3==1) ] = 3</p>
+<p>#TP4, previously took at least once take<span
+class="math inline">\(repeat4[(take\)</span>RecallTP0==1 | take<span
+class="math inline">\(RecallTP1==1| take\)</span>RecallTP2==1| take<span
+class="math inline">\(RecallTP3==1) &amp; take\)</span>RecallTP4==1] =
+1</p>
+<p>#TP4, previously took at least twice take<span
+class="math inline">\(repeat4[( (take\)</span>RecallTP0==1 &amp;
+take<span class="math inline">\(RecallTP1==1) |
+(take\)</span>RecallTP0==1 &amp; take<span
+class="math inline">\(RecallTP2==1) | (take\)</span>RecallTP0==1 &amp;
+take<span class="math inline">\(RecallTP3==1) |
+(take\)</span>RecallTP1==1 &amp; take<span
+class="math inline">\(RecallTP2==1) | (take\)</span>RecallTP1==1 &amp;
+take<span class="math inline">\(RecallTP3==1) |
+(take\)</span>RecallTP2==1 &amp; take<span
+class="math inline">\(RecallTP3==1) ) &amp; take\)</span>RecallTP4==1] =
+2</p>
+<p>#TP4, previously took at least three times take<span
+class="math inline">\(repeat4[( (take\)</span>RecallTP0==1 &amp;
+take<span class="math inline">\(RecallTP1==1 &amp;
+take\)</span>RecallTP2==1) | (take<span
+class="math inline">\(RecallTP0==1 &amp; take\)</span>RecallTP2==1 &amp;
+take<span class="math inline">\(RecallTP3==1) |
+(take\)</span>RecallTP1==1 &amp; take<span
+class="math inline">\(RecallTP2==1 &amp; take\)</span>RecallTP3==1) )
+&amp; take$RecallTP4==1] = 3</p>
+<p>#TP4, previously took four times take<span
+class="math inline">\(repeat4[ take\)</span>RecallTP0==1 &amp; take<span
+class="math inline">\(RecallTP1==1 &amp; take\)</span>RecallTP2==1 &amp;
+take<span class="math inline">\(RecallTP3==1 &amp;
+take\)</span>RecallTP4==1] = 4</p>
+<p>#NA for those who didn’t take the recall in that instance take<span
+class="math inline">\(repeat0[take\)</span>RecallTP0==0]=NA take<span
+class="math inline">\(repeat1[take\)</span>RecallTP1==0]=NA take<span
+class="math inline">\(repeat2[take\)</span>RecallTP2==0]=NA take<span
+class="math inline">\(repeat3[take\)</span>RecallTP3==0]=NA take<span
+class="math inline">\(repeat4[take\)</span>RecallTP4==0]=NA</p>
+<p>sapply(take, table)[6:10] #Count repeats at each instance</p>
+<p>{r rep-take-3, warning=F} take.plot=data.frame(0:4, sapply(take,
+sum)[1:5], row.names = NULL) colnames(take.plot)=c(“RecallTP”, “N”)</p>
+<p>y=data.frame() for (i in 0:4){
+x=take%&gt;%group_by_(paste(“RecallTP”, i,sep=““),
+paste(”repeat”,i,sep=““))%&gt;% summarise(count=n())%&gt;%
+rename_(”RecallTP” = paste(“RecallTP”, i,sep=““))%&gt;% rename_(”group”
+= paste(“repeat”, i,sep=““)) x=x[x<span
+class="math inline">\(RecallTP==1,] x\)</span>RecallTP=i y=rbind(y,x) }
+y<span class="math inline">\(group=mapvalues(y\)</span>group,
+from=c(0,1,2,3,4), to=c(”First time taking”, “Second time taking”,
+“Third time taking”, “Fourth time taking”, “Fifth time taking”))</p>
+<p>y<span class="math inline">\(group=factor(y\)</span>group, levels
+=rev(unique(y$group)))</p>
+<p>ggplot(data=y, aes(x=RecallTP, y=count, fill=group)) +
+geom_bar(stat=“identity”, width=0.5)+ ylab(“Count participants”)+
+xlab(“Instance of 24 hour recall”)+ theme_bw()+ guides(fill =
+guide_legend(reverse = TRUE))+ theme(legend.title=element_blank())</p>
+<p>Continue with veg definitions: start a new dataframe called “new” and
+add Age and Sex columns</p>
+<p>{r} new&lt;-bd1</p>
+<p>#PUT AGE AND SEX COLUMNS agesex&lt;-bd%&gt;%select(f.eid,
+f.21003.0.0, f.31.0.0) colnames(agesex)&lt;-c(“IID”, “Age”, “Sex”)
+new&lt;-left_join(new,agesex)%&gt;%select(IID, Age, Sex,
+everything())</p>
+<p>Add “major dietary change” column</p>
+<p>f.1538 = “Have you made any major changes to your diet in the last 5
+years?”</p>
+<p>0 = “No”</p>
+<p>1= “Yes, because of illness | Yes, because of other reasons | Prefer
+not to answer”</p>
+<p>{r} changevar=bd%&gt;%select(f.eid, f.1538.0.0)
+colnames(changevar)=c(“IID”, “DietChanges5yr”)</p>
+<p>changevar[2]&lt;-sapply(changevar[2], mapvalues, c(“Prefer not to
+answer”, “Yes, because of illness”, “Yes, because of other reasons”,
+“No”), c(1,1,1,0)) table(changevar$DietChanges5yr)%&gt;%kbl()
+new=left_join(new,changevar)</p>
+<p>Check meat and fish eater fields of initial assessment (IA).</p>
+<p>{r meatfishIA} #Category 100052: Diet. Initial assessment
+IAcols&lt;-c(“f.1329.0.0”, “f.1339.0.0”, “f.1349.0.0”, “f.1359.0.0”,
+“f.1369.0.0”, “f.1379.0.0”, “f.1389.0.0”)</p>
+<p>names(IAcols)&lt;-c(“IAOilyfish”, “IANonoilyfish”,
+“IAProcessedmeat”,“IAPoultry”, “IABeef”,“IALamb”, “IAPork”)</p>
+<p>IAcols.new&lt;-as_tibble(sapply(bd[IAcols], as.character))
+colnames(IAcols.new)&lt;-names(IAcols)</p>
+<p>#Put a TRUE in this column IAveg if they answered Never in all the
+meat+fish columns
+IAcols.new$IAveg&lt;-rowSums(bd[IAcols]==“Never”)==7</p>
+<p>sum(IAcols.new<span class="math inline">\(IAveg,na.rm=TRUE) #[1] 9129
+IAcols.new\)</span>IID&lt;-bd$f.eid new&lt;-left_join(new,
+IAcols.new)</p>
+<p>Add the column “Age when last ate meat”</p>
+<p>{r} # IA Age when last ate meat/“Never eaten meat” ———————– #<a
+href="https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=3680"
+class="uri">https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=3680</a>
+#“How old were you when you last ate any kind of meat? #(Enter”0” if you
+have never eaten meat in your lifetime)” #on the initial assessment
+IA.ageLastAteMeat&lt;-bd%&gt;%select(f.eid, f.3680.0.0)
+colnames(IA.ageLastAteMeat)&lt;-c(“IID”, “IAageLastAteMeat”)
+new&lt;-left_join(new, IA.ageLastAteMeat)</p>
+<p>nrow(new%&gt;%filter(ever_took_24HR==1 &amp; IAveg==TRUE)) #[1]
+4749</p>
+<p>Special diet column in 24HR where participants self-identified as
+vegetarian/vegan</p>
+<p>This next section solves the problem that if someone has an NA in
+field 20086 (24hr-recall: special diet followed), it could mean two
+possible things:</p>
+<p>They did not answer this question in the affirmative or</p>
+<p>They didn’t take the 24h recall in that instance,</p>
+<p>since it is marked as NA in both of these situations. (I.e. there is
+no “I didn’t follow a special diet” response in UKB Data-Coding 76).</p>
+<p>Therefore response in this column was compared to the column
+indicating whether they took the survey in that instance to get that
+information.</p>
+<p>The question on the survey:</p>
+<p>{r special-diet} Special&lt;-c(“f.eid”, “f.20086.0.0”, “f.20086.1.0”,
+“f.20086.2.0”, “f.20086.3.0”, “f.20086.4.0”)</p>
+<p>names(Special)&lt;- c(“IID”, “SpecialVeg0”,“SpecialVeg1”,
+“SpecialVeg2”, “SpecialVeg3”, “SpecialVeg4”)</p>
+<p>Special.cols&lt;-as_tibble(sapply(bd[Special], as.character))
+colnames(Special.cols)&lt;-names(Special)</p>
+<p>The array index for f.20086 runs from 0 to 5 (<a
+href="https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=20086"
+class="uri">https://biobank.ndph.ox.ac.uk/ukb/field.cgi?id=20086</a>).
+This handy piece of code will consolidate anyone who said vegetarian in
+indices 1:5 and put that information in array 0 of the corresponding
+survey instance so we don’t have to worry about the additional array
+slots for those people that had two special diets.</p>
+<p>It also seems that at instance 0 UKB had potentially not enabled this
+“multiple special diets” feature as f.20086.0.1:f.20086.0.5 are all
+empty in all participants. However in instances 1:4 there are many
+participants who indicated multiple special diets.</p>
+<p>{r} #to see that f.20086.0.1:f.20086.0.5 are all empty:
+#sapply(bd%&gt;%select(f.20086.0.1:f.20086.0.5), table)</p>
+<p>#For vegetarians for (i in 0:4){
+cols.i=(sprintf(“f.20086.%1.0f.%1.0f”, i,1:5))
+#cols.0=(sprintf(“f.20086.%1.0f.%1.0f”, i,0))
+Special.cols[sprintf(“SpecialVeg%1.0f”, i)][ apply(bd[cols.i], 1,
+function(x) any(x %in% c(“Vegetarian”))), ]=“Vegetarian” }</p>
+<p>#For vegans for (i in 0:4){ cols.i=(sprintf(“f.20086.%1.0f.%1.0f”,
+i,1:5)) #cols.0=(sprintf(“f.20086.%1.0f.%1.0f”, i,0))
+Special.cols[sprintf(“SpecialVeg%1.0f”, i)][ apply(bd[cols.i], 1,
+function(x) any(x %in% c(“Vegan”))), ]=“Vegan” }</p>
+<p>Vegetarian = 1 ; Vegan = 1; all others and NA get 0 here, Will switch
+“true NAs” who didn’t take the survey at this instance back to NA in
+next step</p>
+<p>{r} Special.veg=Special.cols
+Special.veg[2:6]&lt;-sapply(Special.cols[2:6], mapvalues, c(NA, “Low
+calorie”, “Gluten-free”, “Lactose-free”, “Other”, “Vegetarian”,
+“Vegan”), c(0,0,0,0,0,1,1))
+Special.veg&lt;-as_tibble(sapply(Special.veg, as.numeric))
+new&lt;-left_join(new, Special.veg)</p>
+<p>Switch those zeros in Special Veg columns back to NAs for those who
+didn’t take survey at that instance</p>
+<p>{r} for (i in 0:4){ new[paste(“SpecialVeg”, i, sep=““)][
+new[paste(“RecallTP”, i, sep=““)]==0 ]=NA }</p>
+<p>Make separate column indicating self-identified vegans</p>
+<p>{r} Special.vegan&lt;-Special.cols
+Special.vegan[2:6]&lt;-sapply(Special.cols[2:6], mapvalues, c(NA, “Low
+calorie”, “Gluten-free”, “Lactose-free”, “Other”, “Vegetarian”,
+“Vegan”), c(0,0,0,0,0,0,1)) colnames(Special.vegan)=c(“IID”,
+“SpecialVegan0”,“SpecialVegan1”, “SpecialVegan2”, “SpecialVegan3”,
+“SpecialVegan4”) Special.vegan&lt;-as_tibble(sapply(Special.vegan,
+as.numeric)) new&lt;-left_join(new, Special.vegan)</p>
+<p>#Switch those zeros in Special Veg columns back to NAs #for those who
+didn’t take survey at that instance for (i in 0:4){
+new[paste(“SpecialVegan”, i, sep=““)][ new[paste(“RecallTP”, i,
+sep=““)]==0 ]=NA }</p>
+<p>Find proportion of times each participant answered vegetarian on
+24H</p>
+<p>{r} new$SpecialTimesVeg=ifelse( apply( is.na(new[paste(“SpecialVeg”,
+0:4, sep=““)]),1,all),NA, rowSums(new[paste(“SpecialVeg”, 0:4, sep=““)],
+na.rm = T ))</p>
+<p>#Proportion of times taken 24HR that answered vegetarian new<span
+class="math inline">\(SpecialPropVeg=
+new\)</span>SpecialTimesVeg/new$times_taken_24HR</p>
+<p>Plot: Percent consistent vegetarians vs number of recall survey’s
+taken across 3 years of 24HR surveys</p>
+<p>Tracking the percentage of participants who self-identified as
+vegetarian every time they took the 24HR (100% of responses were
+vegetarian/vegan) versus the number of times the recall was taken by
+said participants</p>
+<p>{r} times&lt;-new%&gt;%select(times_taken_24HR,
+SpecialTimesVeg)%&gt;% filter(complete.cases(.), SpecialTimesVeg&gt;0)
+sapply(times, table)</p>
+<p>times.res&lt;-matrix(data=NA, nrow=5, ncol=4) for (i in 1:5){
+times.res[i,1]&lt;-i
+times.res[i,2]&lt;-nrow(times%&gt;%filter(times_taken_24HR==i))
+times.res[i,3]&lt;-nrow(times%&gt;%filter(SpecialTimesVeg==i,
+times_taken_24HR==i))
+times.res[i,4]&lt;-(times.res[i,3]/times.res[i,2])*100 }</p>
+<p>colnames(times.res)&lt;-c(“Times24HR”, “N took 24HR this many times
+and said vegetarian at least once on a survey”, “N who took 24HR this
+many times said Veg in every 24HR they took”, “PercentVeg”)
+(times.res&lt;-as.data.frame(times.res)) times.res<span
+class="math inline">\(Times24HR&lt;-as.factor(times.res\)</span>Times24HR)</p>
+<p>ggplot(data=times.res, aes(x=Times24HR, y=PercentVeg))+
+geom_bar(stat=“identity”, width=0.5, fill =“#36E072”)+ ggtitle(“N=9119
+participants who indicated being vegetarian/vegan at least once on a
+24HR dietary assessment”)+ xlab(“Times a participant took a 24HR survey
+between April 2009 and June 2012”)+ ylab(“% participants who indicated
+Vegetarian/Vegan on all recalls taken”)+ theme_bw()</p>
+<p>Identify those who were vegetarian at just first 24HR they took</p>
+<p>(First 24HR is called “next” in the script, as in next after the
+initial assessment).</p>
+<p>{r identify-veg-1}</p>
+<p>specialVeg=new%&gt;%select(SpecialVeg0:SpecialVeg4)</p>
+<p>#Find positions of all NA’s NonNAindex=apply(specialVeg, 1,FUN =
+function(x) which(!is.na(x)), simplify = T)</p>
+<p>#Take first non-NA value
+specialVeg$NonNAindex1=sapply(NonNAindex,“[”,1)</p>
+<p>specialVeg<span class="math inline">\(nextSpecialVeg=0 for (i in
+1:nrow(specialVeg)){ if(!is.na(specialVeg\)</span>NonNAindex1[i])){ #If
+the first non-NA special Veg = 1, set this to 1 if (specialVeg[i,
+specialVeg<span class="math inline">\(NonNAindex1[i]]==1)
+{specialVeg\)</span>nextSpecialVeg[i]=1} #else set to zero else
+{specialVeg<span class="math inline">\(nextSpecialVeg[i]=0} } #Else set
+to NA else{specialVeg\)</span>nextSpecialVeg[i]=NA} }</p>
+<p>#Add to main table new<span
+class="math inline">\(nextSpecialVeg=specialVeg\)</span>nextSpecialVeg</p>
+<p>Identify those who were vegetarian at two consecutive 24HR
+instances</p>
+<p>I didn’t end up using this in the main analysis but it was good to
+know.</p>
+<p>Identify those who ate meat or fish in the 24HR</p>
+<p>{r meat-fish-24HR} #Category 100106: Meat/fish yesterday. 24HR.
+Meatfish24&lt;-bd%&gt;%select(f.103000.0.0, f.103000.1.0, f.103000.2.0,
+f.103000.3.0, f.103000.4.0, f.103140.0.0, f.103140.1.0, f.103140.2.0,
+f.103140.3.0, f.103140.4.0)</p>
+<p>colnames(Meatfish24)&lt;-c(“Meat0”, “Meat1”,“Meat2”, “Meat3”,“Meat4”,
+“Fish0”,“Fish1”,“Fish2”, “Fish3”,“Fish4”)</p>
+<p>Meatfish24&lt;-as_tibble(sapply(Meatfish24, mapvalues, c(“No”,
+“Yes”), c(0, 1))) Meatfish24&lt;-as_tibble(sapply(Meatfish24,
+as.numeric)) Meatfish24</p>
+<p>Meatfish24$Meatfish24Sum&lt;-ifelse( apply(
+is.na(Meatfish24),1,all),NA, rowSums(Meatfish24, na.rm = T) )</p>
+<p>Meatfish24<span class="math inline">\(IID&lt;-bd\)</span>f.eid
+new&lt;-left_join(new, Meatfish24)</p>
+<p>new<span class="math inline">\(MeatFish24Veg&lt;-NA
+new\)</span>MeatFish24Veg[new<span
+class="math inline">\(Meatfish24Sum==0]&lt;-1
+table(new\)</span>MeatFish24Veg)</p>
+<p>meat2=new%&gt;%select(Meat0:Meat4)
+fish2=new%&gt;%select(Fish0:Fish4)</p>
+<p>#Find positions of all NA’s #NonNAindex #from above, identical for
+Special, Meat and Fish cols. meat2<span
+class="math inline">\(NonNAindex1=sapply(NonNAindex,&quot;[&quot;,1)
+fish2\)</span>NonNAindex1=sapply(NonNAindex,“[”,1)</p>
+<div id="just-the-first-24hr-time-point--" class="section level1">
+<h1>Just the first 24HR time point ————————————-</h1>
+<p>meat2<span class="math inline">\(nextMeat24=0 #0= didn&#39;t eat
+meat. 1 = ate meat for (i in 1:nrow(meat2)){
+if(!is.na(meat2\)</span>NonNAindex1[i])){ if (meat2[i, meat2<span
+class="math inline">\(NonNAindex1[i]]==1){meat2\)</span>nextMeat24[i]=1}
+else {meat2<span class="math inline">\(nextMeat24[i]=0} }
+else{meat2\)</span>nextMeat24[i]=NA} }</p>
+<p>fish2<span class="math inline">\(nextFish24=0 #0= didn&#39;t eat
+fish. 1 = ate fish for (i in 1:nrow(fish2)){
+if(!is.na(fish2\)</span>NonNAindex1[i])){ if (fish2[i, fish2<span
+class="math inline">\(NonNAindex1[i]]==1){fish2\)</span>nextFish24[i]=1}
+else {fish2<span class="math inline">\(nextFish24[i]=0} }
+else{fish2\)</span>nextFish24[i]=NA} }</p>
+<p>#Add to main table new<span
+class="math inline">\(nextMeat24=meat2\)</span>nextMeat24 new<span
+class="math inline">\(nextFish24=fish2\)</span>nextFish24</p>
+<p>Plot: those who indicated being a vegetarian/vegan and also indicated
+meat or fish eating on that same survey</p>
+<p>{r} #ate&lt;-dat[c(17:21, 35:44)]
+ate=new%&gt;%select(SpecialVeg0:SpecialVeg4, Meat0:Fish4)</p>
+<p>Vegatemeat&lt;-paste(“vegAteMeatOnly”, 0:4, sep=““)
+ate[Vegatemeat]&lt;-NA Vegatefish&lt;-paste(”vegAteFishOnly”, 0:4,
+sep=““) ate[Vegatefish]&lt;-NA
+Vegatemeatandfish&lt;-paste(”vegAteMeatAndFish”, 0:4, sep=““)
+ate[Vegatemeatandfish]&lt;-NA Vegdidnt&lt;-paste(”vegDidnt”, 0:4,
+sep=““) ate[Vegdidnt]&lt;-NA</p>
+<p>for (i in 0:4){ #Loop over instances 0:4 of 24HR survey
+print(paste(sum(ate[paste(“SpecialVeg”, i, sep=““)]==1),
+“self-identified veg at tp”, i))</p>
+<pre><code>ate[paste(&quot;vegAteMeatOnly&quot;, i, sep=&quot;&quot;)][
+    ate[paste(&quot;Meat&quot;, i, sep=&quot;&quot;)]==1 &amp;
+    ate[paste(&quot;Fish&quot;, i, sep=&quot;&quot;)]==0 &amp;
+    ate[paste(&quot;SpecialVeg&quot;, i, sep=&quot;&quot;)]==1
+    ]=1
+
+ate[paste(&quot;vegAteFishOnly&quot;, i, sep=&quot;&quot;)][
+    ate[paste(&quot;Meat&quot;, i, sep=&quot;&quot;)]==0 &amp;
+    ate[paste(&quot;Fish&quot;, i, sep=&quot;&quot;)]==1 &amp;
+    ate[paste(&quot;SpecialVeg&quot;, i, sep=&quot;&quot;)]==1
+    ]=1
+
+ate[paste(&quot;vegAteMeatAndFish&quot;, i, sep=&quot;&quot;)][
+    ate[paste(&quot;Meat&quot;, i, sep=&quot;&quot;)]==1 &amp;
+        ate[paste(&quot;Fish&quot;, i, sep=&quot;&quot;)]==1 &amp;
+        ate[paste(&quot;SpecialVeg&quot;, i, sep=&quot;&quot;)]==1
+]=1
+
+ate[paste(&quot;vegDidnt&quot;, i, sep=&quot;&quot;)][
+    ate[paste(&quot;Meat&quot;, i, sep=&quot;&quot;)]==0 &amp;
+    ate[paste(&quot;Fish&quot;, i, sep=&quot;&quot;)]==0 &amp;
+    ate[paste(&quot;SpecialVeg&quot;, i, sep=&quot;&quot;)]==1
+    ]=1</code></pre>
+<p>}</p>
+<p>colnames(ate) ate=ate[16:35] ate</p>
+<p>ate.plot&lt;-ate%&gt;% gather(v, value,vegAteMeatOnly0:vegDidnt4,
+na.rm = T)%&gt;% group_by(v)%&gt;%count(value)</p>
+<p>as_tibble(ate.plot)</p>
+<p>ate.plot=ate.plot%&gt;%separate(v, into=c(“group”, “TP”), sep= -1,
+convert=T)%&gt;%select(-value) as.data.frame(ate.plot)</p>
+<p>ate.plot<span
+class="math inline">\(group=mapvalues(ate.plot\)</span>group,
+from=unique(ate.plot$group), to=c(“Ate fish”, “Ate meat and fish”, “Ate
+meat”, “Did not eat meat or fish”))</p>
+<p>prop=0 for (i in 0:4){ y=ate.plot[ate.plot<span
+class="math inline">\(TP==i,] prop[i+1]=sum(y\)</span>n[1:3])/y$n[4]
+prop[i+1]=round(prop[i+1]*100, digits = 2) }</p>
+<p>ate.plot=ate.plot%&gt;% mutate_when(group==“Did not eat meat or
+fish”, list(value=prop))</p>
+<p>ggplot(data=ate.plot, aes(x=TP, y=n, fill=group)) +
+geom_bar(position=“stack”, stat=“identity”, width=0.5)+ theme_bw()+
+ggtitle(“Self-identified ‘vegetarian/vegan’ who indicated meat or fish
+eating on the same survey instance”)+
+scale_fill_manual(values=c(“blue”,“red”, “green”, “grey”))+
+xlab(“Instance of 24 hour recall”)+ ylim(0,3750)+ geom_text(aes(label =
+ifelse(is.na(value), ““, paste(value,”%“,sep=”“)), vjust=-2.35))+
+labs(fill=”Vegetarian/vegan who:“)+ ylab(”Number of participants”)</p>
+<p>Create new vegetarian columns</p>
+<p>Veg5yr1 is the vegetarian variable used in the main analysis. Again
+the criteria are:</p>
+<p>Indicated no dietary changes over past 5 years</p>
+<p>Consistent no meat eating on initial assessment</p>
+<p>Self-identified as a vegetarian or vegan the first time they were
+asked on a 24HR survey</p>
+<p>Didn’t indicate eating any meat or fish on that same 24HR survey</p>
+<p>{r new-veg}</p>
+<p>new<span class="math inline">\(Veg5yr1&lt;-0
+new\)</span>Veg5yr1[new<span class="math inline">\(DietChanges5yr==0
+&amp; new\)</span>IAveg==TRUE &amp; new<span
+class="math inline">\(nextSpecialVeg==1 &amp; new\)</span>nextMeat24==0
+&amp; new<span class="math inline">\(nextFish24==0]=1
+new\)</span>Veg5yr1[is.na(new$times_taken_24HR)]=NA</p>
+<p>table(new$Veg5yr1) #3086</p>
+<p>Table: reason self-identified vegetarian was disqualified from
+study</p>
+<p>{r} dq=new%&gt;%select(Veg5yr1, DietChanges5yr, IAveg,
+nextSpecialVeg, nextMeat24, nextFish24,
+SpecialTimesVeg)%&gt;%filter(SpecialTimesVeg&gt;=1) nrow(dq) #8281
+participants who ever said they were vegetarian</p>
+<p>dq<span class="math inline">\(nextMeatFish24=0
+dq\)</span>nextMeatFish24[dq<span class="math inline">\(nextMeat24==1 |
+dq\)</span>nextFish24==1]=1</p>
+<p>dq1=as.data.frame(dq%&gt;%group_by(nextSpecialVeg, IAveg,
+nextMeatFish24, DietChanges5yr)%&gt;%summarize(n()))</p>
+<p>dq1<span
+class="math inline">\(nextSpecialVeg=mapvalues(dq1\)</span>nextSpecialVeg,
+from=c(0,1), to=c(“No”, “Yes”)) dq1<span
+class="math inline">\(IAveg=mapvalues(dq1\)</span>IAveg, from=c(“TRUE”,
+“FALSE”), to=c(“No”, “Yes”)) #reversing the point of this column from
+“were they veg” to “did they eat meat”</p>
+<p>dq1<span
+class="math inline">\(nextMeatFish24=mapvalues(dq1\)</span>nextMeatFish24,
+from=c(0,1), to=c(“No”, “Yes”))</p>
+<p>dq1<span
+class="math inline">\(DietChanges5yr=mapvalues(dq1\)</span>DietChanges5yr,
+from=c(0,1), to=c(“No”, “Yes”))</p>
+<p>colnames(dq1)=c(“Veg. on first 24HR taken”, “Ate meat/fish on initial
+assessment”, “Ate meat/fish on first 24HR taken”, “Major dietary changes
+past 5 years”, “N”)</p>
+<p>novegfirst=unlist(dq1%&gt;%filter(<code>Veg. on first 24HR taken</code>==“No”)%&gt;%summarize(sum(N)))
+dq1%&gt;%add_row(<code>Veg. on first 24HR taken</code>=“No”, N=1000)</p>
+<p>#<a
+href="https://haozhu233.github.io/kableExtra/awesome_table_in_html.html"
+class="uri">https://haozhu233.github.io/kableExtra/awesome_table_in_html.html</a></p>
+<p>dq1%&gt;%filter(<code>Veg. on first 24HR taken</code>==“Yes”)%&gt;%
+add_row(<code>Veg. on first 24HR taken</code>=“No”,
+<code>Ate meat/fish on initial assessment</code>=““,
+<code>Ate meat/fish on first 24HR taken</code>=”“,
+<code>Major dietary changes past 5 years</code>=”“, N=novegfirst)%&gt;%
+arrange(desc(<code>Veg. on first 24HR taken</code>),
+<code>Ate meat/fish on initial assessment</code>)%&gt;% kbl(align=”c”)
+%&gt;% kable_classic_2(full_width = F)%&gt;% row_spec(1,
+background=“#36E072”)</p>
+<p>Write output files.</p>
+<p>{r, eval=FALSE} # Write output —————————————— write.csv(new,
+“DefineVeg-09032022.csv”, row.names=F, quote=F)
+vegonly=new%&gt;%filter(SpecialPropVeg&gt;0) write.csv(vegonly,
+“Vegonly-09032022.csv”, row.names=F, quote=F)</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
