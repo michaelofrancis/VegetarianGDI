@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mike Francis" />
+
+
+<title>Medication code lists and extra formulas</title>
+
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Gene-vegetarianism interactions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li>
+  <a href="DefineVeg.html">
+    <span class="fa fa-solid fa-seedling"></span>
+     
+    Define Vegetarians
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-clipboard-check"></span>
+     
+    Pheno/geno prep
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Phenotype</li>
+    <li>
+      <a href="UKB_participantQC.html">
+        <span class="fa fa-solid fa-user"></span>
+         
+        Participant QC
+      </a>
+    </li>
+    <li>
+      <a href="pheno.html">
+        <span class="fa fa-solid fa-syringe"></span>
+         
+        Prepare phenotype table
+      </a>
+    </li>
+    <li>
+      <a href="skim-phenotype.html">
+        <span class="fa fa-solid fa-list"></span>
+         
+        Pheno skim
+      </a>
+    </li>
+    <li class="dropdown-header">Genotype</li>
+    <li>
+      <a href="genoQC.html">
+        <span class="fa fa-solid fa-filter"></span>
+         
+        QC genotype bgen files
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="MatchEffect.html">
+    <span class="fa fa-solid fa-users"></span>
+     
+    Matching + exposure analysis
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-dna"></span>
+     
+    Vegetarianism GWAS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWAS.html">GWAS in regenie</a>
+    </li>
+    <li>
+      <a href="plotGWAS.html">Plot GWAS results</a>
+    </li>
+    <li>
+      <a href="skim-gwas.html">SKIM GWAS sumstats</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-bolt"></span>
+     
+    Gene x Vegetarianism GWIS
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GWIS.html">GWIS in GEM</a>
+    </li>
+    <li>
+      <a href="plotGWIS.html">Plot GWIS results</a>
+    </li>
+    <li>
+      <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
+    </li>
+    <li>
+      <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-pen"></span>
+     
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GxEplots.html">Gene x Vegetarianism plots</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-regular fa-folder"></span>
+     
+    Extra
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Extra scripts</li>
+    <li>
+      <a href="medcodesextra.html">Medication code lists and extra formulas</a>
+    </li>
+    <li>
+      <a href="maxunrelated.html">Max unrelated script</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Medication code lists and extra
+formulas</h1>
+<h4 class="author">Mike Francis</h4>
+<h4 class="date">2022-09-19 11:51:31</h4>
+
+</div>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read.csv</span>(<span class="st">&quot;src/components/sexHormoneMeds.csv&quot;</span>)</span></code></pre></div>
+<pre><code>##           code                                                           name
+## 1   1140869270                                          &quot;medroxyprogesterone&quot;
+## 2   1140910674                                       &quot;ethinylnortestosterone&quot;
+## 3   1140857656                                   &quot;methyltestosterone product&quot;
+## 4   1140865136                        &quot;yohimbine/pemoline/methyltestosterone&quot;
+## 5   1140868532                                         &quot;testosterone product&quot;
+## 6   1140857690                              &quot;oestradiol 25mg implant 36 week&quot;
+## 7   1140857700                                 &quot;oestradiol 1mg/1ml injection&quot;
+## 8   1141165318                                                   &quot;cetrorelix&quot;
+## 9   1140917306                                                 &quot;bicalutamide&quot;
+## 10  1140917310                                          &quot;casodex 50mg tablet&quot;
+## 11  1140917448                                    &quot;oestradiol 1.25g/dose gel&quot;
+## 12  1140917450                                          &quot;oestrogel 1.25g gel&quot;
+## 13  1141171536                                                    &quot;ganirelix&quot;
+## 14  1140884638                                                   &quot;clomiphene&quot;
+## 15  1140884634                                                  &quot;cyproterone&quot;
+## 16  1140870186                                        &quot;oestrifen 10mg tablet&quot;
+## 17  1140921100                                                  &quot;triptorelin&quot;
+## 18  1140868984                                                    &quot;nafarelin&quot;
+## 19  1140868978                                                   &quot;gestrinone&quot;
+## 20  1140884544                                                  &quot;leuprorelin&quot;
+## 21  1140870248                                                    &quot;buserelin&quot;
+## 22  1140870194                                                    &quot;goserelin&quot;
+## 23  1141157394                                            &quot;goserelin product&quot;
+## 24  1140868882                                                  &quot;gonadorelin&quot;
+## 25  1141182558                                               &quot;urofollitropin&quot;
+## 26  1140868722                                                   &quot;cyclofenil&quot;
+## 27  1140868580                                               &quot;norethisterone&quot;
+## 28  1140869328    &quot;ethinyloestradiol+norethisterone acetate 20mcg/1mg tablet&quot;
+## 29  1140869356             &quot;mestranol+norethisterone 50micrograms/1mg tablet&quot;
+## 30  1141157406                                       &quot;norethisterone product&quot;
+## 31  1141168324           &quot;oestradiol+norethisterone acetate 1mg/0.5mg tablet&quot;
+## 32  1141181298     &quot;ethinylestradiol+norethisterone acetate 20mcg/1mg tablet&quot;
+## 33  1141181204            &quot;ethinylestradiol+norgestimate 35mcg/250mcg tablet&quot;
+## 34  1141181218                                     &quot;ethinylestradiol product&quot;
+## 35  1141181220                                             &quot;ethinylestradiol&quot;
+## 36  1141181240          &quot;ethinylestradiol+levonorgestrel 30mcg/150mcg tablet&quot;
+## 37  1141181286             &quot;ethinylestradiol+desogestrel 20mcg/150mcg tablet&quot;
+## 38  1140869348           &quot;ethinyloestradiol+norgestimate 35mcg/250mcg tablet&quot;
+## 39  1140868520                                         &quot;estracombi tts patch&quot;
+## 40  1140857628                                   &quot;gestone 10mg/1ml injection&quot;
+## 41  1140857704                                 &quot;ovestin 250micrograms tablet&quot;
+## 42  1140857706                                &quot;oestriol 250micrograms tablet&quot;
+## 43  1140857708                                                 &quot;quinestradol&quot;
+## 44  1140857710                                &quot;pentovis 250micrograms tablet&quot;
+## 45  1140857714                                                   &quot;quinestrol&quot;
+## 46  1140857716                                          &quot;estrovis 4mg tablet&quot;
+## 47  1140857736                                 &quot;virormone 10mg/1ml injection&quot;
+## 48  1140857912                                                  &quot;desogestrel&quot;
+## 49  1140857918                                                 &quot;lynoestrenol&quot;
+## 50  1140857920                                               &quot;minilyn tablet&quot;
+## 51  1140858324                      &quot;medroxyprogest 80mg/ml suspension 100ml&quot;
+## 52  1140858332                                           &quot;sh-420 10mg tablet&quot;
+## 53  1140858338                                      &quot;drostanolone propionate&quot;
+## 54  1140858340                                 &quot;masteril 100mg/1ml injection&quot;
+## 55  1140858348                                           &quot;noltam 10mg tablet&quot;
+## 56  1140864196                                         &quot;climagest 1mg tablet&quot;
+## 57  1140864502                          &quot;testotop tts 15mg transdermal patch&quot;
+## 58  1140868400                                             &quot;oestriol product&quot;
+## 59  1140868372                                          &quot;climaval 1mg tablet&quot;
+## 60  1140868406                                        &quot;conjugated oestrogens&quot;
+## 61  1140868408                                &quot;premarin 625micrograms tablet&quot;
+## 62  1140868420                                 &quot;piperazine oestrone sulphate&quot;
+## 63  1140868422                                        &quot;harmogen 1.5mg tablet&quot;
+## 64  1140868472                                        &quot;vagifem 25mcg pessary&quot;
+## 65  1140868482                                                     &quot;tibolone&quot;
+## 66  1140868488                                               &quot;allyloestrenol&quot;
+## 67  1140868490                                          &quot;gestanin 5mg tablet&quot;
+## 68  1140868494                                               &quot;dydrogesterone&quot;
+## 69  1140868496                                        &quot;duphaston 10mg tablet&quot;
+## 70  1140868508                                   &quot;cyclo-progynova 1mg tablet&quot;
+## 71  1140868512                                      &quot;syntex menophase tablet&quot;
+## 72  1140868514                                            &quot;trisequens tablet&quot;
+## 73  1140868518                                               &quot;nuvelle tablet&quot;
+## 74  1140868524                                         &quot;androcur 50mg tablet&quot;
+## 75  1140868526                                                  &quot;mesterolone&quot;
+## 76  1140868528                                        &quot;pro-viron 25mg tablet&quot;
+## 77  1140868534                   &quot;primoteston depot 250mg/1ml oily injection&quot;
+## 78  1140868536                                       &quot;restandol 40mg capsule&quot;
+## 79  1140868538                                  &quot;sustanon 100 oily injection&quot;
+## 80  1140868584                                        &quot;primolut-n 5mg tablet&quot;
+## 81  1140868586                                           &quot;utovlan 5mg tablet&quot;
+## 82  1140868588                                         &quot;progesterone product&quot;
+## 83  1140868590                                  &quot;cyclogest 200mg suppository&quot;
+## 84  1140868614                       &quot;deca-durabolin 25mg/1ml oily injection&quot;
+## 85  1140868618                                                   &quot;stanozolol&quot;
+## 86  1140868620                                           &quot;stromba 5mg tablet&quot;
+## 87  1140868628               &quot;humegon 75iu injection (pdr for recon)+solvent&quot;
+## 88  1140869032                                                  &quot;dienoestrol&quot;
+## 89  1140869034                           &quot;ortho-gynest 500micrograms pessary&quot;
+## 90  1140869166            &quot;ethinyloestradiol+desogestrel 20mcg/150mcg tablet&quot;
+## 91  1140869170                                             &quot;conova 30 tablet&quot;
+## 92  1140869172      &quot;ethinyloestradiol+ethynodiol diacetate 30mcg/2mg tablet&quot;
+## 93  1140869174                                            &quot;eugynon 30 tablet&quot;
+## 94  1140869176                                               &quot;logynon tablet&quot;
+## 95  1140869180                                         &quot;microgynon 30 tablet&quot;
+## 96  1140869184                                              &quot;ovran 30 tablet&quot;
+## 97  1140869186                                             &quot;ovranette tablet&quot;
+## 98  1140869188                                          &quot;schering pc4 tablet&quot;
+## 99  1140869190                                            &quot;trinordiol tablet&quot;
+## 100 1140869248         &quot;ethinyloestradiol+levonorgestrel 30mcg/150mcg tablet&quot;
+## 101 1140869254                                               &quot;binovum tablet&quot;
+## 102 1140869256                                              &quot;brevinor tablet&quot;
+## 103 1140869258                                           &quot;neocon 1/35 tablet&quot;
+## 104 1140869260                                               &quot;norimin tablet&quot;
+## 105 1140869262                                               &quot;ovysmen tablet&quot;
+## 106 1140869264                                              &quot;synphase tablet&quot;
+## 107 1140869266                                              &quot;trinovum tablet&quot;
+## 108 1140869272                                               &quot;neogest tablet&quot;
+## 109 1140869276                                              &quot;micronor tablet&quot;
+## 110 1140869278                                               &quot;noriday tablet&quot;
+## 111 1140869282                          &quot;noristerat 200mg/1ml oily injection&quot;
+## 112 1140869324                                           &quot;loestrin 20 tablet&quot;
+## 113 1140869332                                               &quot;minulet tablet&quot;
+## 114 1140869334                                              &quot;femodene tablet&quot;
+## 115 1140869338                                           &quot;tri-minulet tablet&quot;
+## 116 1140869340                                              &quot;triadene tablet&quot;
+## 117 1140869346                                                &quot;cilest tablet&quot;
+## 118 1140869352                                             &quot;norinyl-1 tablet&quot;
+## 119 1140869354                                      &quot;ortho-novin 1/50 tablet&quot;
+## 120 1140869360                                         &quot;ethynodiol diacetate&quot;
+## 121 1140869362                                               &quot;femulen tablet&quot;
+## 122 1140869366                                               &quot;levonorgestrel&quot;
+## 123 1140869368                                              &quot;microval tablet&quot;
+## 124 1140869370                                             &quot;norgeston tablet&quot;
+## 125 1140870060                                      &quot;polyestradiol phosphate&quot;
+## 126 1140870052                                          &quot;honvan 100mg tablet&quot;
+## 127 1140870062            &quot;estradurin 40mg injection (pdr for recon)+diluent&quot;
+## 128 1140870070                                                 &quot;stilboestrol&quot;
+## 129 1140870076                                            &quot;apstil 1mg tablet&quot;
+## 130 1140876638                        &quot;cyproterone acetate+ethinyloestradiol&quot;
+## 131 1140879554                                                 &quot;estramustine&quot;
+## 132 1140884622                                            &quot;oestrogen product&quot;
+## 133 1140884624                                                   &quot;fosfestrol&quot;
+## 134 1140884626                                                    &quot;mestranol&quot;
+## 135 1140884688                                          &quot;hydroxyprogesterone&quot;
+## 136 1140909906                                                  &quot;estropipate&quot;
+## 137 1140910562                                                  &quot;gestonorone&quot;
+## 138 1140921088                                             &quot;tridestra tablet&quot;
+## 139 1141157404                                    &quot;ethinyloestradiol product&quot;
+## 140 1141157410                                       &quot;levonorgestrel product&quot;
+## 141 1141157492                                            &quot;mestranol product&quot;
+## 142 1141166196                                                 &quot;etonogestrel&quot;
+## 143 1141166354                      &quot;testoderm 6mg/24hours transdermal patch&quot;
+## 144 1141166366 &quot;ethinyloestradiol+gestodene 20micrograms/75micrograms tablet&quot;
+## 145 1141167206                                          &quot;oestrogel 0.06% gel&quot;
+## 146 1141177150                                       &quot;adgyn medro 5mg tablet&quot;
+## 147 1141177158                                       &quot;adgyn estro 2mg tablet&quot;
+## 148 1141177226                                       &quot;adgyn combi 2mg tablet&quot;
+## 149 1141179822        &quot;ethinylestradiol+drospirenone 30micrograms/3mg tablet&quot;
+## 150 1141179820                                                 &quot;drospirenone&quot;
+## 151 1141180988                                                   &quot;dienestrol&quot;
+## 152 1141181594                                              &quot;estriol product&quot;
+## 153 1141181700                                            &quot;estradiol product&quot;
+## 154 1141182794                                          &quot;desogestrel product&quot;
+## 155 1141190580  &quot;conjugated oestrogens 0.3mg / medroxyprogesterone 1.5mg tab&quot;
+## 156 1141192344                         &quot;cyproterone acetate+ethinylestradiol&quot;
+## 157 1141192874 &quot;ethinylestradiol+norelgestromin 600mcg/6mg transdermal patch&quot;
+## 158 1141193272                                  &quot;testogel 50mg gel 5g sachet&quot;
+## 159 1141202030                                  &quot;estradot 25micrograms patch&quot;
+## 160 1141181818            &quot;estradiol+norethisterone acetate 1mg/0.5mg tablet&quot;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">read.table</span>(<span class="st">&quot;src/components/phenocodes.txt&quot;</span>, <span class="at">header=</span>F)</span></code></pre></div>
+<pre><code>##       V1                           V2
+## 1  30620     Alanine_aminotransferase
+## 2  30600                      Albumin
+## 3  30610         Alkaline_phosphatase
+## 4  30630             Apolipoprotein_A
+## 5  30640             Apolipoprotein_B
+## 6  30650   Aspartate_aminotransferase
+## 7  30710           C-reactive_protein
+## 8  30680                      Calcium
+## 9  30690                  Cholesterol
+## 10 30700                   Creatinine
+## 11 30720                   Cystatin_C
+## 12 30660             Direct_bilirubin
+## 13 30730    Gamma_glutamyltransferase
+## 14 30740                      Glucose
+## 15 30750 Glycated_haemoglobin_(HbA1c)
+## 16 30760              HDL_cholesterol
+## 17 30770                        IGF-1
+## 18 30780                   LDL_direct
+## 19 30790                Lipoprotein_A
+## 20 30800                   Oestradiol
+## 21 30810                    Phosphate
+## 22 30820            Rheumatoid_factor
+## 23 30830                         SHBG
+## 24 30850                 Testosterone
+## 25 30840              Total_bilirubin
+## 26 30860                Total_protein
+## 27 30870                Triglycerides
+## 28 30880                        Urate
+## 29 30670                         Urea
+## 30 30890                    Vitamin_D</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">readLines</span>(<span class="st">&quot;src/components/SSRI_Meds.R&quot;</span>,<span class="at">warn =</span> F))</span></code></pre></div>
+<pre><code>## #SSRIs=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+## 
+## ssricodes&lt;-c(1140921600,
+##              1141180212,
+##              1140879540,
+##              1140867888,
+##              1140867878,
+##              1140867876,
+##              1140867884,
+##              1140867888,
+##              1140867860  
+## )
+## 
+## names(ssricodes)&lt;-c(&quot;citalopram&quot;,
+##                     &quot;escitalopram&quot;,
+##                     &quot;fluoxetine&quot;,
+##                     &quot;paroxetine&quot;,
+##                     &quot;sertraline&quot;,
+##                     &quot;prozac 20mg capsule&quot;,
+##                     &quot;lustral 50mg tablet&quot;,
+##                     &quot;paroxetine&quot;,
+##                     &quot;faverin 50mg tablet&quot;
+## )</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">readLines</span>(<span class="st">&quot;src/components/cbat.R&quot;</span>,<span class="at">warn =</span> F))</span></code></pre></div>
+<pre><code>## #Vermeulen equation
+## #CBAT = calculated bioavailable testosterone
+## #Rcode from: https://labrtorian.com/tag/vermeulen-equation/
+## # where testosterone is reported in nmol/L (same as UKB), 
+## # sex hormone binding globulin (SHBG) is reported in nmol/L (same as UKB), 
+## # and albumin is reported in g/L (same as UKB)
+## # see also http://www.issam.ch/freetesto.htm which does the Vermeulen calc.
+## # Ruth et al 2020 does the Morris for BT and I agree.
+## 
+## cbat &lt;- function(TT,SHBG,ALB = 43){
+##     Ka &lt;- 3.6*10^4 #called kat in ruth
+##     Kshbg &lt;- 10^9 #called kt in ruth
+##     N &lt;- 1 + Ka*ALB/69000 #called k1 in ruth
+##     a &lt;- N*Kshbg #called a in ruth
+##     b &lt;- N + Kshbg*(SHBG - TT)/10^9 
+##     c &lt;- -TT/10^9
+##     FT &lt;- (-b + sqrt(b^2 - 4*a*c))/(2*a)*10^9
+##     cbat &lt;- N*FT
+##     #return(list(free.T = FT, cbat = cbat))
+##     BT&lt;-exp(-.266+.955*log(TT)-0.228 * log (SHBG)) #Morris equation
+##     return(list(freeTest = FT, bioavailableTest = BT))
+## }
+## 
+## # cbat(TT = 3.47, SHBG = 50, ALB = 40)
+## # 
+## # #3.47 nmol/L = 100.08 ng/dL
+## # 100.08/3.47 #[1] 28.8415
+## # #divide by 28.8 to go from ng/dL to nmol/L
+## # 
+## # #228.4 ng/dL
+## # 228.4/28.8
+## # 7.93
+## # 
+## # cbat(7.93, SHBG = 40)
+## # #0.1351578 nmol/L to ng/dL #conversion : http://unitslab.com/node/136
+## # 0.1351578*28.8
+## # 
+## # #free T in nmol/L
+## # TT1&lt;-3.47
+## # SHBG1&lt;-50
+## # 
+## # 
+## # BT&lt;-exp(-.266+.955*log(TT1)-0.228 * log (SHBG1))
+## # BT</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">writeLines</span>(<span class="fu">readLines</span>(<span class="st">&quot;src/components/manyColsToDummy.R&quot;</span>,<span class="at">warn =</span> F))</span></code></pre></div>
+<pre><code>## #A base-R script that searches over many input columns for input values 
+## #and returns a dataframe of dummy variables that indicate if the values 
+## #were present in these columns.
+## 
+## #Note that grep functions use regular expressions as their search terms, so if you are trying to match a string or number, adding ^ and $ is necessary!
+## #For example, if you want to match 612, use &quot;^612$&quot;
+## 
+## 
+## 
+## manyColsToDummy&lt;-function(search_terms, search_columns,
+##                           output_table){
+##     #initialize output table
+##     temp_table&lt;-data.frame(matrix(ncol=length(search_terms),
+##                                   nrow= nrow(search_columns)))
+##     colnames(temp_table)&lt;-search_terms
+##     
+##     #make table
+##     for (i in 1:length(search_terms)){
+##         vec&lt;-rowSums(sapply(search_columns,
+##                             function(x) grepl(search_terms[i], x, ignore.case = TRUE)
+##         ))&gt;0
+##         temp_table[,i]&lt;-vec
+##     }
+##     temp_table&lt;-sapply(temp_table, as.integer, as.logical)
+##     temp_table&lt;-as.data.frame(temp_table)
+##     assign(x = output_table, value = temp_table, envir = globalenv())
+## }
+## 
+## 
+## #Example
+## #manyColsToDummy(&quot;find_this&quot;, big_table[,columns_to_look_in], &quot;dummy_output_table&quot;)
+## 
+## #Visual example found here: https://ibb.co/VwHvBLT</code></pre>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

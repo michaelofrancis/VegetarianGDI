@@ -14,7 +14,7 @@
 
 <title>Gene-vegetarianism interaction Manhattan and QQ plots (gene-based)</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
@@ -51,6 +51,7 @@
 
 
 
+
 <style type = "text/css">
 .main-container {
   max-width: 940px;
@@ -71,6 +72,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -128,11 +132,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -223,12 +231,12 @@ $(document).ready(function () {
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Vegetarianism gene-diet interactions</a>
+      <a class="navbar-brand" href="index.html">Gene-vegetarianism interactions</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -239,9 +247,16 @@ $(document).ready(function () {
     Home
   </a>
 </li>
+<li>
+  <a href="DefineVeg.html">
+    <span class="fa fa-solid fa-seedling"></span>
+     
+    Define Vegetarians
+  </a>
+</li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-gear"></span>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-clipboard-check"></span>
      
     Pheno/geno prep
      
@@ -250,36 +265,45 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Phenotype</li>
     <li>
-      <a href="UKB_participantQC.html">Participant QC</a>
+      <a href="UKB_participantQC.html">
+        <span class="fa fa-solid fa-user"></span>
+         
+        Participant QC
+      </a>
     </li>
     <li>
-      <a href="pheno.html">Prepare phenotype table</a>
+      <a href="pheno.html">
+        <span class="fa fa-solid fa-syringe"></span>
+         
+        Prepare phenotype table
+      </a>
     </li>
     <li>
-      <a href="skimr.html">Pheno skim</a>
+      <a href="skim-phenotype.html">
+        <span class="fa fa-solid fa-list"></span>
+         
+        Pheno skim
+      </a>
     </li>
     <li class="dropdown-header">Genotype</li>
     <li>
-      <a href="genoQC.html">QC genotype bgen files</a>
+      <a href="genoQC.html">
+        <span class="fa fa-solid fa-filter"></span>
+         
+        QC genotype bgen files
+      </a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="DefineVeg.html">
-    <span class="fa fa-info"></span>
-     
-    Define Vegetarians
-  </a>
-</li>
-<li>
   <a href="MatchEffect.html">
-    <span class="fa fa-solid fa-code-compare"></span>
+    <span class="fa fa-solid fa-users"></span>
      
     Matching + exposure analysis
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-solid fa-dna"></span>
      
     Vegetarianism GWAS
@@ -293,11 +317,14 @@ $(document).ready(function () {
     <li>
       <a href="plotGWAS.html">Plot GWAS results</a>
     </li>
+    <li>
+      <a href="skim-gwas.html">SKIM GWAS sumstats</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-light fa-salad"></span>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-bolt"></span>
      
     Gene x Vegetarianism GWIS
      
@@ -310,27 +337,43 @@ $(document).ready(function () {
     <li>
       <a href="plotGWIS.html">Plot GWIS results</a>
     </li>
+    <li>
+      <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
+    </li>
+    <li>
+      <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-gear"></span>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-pen"></span>
+     
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GxEplots.html">Gene x Vegetarianism plots</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-regular fa-folder"></span>
      
     Extra
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Extra scripts</li>
     <li>
-      <a href="GxEplots.html">GxE plots</a>
+      <a href="medcodesextra.html">Medication code lists and extra formulas</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Heading 2</li>
     <li>
       <a href="maxunrelated.html">Max unrelated script</a>
-    </li>
-    <li>
-      <a href="page-d.html">Page D</a>
     </li>
   </ul>
 </li>
@@ -349,7 +392,7 @@ $(document).ready(function () {
 <h1 class="title toc-ignore">Gene-vegetarianism interaction Manhattan
 and QQ plots (gene-based)</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-09-08 01:28:46</h4>
+<h4 class="date">2022-09-19 11:43:14</h4>
 
 </div>
 

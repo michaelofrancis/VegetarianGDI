@@ -14,7 +14,7 @@
 
 <title>Participant QC</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
@@ -30,6 +30,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
@@ -44,6 +47,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -122,13 +126,20 @@ code span.wa { color: #008000; font-weight: bold; } /* Warning */
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -163,6 +174,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -220,11 +234,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -301,6 +319,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -310,17 +391,27 @@ $(document).ready(function () {
 <div class="container-fluid main-container">
 
 
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
 
 
 <div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Vegetarianism gene-diet interactions</a>
+      <a class="navbar-brand" href="index.html">Gene-vegetarianism interactions</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -331,9 +422,16 @@ $(document).ready(function () {
     Home
   </a>
 </li>
+<li>
+  <a href="DefineVeg.html">
+    <span class="fa fa-solid fa-seedling"></span>
+     
+    Define Vegetarians
+  </a>
+</li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-gear"></span>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-clipboard-check"></span>
      
     Pheno/geno prep
      
@@ -342,36 +440,45 @@ $(document).ready(function () {
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Phenotype</li>
     <li>
-      <a href="UKB_participantQC.html">Participant QC</a>
+      <a href="UKB_participantQC.html">
+        <span class="fa fa-solid fa-user"></span>
+         
+        Participant QC
+      </a>
     </li>
     <li>
-      <a href="pheno.html">Prepare phenotype table</a>
+      <a href="pheno.html">
+        <span class="fa fa-solid fa-syringe"></span>
+         
+        Prepare phenotype table
+      </a>
     </li>
     <li>
-      <a href="skimr.html">Pheno skim</a>
+      <a href="skim-phenotype.html">
+        <span class="fa fa-solid fa-list"></span>
+         
+        Pheno skim
+      </a>
     </li>
     <li class="dropdown-header">Genotype</li>
     <li>
-      <a href="genoQC.html">QC genotype bgen files</a>
+      <a href="genoQC.html">
+        <span class="fa fa-solid fa-filter"></span>
+         
+        QC genotype bgen files
+      </a>
     </li>
   </ul>
 </li>
 <li>
-  <a href="DefineVeg.html">
-    <span class="fa fa-info"></span>
-     
-    Define Vegetarians
-  </a>
-</li>
-<li>
   <a href="MatchEffect.html">
-    <span class="fa fa-solid fa-code-compare"></span>
+    <span class="fa fa-solid fa-users"></span>
      
     Matching + exposure analysis
   </a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-solid fa-dna"></span>
      
     Vegetarianism GWAS
@@ -385,11 +492,14 @@ $(document).ready(function () {
     <li>
       <a href="plotGWAS.html">Plot GWAS results</a>
     </li>
+    <li>
+      <a href="skim-gwas.html">SKIM GWAS sumstats</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-light fa-salad"></span>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-bolt"></span>
      
     Gene x Vegetarianism GWIS
      
@@ -402,27 +512,43 @@ $(document).ready(function () {
     <li>
       <a href="plotGWIS.html">Plot GWIS results</a>
     </li>
+    <li>
+      <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
+    </li>
+    <li>
+      <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    <span class="fa fa-gear"></span>
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-pen"></span>
+     
+    Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GxEplots.html">Gene x Vegetarianism plots</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-regular fa-folder"></span>
      
     Extra
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Extra scripts</li>
     <li>
-      <a href="GxEplots.html">GxE plots</a>
+      <a href="medcodesextra.html">Medication code lists and extra formulas</a>
     </li>
-    <li class="divider"></li>
-    <li class="dropdown-header">Heading 2</li>
     <li>
       <a href="maxunrelated.html">Max unrelated script</a>
-    </li>
-    <li>
-      <a href="page-d.html">Page D</a>
     </li>
   </ul>
 </li>
@@ -440,52 +566,20 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Participant QC</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-09-08 02:02:19</h4>
+<h4 class="date">2022-09-19 12:28:45</h4>
 
 </div>
 
-<div id="TOC">
-<ul>
-<li><a href="#load-packages-make-it-so-table-always-displays-nas"
-id="toc-load-packages-make-it-so-table-always-displays-nas">Load
-packages + make it so table always displays NA’s</a></li>
-<li><a href="#load-uk-biobank-data" id="toc-load-uk-biobank-data">Load
-UK Biobank data</a></li>
-<li><a
-href="#load-the-files-that-came-from-pan-ukbb-list-of-participants-and-bridge-key"
-id="toc-load-the-files-that-came-from-pan-ukbb-list-of-participants-and-bridge-key">Load
-the files that came from Pan UKBB, list of participants and bridge
-(key)</a></li>
-<li><a href="#retrieve-relevant-qc-columns-from-ukb"
-id="toc-retrieve-relevant-qc-columns-from-ukb">Retrieve relevant QC
-columns from UKB</a></li>
-<li><a href="#join-ukb-cols-with-with-pan-ukbb"
-id="toc-join-ukb-cols-with-with-pan-ukbb">Join UKB cols with with Pan
-UKBB</a></li>
-<li><a href="#filter-by-selected-criteria"
-id="toc-filter-by-selected-criteria">Filter by selected
-criteria</a></li>
-<li><a
-href="#filter-related-file-by-those-in-qc-from-maximum_set_of_unrelated_individuals.pl1-output"
-id="toc-filter-related-file-by-those-in-qc-from-maximum_set_of_unrelated_individuals.pl1-output">Filter
-related file by those in QC from maximum_set_of_unrelated_individuals.pl
-output:</a></li>
-<li><a
-href="#save-list-of-participants-for-use-in-future-filtering-steps"
-id="toc-save-list-of-participants-for-use-in-future-filtering-steps">Save
-list of participants for use in future filtering steps</a></li>
-</ul>
-</div>
 
 <p>The purpose of this script is to generate a list of UK Biobank
 participants which meet QC/filtering criteria:</p>
 <ol style="list-style-type: decimal">
-<li>Genetic ethnicity = Caucasian VIA PAN UKBB</li>
+<li>Genetic ethnicity = Caucasian via Pan UKBB designation</li>
 <li>Not an outlier for heterogeneity and missing genotype rate (poor
 quality genotype)</li>
-<li>No Sex chromosome aneuploidy</li>
+<li>No sex chromosome aneuploidy</li>
 <li>Self-reported sex matches genetic sex</li>
-<li>Do not have high degree of genetic kinship (Ten or more third-degree
+<li>Do not have high degree of genetic kinship (ten or more third-degree
 relatives identified)</li>
 <li>Does not appear in “maximum_set_of_unrelated_individuals.pl”</li>
 </ol>
@@ -505,7 +599,9 @@ code that came with our data table</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">vroom</span>(<span class="st">&quot;/Users/mike/Documents/R_files/UKBpheno/pheno/ukbXXXXX.tab&quot;</span>, <span class="at">delim=</span><span class="st">&quot;</span><span class="sc">\t</span><span class="st">&quot;</span>, <span class="at">show_col_types =</span> <span class="cn">FALSE</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">&quot;src/components/ukbXXXXX_factordata.R&quot;</span>) <span class="co">#file provided by UKB &quot;ukbxxxxx_loaddata.R&quot; without the loading part, to label the responses in survey questions</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span><span class="fu">as_tibble</span>(bd)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bd)</span></code></pre></div>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(bd)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>withdrawn<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&quot;src/components/w48818_20220222.csv&quot;</span>, <span class="at">header =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>bd<span class="ot">=</span>bd[<span class="sc">!</span>(bd<span class="sc">$</span>f.eid <span class="sc">%in%</span> withdrawn<span class="sc">$</span>V1), ]</span></code></pre></div>
 </div>
 <div
 id="load-the-files-that-came-from-pan-ukbb-list-of-participants-and-bridge-key"
@@ -514,7 +610,7 @@ class="section level3">
 bridge (key)</h3>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>pan<span class="ot">&lt;-</span><span class="fu">read_tsv</span>(<span class="st">&quot;src/components/PanUKBB/all_pops_non_eur_pruned_within_pop_pc_covs.tsv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 448216 Columns: 28
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ────────────────────────────────────────────────────
 ## Delimiter: &quot;\t&quot;
 ## chr  (1): pop
 ## dbl (26): s, PC1, PC2, PC3, PC4, PC5, PC6, PC7, PC8, PC9, PC10, PC11, PC12, ...
@@ -690,6 +786,8 @@ href="#fnref1" class="footnote-back">↩︎</a></p></li>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -722,6 +820,35 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
