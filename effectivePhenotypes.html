@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mike Francis" />
+
+
+<title>Calculate number of effective phenotypes</title>
+
+<script src="site_libs/header-attrs-2.16.2/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Gene-vegetarianism interactions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-seedling"></span>
+     
+    Full analysis code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="DefineVeg.html">
+        <span class="fa fa-solid fa-seedling"></span>
+         
+        1a. Define Vegetarians
+      </a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-clipboard-check"></span>
+         
+        1b. Phenotype prep
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="UKB_participantQC.html">
+            <span class="fa fa-solid fa-user"></span>
+             
+            Participant QC
+          </a>
+        </li>
+        <li>
+          <a href="pheno.html">
+            <span class="fa fa-solid fa-syringe"></span>
+             
+            Prepare phenotype table
+          </a>
+        </li>
+        <li>
+          <a href="skim-phenotype.html">
+            <span class="fa fa-solid fa-list"></span>
+             
+            Pheno skim
+          </a>
+        </li>
+        <li>
+          <a href="facetpheno.html">
+            <span class="fa fa-solid fa-square"></span>
+             
+            Compare raw pheno
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="genoQC.html">
+        <span class="fa fa-solid fa-filter"></span>
+         
+        1c. Genotype prep
+      </a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-users"></span>
+         
+        2. Matching + Veg. Effect
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MatchEffect.html">
+            <span class="fa fa-solid fa-users"></span>
+             
+            2. Matching + Veg. Effect
+          </a>
+        </li>
+        <li>
+          <a href="CompareRaw.html">
+            <span class="fa fa-regular fa-square"></span>
+             
+            Compare raw phenotype values
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        3. Vegetarianism GWAS
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="GWAS.html">GWAS in regenie</a>
+        </li>
+        <li>
+          <a href="plotGWAS.html">Plot GWAS results</a>
+        </li>
+        <li>
+          <a href="skim-gwas.html">SKIM GWAS sumstats</a>
+        </li>
+        <li>
+          <a href="prepGWASsumstats.html">Prep GWAS sumstats</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-bolt"></span>
+         
+        4. Gene x Vegetarianism GWIS
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="GWIS.html">GWIS in GEM</a>
+        </li>
+        <li>
+          <a href="plotGWIS.html">Plot GWIS results</a>
+        </li>
+        <li>
+          <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
+        </li>
+        <li>
+          <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-regular fa-folder"></span>
+         
+        Extra scripts
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="medcodesextra.html">Medication code lists and extra formulas</a>
+        </li>
+        <li>
+          <a href="maxunrelated.html">Max unrelated script</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-dna"></span>
+     
+    Interactive Manhattan Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GxEplots.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWIS (variant level)
+      </a>
+    </li>
+    <li>
+      <a href="GxEplots.gene.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWIS (gene level)
+      </a>
+    </li>
+    <li>
+      <a href="GWASplot.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWAS
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Calculate number of effective
+phenotypes</h1>
+<h4 class="author">Mike Francis</h4>
+<h4 class="date">2022-10-04 23:09:24</h4>
+
+</div>
+
+
+<p>Calculation for effective number of phenotypes was inspired/borrowed
+from here: <a
+href="https://github.com/kwesterman/vqtl-gxe/blob/1bc1adb2bc6c46508715279305a92da33620cde1/scripts/6d_ewis_summary.Rmd"
+class="uri">https://github.com/kwesterman/vqtl-gxe/blob/1bc1adb2bc6c46508715279305a92da33620cde1/scripts/6d_ewis_summary.Rmd</a></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>tab<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">read.csv</span>(<span class="st">&quot;/Users/mike/Documents/R_files/VegMarkdown/pheno/BioxVeg_pheno_09112022.csv&quot;</span>))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(tab)</span></code></pre></div>
+<pre><code>##   [1] &quot;FID&quot;                             &quot;IID&quot;                            
+##   [3] &quot;Age&quot;                             &quot;Sex&quot;                            
+##   [5] &quot;Townsend&quot;                        &quot;Geno_batch&quot;                     
+##   [7] &quot;AlcoholFreq&quot;                     &quot;Alanine_aminotransferase&quot;       
+##   [9] &quot;Albumin&quot;                         &quot;Alkaline_phosphatase&quot;           
+##  [11] &quot;Apolipoprotein_A&quot;                &quot;Apolipoprotein_B&quot;               
+##  [13] &quot;Aspartate_aminotransferase&quot;      &quot;C_reactive_protein&quot;             
+##  [15] &quot;Calcium&quot;                         &quot;Cholesterol&quot;                    
+##  [17] &quot;Creatinine&quot;                      &quot;Cystatin_C&quot;                     
+##  [19] &quot;Direct_bilirubin&quot;                &quot;Gamma_glutamyltransferase&quot;      
+##  [21] &quot;Glucose&quot;                         &quot;HbA1c&quot;                          
+##  [23] &quot;HDL_cholesterol&quot;                 &quot;IGF_1&quot;                          
+##  [25] &quot;LDL_direct&quot;                      &quot;Lipoprotein_A&quot;                  
+##  [27] &quot;Oestradiol&quot;                      &quot;Phosphate&quot;                      
+##  [29] &quot;Rheumatoid_factor&quot;               &quot;SHBG&quot;                           
+##  [31] &quot;Testosterone&quot;                    &quot;Total_bilirubin&quot;                
+##  [33] &quot;Total_protein&quot;                   &quot;Triglycerides&quot;                  
+##  [35] &quot;Urate&quot;                           &quot;Urea&quot;                           
+##  [37] &quot;Vitamin_D&quot;                       &quot;PCA1&quot;                           
+##  [39] &quot;PCA2&quot;                            &quot;PCA3&quot;                           
+##  [41] &quot;PCA4&quot;                            &quot;PCA5&quot;                           
+##  [43] &quot;PCA6&quot;                            &quot;PCA7&quot;                           
+##  [45] &quot;PCA8&quot;                            &quot;PCA9&quot;                           
+##  [47] &quot;PCA10&quot;                           &quot;PCA11&quot;                          
+##  [49] &quot;PCA12&quot;                           &quot;PCA13&quot;                          
+##  [51] &quot;PCA14&quot;                           &quot;PCA15&quot;                          
+##  [53] &quot;PCA16&quot;                           &quot;PCA17&quot;                          
+##  [55] &quot;PCA18&quot;                           &quot;PCA19&quot;                          
+##  [57] &quot;PCA20&quot;                           &quot;BMI&quot;                            
+##  [59] &quot;SmokeStatus&quot;                     &quot;Veg5yr1&quot;                        
+##  [61] &quot;Age2&quot;                            &quot;PreviousSmoker&quot;                 
+##  [63] &quot;CurrentSmoker&quot;                   &quot;center1&quot;                        
+##  [65] &quot;center2&quot;                         &quot;center3&quot;                        
+##  [67] &quot;center4&quot;                         &quot;center5&quot;                        
+##  [69] &quot;center6&quot;                         &quot;center7&quot;                        
+##  [71] &quot;center8&quot;                         &quot;center9&quot;                        
+##  [73] &quot;center10&quot;                        &quot;center11&quot;                       
+##  [75] &quot;center12&quot;                        &quot;center13&quot;                       
+##  [77] &quot;center14&quot;                        &quot;center15&quot;                       
+##  [79] &quot;center16&quot;                        &quot;center17&quot;                       
+##  [81] &quot;center18&quot;                        &quot;center19&quot;                       
+##  [83] &quot;center20&quot;                        &quot;center21&quot;                       
+##  [85] &quot;center22&quot;                        &quot;zblood&quot;                         
+##  [87] &quot;zTownsend&quot;                       &quot;zAge&quot;                           
+##  [89] &quot;logSHBG&quot;                         &quot;Scr&quot;                            
+##  [91] &quot;eGFR&quot;                            &quot;bioavailableTest&quot;               
+##  [93] &quot;freeTest&quot;                        &quot;statins&quot;                        
+##  [95] &quot;Cholesterolold&quot;                  &quot;LDL_directold&quot;                  
+##  [97] &quot;Apolipoprotein_Bold&quot;             &quot;tookMed&quot;                        
+##  [99] &quot;tookSSRI&quot;                        &quot;Alanine_aminotransferase_rint&quot;  
+## [101] &quot;Albumin_rint&quot;                    &quot;Alkaline_phosphatase_rint&quot;      
+## [103] &quot;Apolipoprotein_A_rint&quot;           &quot;Apolipoprotein_B_rint&quot;          
+## [105] &quot;Aspartate_aminotransferase_rint&quot; &quot;C_reactive_protein_rint&quot;        
+## [107] &quot;Calcium_rint&quot;                    &quot;Cholesterol_rint&quot;               
+## [109] &quot;Creatinine_rint&quot;                 &quot;Cystatin_C_rint&quot;                
+## [111] &quot;Direct_bilirubin_rint&quot;           &quot;Gamma_glutamyltransferase_rint&quot; 
+## [113] &quot;Glucose_rint&quot;                    &quot;HbA1c_rint&quot;                     
+## [115] &quot;HDL_cholesterol_rint&quot;            &quot;IGF_1_rint&quot;                     
+## [117] &quot;LDL_direct_rint&quot;                 &quot;Lipoprotein_A_rint&quot;             
+## [119] &quot;Oestradiol_rint&quot;                 &quot;Phosphate_rint&quot;                 
+## [121] &quot;Rheumatoid_factor_rint&quot;          &quot;SHBG_rint&quot;                      
+## [123] &quot;Testosterone_rint&quot;               &quot;Total_bilirubin_rint&quot;           
+## [125] &quot;Total_protein_rint&quot;              &quot;Triglycerides_rint&quot;             
+## [127] &quot;Urate_rint&quot;                      &quot;Urea_rint&quot;                      
+## [129] &quot;Vitamin_D_rint&quot;                  &quot;eGFR_rint&quot;                      
+## [131] &quot;bioavailableTest_rint&quot;           &quot;freeTest_rint&quot;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pheno<span class="ot">=</span>tab<span class="sc">%&gt;%</span><span class="fu">select</span>(Alanine_aminotransferase<span class="sc">:</span>Vitamin_D)<span class="sc">%&gt;%</span><span class="fu">select</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="sc">-</span><span class="fu">c</span>(Oestradiol, Rheumatoid_factor)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(pheno)</span></code></pre></div>
+<pre><code>##  [1] &quot;Alanine_aminotransferase&quot;   &quot;Albumin&quot;                   
+##  [3] &quot;Alkaline_phosphatase&quot;       &quot;Apolipoprotein_A&quot;          
+##  [5] &quot;Apolipoprotein_B&quot;           &quot;Aspartate_aminotransferase&quot;
+##  [7] &quot;C_reactive_protein&quot;         &quot;Calcium&quot;                   
+##  [9] &quot;Cholesterol&quot;                &quot;Creatinine&quot;                
+## [11] &quot;Cystatin_C&quot;                 &quot;Direct_bilirubin&quot;          
+## [13] &quot;Gamma_glutamyltransferase&quot;  &quot;Glucose&quot;                   
+## [15] &quot;HbA1c&quot;                      &quot;HDL_cholesterol&quot;           
+## [17] &quot;IGF_1&quot;                      &quot;LDL_direct&quot;                
+## [19] &quot;Lipoprotein_A&quot;              &quot;Phosphate&quot;                 
+## [21] &quot;SHBG&quot;                       &quot;Testosterone&quot;              
+## [23] &quot;Total_bilirubin&quot;            &quot;Total_protein&quot;             
+## [25] &quot;Triglycerides&quot;              &quot;Urate&quot;                     
+## [27] &quot;Urea&quot;                       &quot;Vitamin_D&quot;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>bm_pca <span class="ot">&lt;-</span> pheno <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate_all</span>(<span class="sc">~</span><span class="fu">ifelse</span>(<span class="fu">is.na</span>(.), <span class="fu">mean</span>(., <span class="at">na.rm=</span>T), .)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">prcomp</span>()</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>n_eff_bm <span class="ot">&lt;-</span> <span class="fu">sum</span>(bm_pca<span class="sc">$</span>sdev) <span class="sc">**</span> <span class="dv">2</span> <span class="sc">/</span> <span class="fu">sum</span>(bm_pca<span class="sc">$</span>sdev <span class="sc">**</span> <span class="dv">2</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>n_eff_bm</span></code></pre></div>
+<pre><code>## [1] 7.461238</code></pre>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

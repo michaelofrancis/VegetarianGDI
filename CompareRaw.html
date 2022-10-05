@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mike Francis" />
+
+
+<title>Compare raw phenotypes</title>
+
+<script src="site_libs/header-attrs-2.16.2/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Gene-vegetarianism interactions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-seedling"></span>
+     
+    Full analysis code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="DefineVeg.html">
+        <span class="fa fa-solid fa-seedling"></span>
+         
+        1a. Define Vegetarians
+      </a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-clipboard-check"></span>
+         
+        1b. Phenotype prep
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="UKB_participantQC.html">
+            <span class="fa fa-solid fa-user"></span>
+             
+            Participant QC
+          </a>
+        </li>
+        <li>
+          <a href="pheno.html">
+            <span class="fa fa-solid fa-syringe"></span>
+             
+            Prepare phenotype table
+          </a>
+        </li>
+        <li>
+          <a href="skim-phenotype.html">
+            <span class="fa fa-solid fa-list"></span>
+             
+            Pheno skim
+          </a>
+        </li>
+        <li>
+          <a href="facetpheno.html">
+            <span class="fa fa-solid fa-square"></span>
+             
+            Compare raw pheno
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="genoQC.html">
+        <span class="fa fa-solid fa-filter"></span>
+         
+        1c. Genotype prep
+      </a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-users"></span>
+         
+        2. Matching + Veg. Effect
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MatchEffect.html">
+            <span class="fa fa-solid fa-users"></span>
+             
+            2. Matching + Veg. Effect
+          </a>
+        </li>
+        <li>
+          <a href="CompareRaw.html">
+            <span class="fa fa-regular fa-square"></span>
+             
+            Compare raw phenotype values
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        3. Vegetarianism GWAS
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="GWAS.html">GWAS in regenie</a>
+        </li>
+        <li>
+          <a href="plotGWAS.html">Plot GWAS results</a>
+        </li>
+        <li>
+          <a href="skim-gwas.html">SKIM GWAS sumstats</a>
+        </li>
+        <li>
+          <a href="prepGWASsumstats.html">Prep GWAS sumstats</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-bolt"></span>
+         
+        4. Gene x Vegetarianism GWIS
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="GWIS.html">GWIS in GEM</a>
+        </li>
+        <li>
+          <a href="plotGWIS.html">Plot GWIS results</a>
+        </li>
+        <li>
+          <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
+        </li>
+        <li>
+          <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-regular fa-folder"></span>
+         
+        Extra scripts
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="medcodesextra.html">Medication code lists and extra formulas</a>
+        </li>
+        <li>
+          <a href="maxunrelated.html">Max unrelated script</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-dna"></span>
+     
+    Interactive Manhattan Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GxEplots.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWIS (variant level)
+      </a>
+    </li>
+    <li>
+      <a href="GxEplots.gene.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWIS (gene level)
+      </a>
+    </li>
+    <li>
+      <a href="GWASplot.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWAS
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Compare raw phenotypes</h1>
+<h4 class="author">Mike Francis</h4>
+<h4 class="date">2022-10-04 22:38:02</h4>
+
+</div>
+
+
+<div id="load-packages-functions" class="section level3">
+<h3>Load packages + functions</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(silent <span class="ot">&lt;-</span> <span class="fu">lapply</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;bestNormalize&quot;</span>,<span class="st">&quot;plyr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;ggpubr&quot;</span>, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;RNOmni&quot;</span>, <span class="st">&quot;genpwr&quot;</span>, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>      <span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;vroom&quot;</span>,<span class="st">&quot;kableExtra&quot;</span>), </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    library, <span class="at">character.only=</span>T))</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>calc_stat <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    coef <span class="ot">&lt;-</span> <span class="fl">1.5</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    n <span class="ot">&lt;-</span> <span class="fu">sum</span>(<span class="sc">!</span><span class="fu">is.na</span>(x))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># calculate quantiles</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    stats <span class="ot">&lt;-</span> <span class="fu">quantile</span>(x, <span class="at">probs =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>))</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">names</span>(stats) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;ymin&quot;</span>, <span class="st">&quot;lower&quot;</span>, <span class="st">&quot;middle&quot;</span>, <span class="st">&quot;upper&quot;</span>, <span class="st">&quot;ymax&quot;</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(stats)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>fun_mean <span class="ot">&lt;-</span> <span class="cf">function</span>(x){</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">data.frame</span>(<span class="at">y=</span><span class="fu">round</span>(<span class="fu">mean</span>(x),<span class="dv">4</span>),<span class="at">label=</span><span class="fu">round</span>(<span class="fu">mean</span>(x,<span class="at">na.rm=</span>T),<span class="dv">2</span>)))}</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>table <span class="ot">=</span> <span class="cf">function</span> (..., <span class="at">useNA =</span> <span class="st">&#39;always&#39;</span>) base<span class="sc">::</span><span class="fu">table</span>(..., <span class="at">useNA =</span> useNA)</span></code></pre></div>
+</div>
+<div id="load-phenotype-files" class="section level3">
+<h3>Load phenotype files</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">vroom</span>(<span class="st">&quot;/Users/mike/Documents/R_files/VegMarkdown/pheno/BioxVeg_pheno_09112022.txt&quot;</span>))</span></code></pre></div>
+<pre><code>## Rows: 155375 Columns: 132
+## ── Column specification ────────────────────────────────
+## Delimiter: &quot; &quot;
+## dbl (132): FID, IID, Age, Sex, Townsend, Geno_batch, AlcoholFreq, Alanine_am...
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>phenotypes<span class="ot">=</span>new<span class="sc">%&gt;%</span><span class="fu">select</span>(Alanine_aminotransferase<span class="sc">:</span>Vitamin_D, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                        bioavailableTest, freeTest, eGFR, Veg5yr1,Sex)<span class="sc">%&gt;%</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(Oestradiol, Rheumatoid_factor, Glucose))</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>phenotypes<span class="ot">=</span>phenotypes[<span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, <span class="dv">28</span>, <span class="dv">7</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">30</span>, <span class="dv">29</span>, <span class="dv">13</span><span class="sc">:</span><span class="dv">27</span>,<span class="dv">31</span>,<span class="dv">32</span>)]</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(phenotypes)<span class="ot">=</span><span class="fu">gsub</span>(<span class="fu">colnames</span>(phenotypes), <span class="at">pattern =</span> <span class="st">&quot;_&quot;</span>, <span class="at">replacement =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(phenotypes)[<span class="fu">c</span>(<span class="dv">7</span>,<span class="dv">15</span>)]<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Bioavailable testosterone&quot;</span>, <span class="st">&quot;Free testosterone&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(phenotypes)<span class="sc">%&gt;%</span><span class="fu">kbl</span>()<span class="sc">%&gt;%</span> </span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a> <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;200px&quot;</span>, <span class="at">height =</span> <span class="st">&quot;200px&quot;</span>)</span></code></pre></div>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:200px; ">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+x
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Alanine aminotransferase
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Albumin
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alkaline phosphatase
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Apolipoprotein A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Apolipoprotein B
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Aspartate aminotransferase
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Bioavailable testosterone
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C reactive protein
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Calcium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cholesterol
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Creatinine
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cystatin C
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Direct bilirubin
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+eGFR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Free testosterone
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Gamma glutamyltransferase
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HbA1c
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HDL cholesterol
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IGF 1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LDL direct
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipoprotein A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phosphate
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SHBG
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Testosterone
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total bilirubin
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total protein
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Triglycerides
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urate
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urea
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vitamin D
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Veg5yr1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sex
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#From matching script</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>md1<span class="ot">=</span><span class="fu">as_tibble</span>(<span class="fu">read.csv</span>(<span class="st">&quot;/Users/mike/Documents/R_files/VegMarkdown/MATCHED.pheno.10042022.csv&quot;</span>))</span></code></pre></div>
+</div>
+<div id="prep-for-plotting" class="section level3">
+<h3>Prep for plotting</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>pheno<span class="ot">=</span>phenotypes<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="sc">-</span>Sex)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>phe<span class="ot">=</span>md1<span class="sc">%&gt;%</span><span class="fu">select</span>(Alanine_aminotransferase_rint<span class="sc">:</span>Free_testosterone_rint)<span class="sc">%&gt;%</span><span class="fu">colnames</span>()</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>phe2<span class="ot">=</span><span class="fu">str_split</span>(phe, <span class="st">&quot;_rint&quot;</span>, <span class="at">simplify=</span><span class="cn">TRUE</span>)[,<span class="dv">1</span>]</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>longpheno<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">melt</span>(<span class="fu">setDT</span>(pheno), <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">&quot;Veg5yr1&quot;</span>)))</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>longpheno<span class="sc">$</span>Diet<span class="ot">&lt;-</span><span class="st">&quot;Non-vegetarian&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>longpheno<span class="sc">$</span>Diet[longpheno<span class="sc">$</span>Veg5yr1<span class="sc">==</span><span class="dv">1</span>]<span class="ot">&lt;-</span><span class="st">&quot;Vegetarian&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>longpheno<span class="sc">$</span>Diet<span class="ot">&lt;-</span><span class="fu">as.factor</span>(longpheno<span class="sc">$</span>Diet)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>longpheno2<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">melt</span>(<span class="fu">setDT</span>(md1<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">sort</span>(phe2)), Veg5yr1)), <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">&quot;Veg5yr1&quot;</span>)))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>longpheno2<span class="sc">$</span>variable<span class="ot">=</span><span class="fu">gsub</span>(longpheno2<span class="sc">$</span>variable, <span class="at">pattern =</span> <span class="st">&quot;_&quot;</span>, <span class="at">replacement =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>longpheno2<span class="sc">$</span>Diet<span class="ot">&lt;-</span><span class="st">&quot;Matched non-vegetarian&quot;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>longpheno2<span class="sc">$</span>Diet[longpheno2<span class="sc">$</span>Veg5yr1<span class="sc">==</span><span class="dv">1</span>]<span class="ot">&lt;-</span><span class="st">&quot;Vegetarian&quot;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>longpheno2<span class="ot">=</span>longpheno2<span class="sc">%&gt;%</span><span class="fu">filter</span>(Diet<span class="sc">!=</span><span class="st">&quot;Vegetarian&quot;</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>bind<span class="ot">=</span><span class="fu">rbind</span>(longpheno, longpheno2)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>bind<span class="sc">$</span>Diet<span class="ot">&lt;-</span><span class="fu">factor</span>(bind<span class="sc">$</span>Diet, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Non-vegetarian&quot;</span>, <span class="st">&quot;Matched non-vegetarian&quot;</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>                  <span class="st">&quot;Vegetarian&quot;</span>))</span></code></pre></div>
+</div>
+<div id="full-cohort-boxplot" class="section level3">
+<h3>Full cohort boxplot</h3>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#png(&quot;boxplot.10042022.png&quot;,width = 13, height = 9, units = &#39;in&#39;, res = 600)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">=</span><span class="fu">ggplot</span>(bind, <span class="fu">aes</span>(<span class="at">x=</span>Diet, <span class="at">y=</span>value, <span class="at">color=</span>Diet))<span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> calc_stat, <span class="at">geom=</span><span class="st">&quot;boxplot&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable,<span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>,<span class="at">nrow =</span> <span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>          <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>))<span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                 <span class="at">shape=</span><span class="dv">18</span>, <span class="at">size=</span><span class="dv">1</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;black&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> fun_mean, </span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">geom=</span><span class="st">&quot;text&quot;</span>, <span class="at">vjust=</span><span class="sc">-</span><span class="fl">0.7</span>, <span class="at">size=</span><span class="fl">2.5</span>)<span class="sc">+</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#E0951F&quot;</span>, <span class="st">&quot;#2FA3F7&quot;</span>,<span class="st">&quot;#36E072&quot;</span>))<span class="sc">+</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;white&quot;</span>))</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>p1</span></code></pre></div>
+<pre><code>## Warning: Removed 469679 rows containing non-finite values (stat_summary).
+## Removed 469679 rows containing non-finite values (stat_summary).
+## Removed 469679 rows containing non-finite values (stat_summary).</code></pre>
+<p><img src="CompareRaw_files/figure-html/full-boxplot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div>
+</div>
+<div id="sex-stratified-boxplot" class="section level3">
+<h3>Sex-stratified boxplot</h3>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>MF<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">melt</span>(<span class="fu">setDT</span>(phenotypes), <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">&quot;Veg5yr1&quot;</span>, <span class="st">&quot;Sex&quot;</span>)))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>MF<span class="sc">$</span>Diet<span class="ot">&lt;-</span><span class="st">&quot;Non-vegetarian&quot;</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>MF<span class="sc">$</span>Diet[MF<span class="sc">$</span>Veg5yr1<span class="sc">==</span><span class="dv">1</span>]<span class="ot">&lt;-</span><span class="st">&quot;Vegetarian&quot;</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>MF2<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(<span class="fu">melt</span>(<span class="fu">setDT</span>(md1<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="fu">all_of</span>(<span class="fu">sort</span>(phe2)), Veg5yr1, Sex)), <span class="at">id.vars =</span> <span class="fu">c</span>(<span class="st">&quot;Veg5yr1&quot;</span>,<span class="st">&quot;Sex&quot;</span>)))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>MF2<span class="sc">$</span>variable<span class="ot">=</span><span class="fu">gsub</span>(MF2<span class="sc">$</span>variable, <span class="at">pattern =</span> <span class="st">&quot;_&quot;</span>, <span class="at">replacement =</span> <span class="st">&quot; &quot;</span>)</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>MF2<span class="sc">$</span>Diet<span class="ot">&lt;-</span><span class="st">&quot;Matched non-vegetarian&quot;</span></span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>MF2<span class="sc">$</span>Diet[MF2<span class="sc">$</span>Veg5yr1<span class="sc">==</span><span class="dv">1</span>]<span class="ot">&lt;-</span><span class="st">&quot;Vegetarian&quot;</span></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>MF2<span class="ot">=</span>MF2<span class="sc">%&gt;%</span><span class="fu">filter</span>(Diet<span class="sc">!=</span><span class="st">&quot;Vegetarian&quot;</span>)</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>bindMF<span class="ot">=</span><span class="fu">rbind</span>(MF, MF2)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>bindMF<span class="sc">$</span>Diet<span class="ot">&lt;-</span><span class="fu">factor</span>(bind<span class="sc">$</span>Diet, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Non-vegetarian&quot;</span>, <span class="st">&quot;Matched non-vegetarian&quot;</span>,</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">&quot;Vegetarian&quot;</span>))</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>bindMF<span class="sc">$</span>Sex<span class="ot">=</span><span class="fu">mapvalues</span>(bindMF<span class="sc">$</span>Sex, <span class="at">from=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>), <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>,<span class="st">&quot;Female&quot;</span>))</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>bindMF<span class="sc">$</span>Sex<span class="ot">=</span><span class="fu">factor</span>(bindMF<span class="sc">$</span>Sex, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Male&quot;</span>, <span class="st">&quot;Female&quot;</span>))</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a><span class="co">#png(&quot;boxplot.MF.10042022.png&quot;,width = 13, height = 9, units = &#39;in&#39;, res = 600)</span></span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">=</span><span class="fu">ggplot</span>(bindMF, <span class="fu">aes</span>(<span class="at">x=</span>Diet, <span class="at">y=</span>value, <span class="at">fill=</span>Sex, <span class="at">color=</span>Diet))<span class="sc">+</span></span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> calc_stat, <span class="at">geom=</span><span class="st">&quot;boxplot&quot;</span>, </span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="fl">0.7</span>), <span class="at">width=</span><span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>variable,<span class="at">scales =</span> <span class="st">&quot;free_y&quot;</span>,<span class="at">nrow =</span> <span class="dv">6</span>)<span class="sc">+</span></span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>,</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>),</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>          <span class="at">strip.text.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">7</span>))<span class="sc">+</span></span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">stat_summary</span>(<span class="at">fun=</span>mean, <span class="at">geom=</span><span class="st">&quot;point&quot;</span>, </span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>                 <span class="at">shape=</span><span class="dv">18</span>, <span class="at">size=</span><span class="dv">1</span>, </span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a>                 <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(<span class="at">Diet =</span> <span class="fu">interaction</span>(Diet,Sex)),</span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="fl">0.7</span>), <span class="at">width=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#E0951F&quot;</span>, <span class="st">&quot;#2FA3F7&quot;</span>,<span class="st">&quot;#36E072&quot;</span>))<span class="sc">+</span></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;#E6F4FF&quot;</span>, <span class="st">&quot;#FFF2FE&quot;</span>))</span></code></pre></div>
+<pre><code>## Warning: Ignoring unknown parameters: width</code></pre>
+<pre><code>## Warning: Ignoring unknown aesthetics: Diet</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p2</span></code></pre></div>
+<pre><code>## Warning: Removed 469679 rows containing non-finite values (stat_summary).</code></pre>
+<pre><code>## Warning: Removed 469679 rows containing non-finite values (stat_summary).</code></pre>
+<p><img src="CompareRaw_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co">#dev.off()</span></span></code></pre></div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

@@ -14,7 +14,7 @@
 
 <title>Gene-vegetarianism interactions</title>
 
-<script src="site_libs/header-attrs-2.16/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.16.2/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
@@ -31,8 +31,7 @@
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.13.0/js/script.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -266,8 +265,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -275,16 +274,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -344,133 +336,180 @@ $(document).ready(function () {
     Home
   </a>
 </li>
-<li>
-  <a href="DefineVeg.html">
-    <span class="fa fa-solid fa-seedling"></span>
-     
-    Define Vegetarians
-  </a>
-</li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    <span class="fa fa-solid fa-clipboard-check"></span>
+    <span class="fa fa-solid fa-seedling"></span>
      
-    Pheno/geno prep
+    Full analysis code
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Phenotype</li>
     <li>
-      <a href="UKB_participantQC.html">
-        <span class="fa fa-solid fa-user"></span>
+      <a href="DefineVeg.html">
+        <span class="fa fa-solid fa-seedling"></span>
          
-        Participant QC
+        1a. Define Vegetarians
       </a>
     </li>
-    <li>
-      <a href="pheno.html">
-        <span class="fa fa-solid fa-syringe"></span>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-clipboard-check"></span>
          
-        Prepare phenotype table
+        1b. Phenotype prep
       </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="UKB_participantQC.html">
+            <span class="fa fa-solid fa-user"></span>
+             
+            Participant QC
+          </a>
+        </li>
+        <li>
+          <a href="pheno.html">
+            <span class="fa fa-solid fa-syringe"></span>
+             
+            Prepare phenotype table
+          </a>
+        </li>
+        <li>
+          <a href="skim-phenotype.html">
+            <span class="fa fa-solid fa-list"></span>
+             
+            Pheno skim
+          </a>
+        </li>
+        <li>
+          <a href="facetpheno.html">
+            <span class="fa fa-solid fa-square"></span>
+             
+            Compare raw pheno
+          </a>
+        </li>
+      </ul>
     </li>
-    <li>
-      <a href="skim-phenotype.html">
-        <span class="fa fa-solid fa-list"></span>
-         
-        Pheno skim
-      </a>
-    </li>
-    <li class="dropdown-header">Genotype</li>
     <li>
       <a href="genoQC.html">
         <span class="fa fa-solid fa-filter"></span>
          
-        QC genotype bgen files
+        1c. Genotype prep
       </a>
     </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-users"></span>
+         
+        2. Matching + Veg. Effect
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MatchEffect.html">
+            <span class="fa fa-solid fa-users"></span>
+             
+            2. Matching + Veg. Effect
+          </a>
+        </li>
+        <li>
+          <a href="CompareRaw.html">
+            <span class="fa fa-regular fa-square"></span>
+             
+            Compare raw phenotype values
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        3. Vegetarianism GWAS
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="GWAS.html">GWAS in regenie</a>
+        </li>
+        <li>
+          <a href="plotGWAS.html">Plot GWAS results</a>
+        </li>
+        <li>
+          <a href="skim-gwas.html">SKIM GWAS sumstats</a>
+        </li>
+        <li>
+          <a href="prepGWASsumstats.html">Prep GWAS sumstats</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-bolt"></span>
+         
+        4. Gene x Vegetarianism GWIS
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="GWIS.html">GWIS in GEM</a>
+        </li>
+        <li>
+          <a href="plotGWIS.html">Plot GWIS results</a>
+        </li>
+        <li>
+          <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
+        </li>
+        <li>
+          <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
+        </li>
+        <li>
+          <a href="hudson.html">Make interactive Manhattan plots</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-regular fa-folder"></span>
+         
+        Extra scripts
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="medcodesextra.html">Medication code lists and extra formulas</a>
+        </li>
+        <li>
+          <a href="maxunrelated.html">Max unrelated script</a>
+        </li>
+      </ul>
+    </li>
   </ul>
-</li>
-<li>
-  <a href="MatchEffect.html">
-    <span class="fa fa-solid fa-users"></span>
-     
-    Matching + exposure analysis
-  </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <span class="fa fa-solid fa-dna"></span>
      
-    Vegetarianism GWAS
+    Interactive Manhattan Plots
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="GWAS.html">GWAS in regenie</a>
+      <a href="GxEplots.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWIS (variant level)
+      </a>
     </li>
     <li>
-      <a href="plotGWAS.html">Plot GWAS results</a>
+      <a href="GxEplots.gene.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWIS (gene level)
+      </a>
     </li>
     <li>
-      <a href="skim-gwas.html">SKIM GWAS sumstats</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    <span class="fa fa-solid fa-bolt"></span>
-     
-    Gene x Vegetarianism GWIS
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="GWIS.html">GWIS in GEM</a>
-    </li>
-    <li>
-      <a href="plotGWIS.html">Plot GWIS results</a>
-    </li>
-    <li>
-      <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
-    </li>
-    <li>
-      <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    <span class="fa fa-solid fa-pen"></span>
-     
-    Plots
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="GxEplots.html">Gene x Vegetarianism plots</a>
-    </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    <span class="fa fa-regular fa-folder"></span>
-     
-    Extra
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li class="dropdown-header">Extra scripts</li>
-    <li>
-      <a href="medcodesextra.html">Medication code lists and extra formulas</a>
-    </li>
-    <li>
-      <a href="maxunrelated.html">Max unrelated script</a>
+      <a href="GWASplot.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWAS
+      </a>
     </li>
   </ul>
 </li>
@@ -488,79 +527,27 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Gene-vegetarianism interactions</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-09-19 11:43:14</h4>
+<h4 class="date">2022-10-05 17:52:05</h4>
 
 </div>
 
 
 <p><img src="images/Picture1v-01.png" /></p>
-<p>Here, you will find the code used in my current manuscript, working
-title: “Vegetarianism gene-diet interactions”</p>
-<p>The current version of the RMD site is for Ye lab internal teaching
-purposes only as it has not been completely scrubbed of UKB private
-data.</p>
-<p>What is the reason to use R Markdown?</p>
-<ul>
-<li>Capture code, text, and output in a single document</li>
-<li>Makes workflow more easily reproducible</li>
-<li>Literate programming : code with natural language interspersed</li>
-</ul>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="dv">2</span><span class="sc">+</span><span class="dv">2</span></span></code></pre></div>
-<pre><code>## [1] 4</code></pre>
-<ul>
-<li>Ye lab UK Biobank files are found here:</li>
-</ul>
-<blockquote>
-<p>/project/kylab/lab_shared/UKB</p>
-</blockquote>
-<ul>
-<li><p>Icons from <a href="fontawesome.com">fontawesome.com</a> are
-integrated for use in navbar.</p></li>
-<li><p>Parallelizing rendering was achieved with the following code
-using the foreach package. Note that more detailed error messages are
-provided when using non-parallelized Rmd knitting.</p>
-<ul>
-<li>Ref: <a
-href="https://www.mattroumaya.com/post/using-foreach-to-speed-up-parameterized-rmarkdown-reports/"
-class="uri">https://www.mattroumaya.com/post/using-foreach-to-speed-up-parameterized-rmarkdown-reports/</a></li>
-</ul></li>
-</ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(foreach)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(doParallel)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>n_cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>cluster <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(n_cores<span class="dv">-1</span>) </span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(cluster)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">i=</span><span class="dv">1</span>, <span class="at">.combine =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%dopar%</span></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        rmarkdown<span class="sc">::</span><span class="fu">render</span>(<span class="st">&quot;DefineVeg.Rmd&quot;</span>,</span>
-<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">output_format=</span><span class="st">&quot;html_document&quot;</span>,</span>
-<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">envir =</span> <span class="fu">new.env</span>(), </span>
-<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">run_pandoc =</span> <span class="cn">TRUE</span>) </span>
-<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cluster)</span>
-<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span>
-<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#Or do the whole site:</span></span>
-<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span>
-<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>n_cores <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">detectCores</span>()</span>
-<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>cluster <span class="ot">&lt;-</span> parallel<span class="sc">::</span><span class="fu">makeCluster</span>(n_cores<span class="dv">-1</span>)     </span>
-<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>doParallel<span class="sc">::</span><span class="fu">registerDoParallel</span>(cluster)</span>
-<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="fu">foreach</span>(<span class="at">i=</span><span class="dv">1</span>, <span class="at">.combine =</span> <span class="st">&#39;c&#39;</span>) <span class="sc">%dopar%</span></span>
-<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    rmarkdown<span class="sc">::</span><span class="fu">render_site</span>(<span class="at">output_format=</span><span class="st">&quot;html_document&quot;</span>,</span>
-<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>                      <span class="at">envir =</span> <span class="fu">new.env</span>()) </span>
-<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="fu">stopCluster</span>(cluster)</span>
-<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="fu">Sys.time</span>()</span></code></pre></div>
+<p>Here, you will find the code used in the manuscript,
+“<strong>Gene-vegetarianism interactions detected in genome-wide
+analyses across 30 serum biomarkers</strong>”</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(downloadthis)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download_link</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> <span class="st">&quot;https://github.com/michaelofrancis/VegetarianGDI/blob/main/GenexVegetarian-MAGMA-sumstats.zip?raw=true&quot;</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_label =</span> <span class="st">&quot;Download GWIS interaction gene-level sumstats (MAGMA)&quot;</span>,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_type =</span> <span class="st">&quot;primary&quot;</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">has_icon =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">icon =</span> <span class="st">&quot;fa fa-save&quot;</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">self_contained =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<a href="https://github.com/michaelofrancis/VegetarianGDI/blob/main/GenexVegetarian-MAGMA-sumstats.zip?raw=true">
+<button class="btn btn-primary"><i class="fa fa-save"></i> Download GWIS interaction gene-level sumstats (MAGMA)</button>
+</a>
 
 
 
