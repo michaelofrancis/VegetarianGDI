@@ -498,26 +498,12 @@ div.tocify {
         </li>
       </ul>
     </li>
-    <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <li>
+      <a href="GWAS.html">
         <span class="fa fa-solid fa-dna"></span>
          
         3. Vegetarianism GWAS
       </a>
-      <ul class="dropdown-menu" role="menu">
-        <li>
-          <a href="GWAS.html">GWAS in regenie</a>
-        </li>
-        <li>
-          <a href="plotGWAS.html">Plot GWAS results</a>
-        </li>
-        <li>
-          <a href="skim-gwas.html">SKIM GWAS sumstats</a>
-        </li>
-        <li>
-          <a href="prepGWASsumstats.html">Prep GWAS sumstats</a>
-        </li>
-      </ul>
     </li>
     <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -530,13 +516,7 @@ div.tocify {
           <a href="GWIS.html">GWIS in GEM</a>
         </li>
         <li>
-          <a href="plotGWIS.html">Plot GWIS results</a>
-        </li>
-        <li>
-          <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
-        </li>
-        <li>
-          <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
+          <a href="hudson.html">Make interactive Manhattan plots</a>
         </li>
       </ul>
     </li>
@@ -603,7 +583,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Phenotype QC</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-10-04 23:12:10</h4>
+<h4 class="date">2022-10-05 22:10:11</h4>
 
 </div>
 
@@ -2298,37 +2278,323 @@ class="section level3">
 <span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span><span class="fu">left_join</span>(pheno, pheno2, <span class="at">by=</span><span class="st">&quot;IID&quot;</span>)</span>
 <span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>new<span class="ot">&lt;-</span><span class="fu">as_tibble</span>(new)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(new);<span class="fu">dim</span>(new)</span></code></pre></div>
-<pre><code>##  [1] &quot;IID&quot;                          &quot;Age&quot;                         
-##  [3] &quot;Sex&quot;                          &quot;Townsend&quot;                    
-##  [5] &quot;Assessment_center&quot;            &quot;Geno_batch&quot;                  
-##  [7] &quot;AlcoholFreq&quot;                  &quot;Alanine_aminotransferase&quot;    
-##  [9] &quot;Albumin&quot;                      &quot;Alkaline_phosphatase&quot;        
-## [11] &quot;Apolipoprotein_A&quot;             &quot;Apolipoprotein_B&quot;            
-## [13] &quot;Aspartate_aminotransferase&quot;   &quot;C-reactive_protein&quot;          
-## [15] &quot;Calcium&quot;                      &quot;Cholesterol&quot;                 
-## [17] &quot;Creatinine&quot;                   &quot;Cystatin_C&quot;                  
-## [19] &quot;Direct_bilirubin&quot;             &quot;Gamma_glutamyltransferase&quot;   
-## [21] &quot;Glucose&quot;                      &quot;Glycated_haemoglobin_(HbA1c)&quot;
-## [23] &quot;HDL_cholesterol&quot;              &quot;IGF-1&quot;                       
-## [25] &quot;LDL_direct&quot;                   &quot;Lipoprotein_A&quot;               
-## [27] &quot;Oestradiol&quot;                   &quot;Phosphate&quot;                   
-## [29] &quot;Rheumatoid_factor&quot;            &quot;SHBG&quot;                        
-## [31] &quot;Testosterone&quot;                 &quot;Total_bilirubin&quot;             
-## [33] &quot;Total_protein&quot;                &quot;Triglycerides&quot;               
-## [35] &quot;Urate&quot;                        &quot;Urea&quot;                        
-## [37] &quot;Vitamin_D&quot;                    &quot;PCA1&quot;                        
-## [39] &quot;PCA2&quot;                         &quot;PCA3&quot;                        
-## [41] &quot;PCA4&quot;                         &quot;PCA5&quot;                        
-## [43] &quot;PCA6&quot;                         &quot;PCA7&quot;                        
-## [45] &quot;PCA8&quot;                         &quot;PCA9&quot;                        
-## [47] &quot;PCA10&quot;                        &quot;PCA11&quot;                       
-## [49] &quot;PCA12&quot;                        &quot;PCA13&quot;                       
-## [51] &quot;PCA14&quot;                        &quot;PCA15&quot;                       
-## [53] &quot;PCA16&quot;                        &quot;PCA17&quot;                       
-## [55] &quot;PCA18&quot;                        &quot;PCA19&quot;                       
-## [57] &quot;PCA20&quot;                        &quot;BMI&quot;                         
-## [59] &quot;SmokeStatus&quot;                  &quot;blood_draw_time&quot;</code></pre>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(new)<span class="sc">%&gt;%</span> <span class="fu">kbl</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;600px&quot;</span>, <span class="at">height =</span> <span class="st">&quot;200px&quot;</span>)</span></code></pre></div>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:600px; ">
+<table>
+<thead>
+<tr>
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
+x
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+IID
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Age
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Sex
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Townsend
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Assessment_center
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Geno_batch
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+AlcoholFreq
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alanine_aminotransferase
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Albumin
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Alkaline_phosphatase
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Apolipoprotein_A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Apolipoprotein_B
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Aspartate_aminotransferase
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+C-reactive_protein
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Calcium
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cholesterol
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Creatinine
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Cystatin_C
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Direct_bilirubin
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Gamma_glutamyltransferase
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glucose
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Glycated_haemoglobin_(HbA1c)
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+HDL_cholesterol
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+IGF-1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+LDL_direct
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Lipoprotein_A
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Oestradiol
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Phosphate
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rheumatoid_factor
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SHBG
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Testosterone
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total_bilirubin
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Total_protein
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Triglycerides
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urate
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Urea
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Vitamin_D
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA1
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA2
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA3
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA4
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA5
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA6
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA7
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA8
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA9
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA10
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA11
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA12
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA13
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA14
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA15
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA16
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA17
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA18
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA19
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+PCA20
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+BMI
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+SmokeStatus
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+blood_draw_time
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(new)</span></code></pre></div>
 <pre><code>## [1] 502527     60</code></pre>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Fix hyphenated column names</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(new)[<span class="fu">colnames</span>(new) <span class="sc">%in%</span> </span>
@@ -2678,11 +2944,14 @@ id="fnref2"><sup>2</sup></a></h3>
 class="section level4">
 <h4>Make RINT transformed columns, add back to original table</h4>
 <div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>phenotypes<span class="ot">=</span>new<span class="sc">%&gt;%</span><span class="fu">select</span>(Alanine_aminotransferase<span class="sc">:</span>Vitamin_D, eGFR,bioavailableTest, freeTest)</span>
-<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">colnames</span>(phenotypes)<span class="sc">%&gt;%</span><span class="fu">kbl</span>()</span></code></pre></div>
+<span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">colnames</span>(phenotypes)<span class="sc">%&gt;%</span><span class="fu">kbl</span>()<span class="sc">%&gt;%</span> </span>
+<span id="cb59-3"><a href="#cb59-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scroll_box</span>(<span class="at">width =</span> <span class="st">&quot;600px&quot;</span>, <span class="at">height =</span> <span class="st">&quot;200px&quot;</span>)</span></code></pre></div>
+<div
+style="border: 1px solid #ddd; padding: 0px; overflow-y: scroll; height:200px; overflow-x: scroll; width:600px; ">
 <table>
 <thead>
 <tr>
-<th style="text-align:left;">
+<th style="text-align:left;position: sticky; top:0; background-color: #FFFFFF;">
 x
 </th>
 </tr>
@@ -2855,6 +3124,7 @@ freeTest
 </tr>
 </tbody>
 </table>
+</div>
 <div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>rint<span class="ot">=</span><span class="fu">as_tibble</span>(<span class="fu">sapply</span>(phenotypes, inversenormal))</span>
 <span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(rint)<span class="ot">=</span><span class="fu">paste</span>(<span class="fu">colnames</span>(rint), <span class="st">&quot;rint&quot;</span>, <span class="at">sep=</span><span class="st">&quot;_&quot;</span>)</span>
 <span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a>rint<span class="sc">$</span>IID<span class="ot">&lt;-</span>new<span class="sc">$</span>IID</span>

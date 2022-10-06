@@ -498,26 +498,12 @@ div.tocify {
         </li>
       </ul>
     </li>
-    <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <li>
+      <a href="GWAS.html">
         <span class="fa fa-solid fa-dna"></span>
          
         3. Vegetarianism GWAS
       </a>
-      <ul class="dropdown-menu" role="menu">
-        <li>
-          <a href="GWAS.html">GWAS in regenie</a>
-        </li>
-        <li>
-          <a href="plotGWAS.html">Plot GWAS results</a>
-        </li>
-        <li>
-          <a href="skim-gwas.html">SKIM GWAS sumstats</a>
-        </li>
-        <li>
-          <a href="prepGWASsumstats.html">Prep GWAS sumstats</a>
-        </li>
-      </ul>
     </li>
     <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -530,13 +516,7 @@ div.tocify {
           <a href="GWIS.html">GWIS in GEM</a>
         </li>
         <li>
-          <a href="plotGWIS.html">Plot GWIS results</a>
-        </li>
-        <li>
-          <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
-        </li>
-        <li>
-          <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
+          <a href="hudson.html">Make interactive Manhattan plots</a>
         </li>
       </ul>
     </li>
@@ -603,7 +583,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Define Vegetarians</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-10-04 22:38:52</h4>
+<h4 class="date">2022-10-05 21:33:11</h4>
 
 </div>
 
@@ -611,7 +591,6 @@ div.tocify {
 <div id="defining-high-quality-vegetarians-for-use-in-this-analysis"
 class="section level1">
 <h1>Defining “high quality” vegetarians for use in this analysis</h1>
-<p>-----9/20/2022 NEEDS UPDATE FROM DefineVeg.R***</p>
 <div id="purpose-of-this-script" class="section level3">
 <h3>Purpose of this script:</h3>
 <ul>
@@ -655,7 +634,7 @@ instances])</p>
 <div id="load-packages-special-functions" class="section level4">
 <h4>Load packages + special functions</h4>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(silent <span class="ot">&lt;-</span> <span class="fu">lapply</span>(</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;plyr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;vroom&quot;</span>, <span class="st">&quot;knitr&quot;</span>,<span class="st">&quot;kableExtra&quot;</span>), </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;plyr&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>, <span class="st">&quot;data.table&quot;</span>, <span class="st">&quot;vroom&quot;</span>, <span class="st">&quot;knitr&quot;</span>,<span class="st">&quot;kableExtra&quot;</span>,<span class="st">&quot;cowplot&quot;</span>), </span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    library, <span class="at">character.only=</span>T))</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>table <span class="ot">=</span> <span class="cf">function</span> (..., <span class="at">useNA =</span> <span class="st">&#39;always&#39;</span>) base<span class="sc">::</span><span class="fu">table</span>(..., <span class="at">useNA =</span> useNA)</span>
@@ -802,12 +781,14 @@ NA
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>timestaken, <span class="fu">aes</span>(<span class="at">x=</span>times_taken_24HR, <span class="at">y=</span>N)) <span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p1<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>timestaken, <span class="fu">aes</span>(<span class="at">x=</span>times_taken_24HR, <span class="at">y=</span>N)) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>, <span class="at">fill =</span><span class="st">&quot;#8C8C8C&quot;</span>)<span class="sc">+</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Number of participants&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Number of times taken 24 hour recall&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Number of 24 hour recall surveys taken&quot;</span>)<span class="sc">+</span></span>
 <span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">&quot;N = &quot;</span>, <span class="fu">sum</span>(timestaken<span class="sc">$</span>N[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>]), <span class="at">sep=</span><span class="st">&quot;&quot;</span>))<span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>p1</span></code></pre></div>
 <pre><code>## Warning: Removed 1 rows containing missing values (position_stack).</code></pre>
 <p><img src="DefineVeg_files/figure-html/plot-1.png" width="672" /></p>
 </div>
@@ -1015,16 +996,16 @@ it “manually”.</p>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">$</span>RecallTP<span class="ot">=</span>i</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    y<span class="ot">=</span><span class="fu">rbind</span>(y,x)</span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;RecallTP0&#39;. You
-## can override using the `.groups` argument.
-## `summarise()` has grouped output by &#39;RecallTP1&#39;. You
-## can override using the `.groups` argument.
-## `summarise()` has grouped output by &#39;RecallTP2&#39;. You
-## can override using the `.groups` argument.
-## `summarise()` has grouped output by &#39;RecallTP3&#39;. You
-## can override using the `.groups` argument.
-## `summarise()` has grouped output by &#39;RecallTP4&#39;. You
-## can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;RecallTP0&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP1&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP2&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP3&#39;. You can override using the
+## `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP4&#39;. You can override using the
+## `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>y<span class="sc">$</span>group<span class="ot">=</span><span class="fu">mapvalues</span>(y<span class="sc">$</span>group, <span class="at">from=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), </span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;First time taking&quot;</span>,</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;Second time taking&quot;</span>,</span>
@@ -1036,14 +1017,18 @@ it “manually”.</p>
 <span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>               <span class="at">levels =</span><span class="fu">rev</span>(<span class="fu">unique</span>(y<span class="sc">$</span>group)))</span>
 <span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>y, <span class="fu">aes</span>(<span class="at">x=</span>RecallTP, <span class="at">y=</span>count, <span class="at">fill=</span>group)) <span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>p2<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>y, <span class="fu">aes</span>(<span class="at">x=</span>RecallTP, <span class="at">y=</span>count, <span class="at">fill=</span>group, <span class="at">color=</span>group)) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>, <span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
 <span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Count participants&quot;</span>)<span class="sc">+</span></span>
 <span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Instance of 24 hour recall&quot;</span>)<span class="sc">+</span></span>
 <span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>))<span class="sc">+</span></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale_fill_brewer</span>(<span class="at">palette=</span><span class="st">&quot;Spectral&quot;</span>)</span></code></pre></div>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill =</span> <span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>           <span class="at">color=</span><span class="fu">guide_legend</span>(<span class="at">reverse =</span> <span class="cn">TRUE</span>))<span class="sc">+</span></span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme</span>(<span class="at">legend.title=</span><span class="fu">element_blank</span>())<span class="sc">+</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>     <span class="fu">scale_fill_brewer</span>(<span class="at">palette=</span><span class="st">&quot;Spectral&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_colour_manual</span>(<span class="at">guide=</span><span class="st">&quot;none&quot;</span>, <span class="at">values=</span><span class="fu">c</span>(<span class="fu">rep</span>(<span class="st">&quot;NA&quot;</span>, <span class="dv">4</span>), <span class="st">&quot;black&quot;</span>))</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>p2</span></code></pre></div>
 <p><img src="DefineVeg_files/figure-html/rep-take-3-1.png" width="672" /></p>
 </div>
 <div
@@ -1506,17 +1491,21 @@ PercentVeg
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>times.res, <span class="fu">aes</span>(<span class="at">x=</span>Times24HR,</span>
-<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y=</span>PercentVeg))<span class="sc">+</span></span>
-<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>, <span class="at">fill =</span><span class="st">&quot;#36E072&quot;</span>)<span class="sc">+</span></span>
-<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">&quot;N=&quot;</span>, nveg,<span class="st">&quot;participants who indicated</span></span>
-<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a><span class="st">being vegetarian/vegan at least once on</span></span>
-<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a><span class="st">a 24HR dietary assessment&quot;</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>))<span class="sc">+</span></span>
-<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Times a participant took a 24HR survey</span></span>
-<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="st">between April 2009 and June 2012&quot;</span>)<span class="sc">+</span></span>
-<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Vegetarian/vegan consistently</span></span>
-<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a><span class="st">across all surveys (%)&quot;</span>)<span class="sc">+</span></span>
-<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>greens<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;#36E072&quot;</span>, <span class="st">&quot;#2EC062&quot;</span>, <span class="st">&quot;#27A152&quot;</span>, <span class="st">&quot;#1F8141&quot;</span>, <span class="st">&quot;#176131&quot;</span>)</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>p3<span class="ot">=</span><span class="fu">ggplot</span>(<span class="at">data=</span>times.res, <span class="fu">aes</span>(<span class="at">x=</span>Times24HR,</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>                           <span class="at">y=</span>PercentVeg, <span class="at">fill=</span>Times24HR))<span class="sc">+</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>    <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>, <span class="at">width=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb45-6"><a href="#cb45-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="fu">paste</span>(<span class="st">&quot;N=&quot;</span>, nveg,<span class="st">&quot;participants who indicated</span></span>
+<span id="cb45-7"><a href="#cb45-7" aria-hidden="true" tabindex="-1"></a><span class="st">being vegetarian/vegan at least once on</span></span>
+<span id="cb45-8"><a href="#cb45-8" aria-hidden="true" tabindex="-1"></a><span class="st">a 24HR dietary assessment&quot;</span>, <span class="at">sep=</span><span class="st">&quot; &quot;</span>))<span class="sc">+</span></span>
+<span id="cb45-9"><a href="#cb45-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Number of 24 hour recall surveys taken&quot;</span>)<span class="sc">+</span></span>
+<span id="cb45-10"><a href="#cb45-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Vegetarian/vegan consistently</span></span>
+<span id="cb45-11"><a href="#cb45-11" aria-hidden="true" tabindex="-1"></a><span class="st">across all surveys (%)&quot;</span>)<span class="sc">+</span></span>
+<span id="cb45-12"><a href="#cb45-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">theme_bw</span>()<span class="sc">+</span></span>
+<span id="cb45-13"><a href="#cb45-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">scale_fill_manual</span>(<span class="at">values=</span>greens, <span class="at">guide=</span><span class="st">&quot;none&quot;</span>)</span>
+<span id="cb45-14"><a href="#cb45-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-15"><a href="#cb45-15" aria-hidden="true" tabindex="-1"></a>p3</span></code></pre></div>
 <p><img src="DefineVeg_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 </div>
 <div
@@ -2419,9 +2408,8 @@ study</h3>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>dq<span class="sc">$</span>nextMeatFish24[dq<span class="sc">$</span>nextMeat24<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> dq<span class="sc">$</span>nextFish24<span class="sc">==</span><span class="dv">1</span>]<span class="ot">=</span><span class="dv">1</span></span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>dq1<span class="ot">=</span><span class="fu">as.data.frame</span>(dq<span class="sc">%&gt;%</span><span class="fu">group_by</span>(nextSpecialVeg, nextMeatFish24,IAveg, DietChanges5yr)<span class="sc">%&gt;%</span><span class="fu">summarize</span>(<span class="fu">n</span>()))</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;nextSpecialVeg&#39;,
-## &#39;nextMeatFish24&#39;, &#39;IAveg&#39;. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;nextSpecialVeg&#39;, &#39;nextMeatFish24&#39;, &#39;IAveg&#39;.
+## You can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">$</span>nextSpecialVeg<span class="ot">=</span><span class="fu">mapvalues</span>(dq1<span class="sc">$</span>nextSpecialVeg, <span class="at">from=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>))</span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">$</span>IAveg<span class="ot">=</span><span class="fu">mapvalues</span>(dq1<span class="sc">$</span>IAveg, <span class="at">from=</span><span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;FALSE&quot;</span>),</span>

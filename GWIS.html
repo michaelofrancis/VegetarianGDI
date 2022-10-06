@@ -11,7 +11,7 @@
 
 <meta name="author" content="Mike Francis" />
 
-<meta name="date" content="2022-10-04" />
+<meta name="date" content="2022-10-05" />
 
 <title>GWIS</title>
 
@@ -421,26 +421,12 @@ $(document).ready(function () {
         </li>
       </ul>
     </li>
-    <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <li>
+      <a href="GWAS.html">
         <span class="fa fa-solid fa-dna"></span>
          
         3. Vegetarianism GWAS
       </a>
-      <ul class="dropdown-menu" role="menu">
-        <li>
-          <a href="GWAS.html">GWAS in regenie</a>
-        </li>
-        <li>
-          <a href="plotGWAS.html">Plot GWAS results</a>
-        </li>
-        <li>
-          <a href="skim-gwas.html">SKIM GWAS sumstats</a>
-        </li>
-        <li>
-          <a href="prepGWASsumstats.html">Prep GWAS sumstats</a>
-        </li>
-      </ul>
     </li>
     <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -453,13 +439,7 @@ $(document).ready(function () {
           <a href="GWIS.html">GWIS in GEM</a>
         </li>
         <li>
-          <a href="plotGWIS.html">Plot GWIS results</a>
-        </li>
-        <li>
-          <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
-        </li>
-        <li>
-          <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
+          <a href="hudson.html">Make interactive Manhattan plots</a>
         </li>
       </ul>
     </li>
@@ -526,7 +506,7 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">GWIS</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-10-04</h4>
+<h4 class="date">2022-10-05</h4>
 
 </div>
 
@@ -551,27 +531,27 @@ runtime from 2+ days to ~1 hour.</p>
 heteroskedasticity.</p>
 <div class="sourceCode" id="cb1"><pre
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> /work/kylab/mike/BioxVeg/GEM3</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Script that makes scripts for each phenotype to run indiv by chromosome.</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">phenotypes</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;bioavailableTest_rint&quot;</span> <span class="st">&quot;freeTest_rint&quot;</span> <span class="st">&quot;logSHBG&quot;</span> <span class="st">&quot;SHBG_rint&quot;</span> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Testosterone_rint&quot;</span> <span class="st">&quot;Vitamin_D_rint&quot;</span> <span class="st">&quot;Cholesterol_rint&quot;</span> </span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Alanine_aminotransferase_rint&quot;</span> <span class="st">&quot;Albumin_rint&quot;</span> <span class="st">&quot;Alkaline_phosphatase_rint&quot;</span> </span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Apolipoprotein_A_rint&quot;</span> <span class="st">&quot;Apolipoprotein_B_rint&quot;</span> <span class="st">&quot;Aspartate_aminotransferase_rint&quot;</span> </span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Calcium_rint&quot;</span>  <span class="st">&quot;Creatinine_rint&quot;</span> <span class="st">&quot;Cystatin_C_rint&quot;</span> </span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Direct_bilirubin_rint&quot;</span> <span class="st">&quot;Gamma_glutamyltransferase_rint&quot;</span> </span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;HbA1c_rint&quot;</span> <span class="st">&quot;HDL_cholesterol_rint&quot;</span> <span class="st">&quot;LDL_direct_rint&quot;</span> </span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Lipoprotein_A_rint&quot;</span> <span class="st">&quot;Phosphate_rint&quot;</span> </span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Total_bilirubin_rint&quot;</span> <span class="st">&quot;Total_protein_rint&quot;</span> </span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Triglycerides_rint&quot;</span> <span class="st">&quot;Urate_rint&quot;</span> <span class="st">&quot;Urea_rint&quot;</span>  <span class="st">&quot;eGFR_rint&quot;</span><span class="va">)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="va">phenotypes</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;Alanine_aminotransferase_rint&quot;</span> <span class="st">&quot;Albumin_rint&quot;</span> <span class="st">&quot;Alkaline_phosphatase_rint&quot;</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Apolipoprotein_A_rint&quot;</span> <span class="st">&quot;Apolipoprotein_B_rint&quot;</span> <span class="st">&quot;Aspartate_aminotransferase_rint&quot;</span> </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;C_reactive_protein_rint&quot;</span> <span class="st">&quot;Calcium_rint&quot;</span> <span class="st">&quot;Cholesterol_rint&quot;</span> <span class="st">&quot;Creatinine_rint&quot;</span> </span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Cystatin_C_rint&quot;</span> <span class="st">&quot;Direct_bilirubin_rint&quot;</span> <span class="st">&quot;Gamma_glutamyltransferase_rint&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Glucose_rint&quot;</span> <span class="st">&quot;HbA1c_rint&quot;</span> <span class="st">&quot;HDL_cholesterol_rint&quot;</span> <span class="st">&quot;IGF_1_rint&quot;</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;LDL_direct_rint&quot;</span> <span class="st">&quot;Lipoprotein_A_rint&quot;</span> <span class="st">&quot;Oestradiol_rint&quot;</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Phosphate_rint&quot;</span> <span class="st">&quot;Rheumatoid_factor_rint&quot;</span> <span class="st">&quot;SHBG_rint&quot;</span> <span class="st">&quot;Testosterone_rint&quot;</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Total_bilirubin_rint&quot;</span> <span class="st">&quot;Total_protein_rint&quot;</span> <span class="st">&quot;Triglycerides_rint&quot;</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;Urate_rint&quot;</span> <span class="st">&quot;Urea_rint&quot;</span> <span class="st">&quot;Vitamin_D_rint&quot;</span> <span class="st">&quot;eGFR_rint&quot;</span> </span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;bioavailableTest_rint&quot;</span> <span class="st">&quot;freeTest_rint&quot;</span><span class="va">)</span></span>
 <span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="va">genoindir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/LipidsxVeg/genotypeQC/GEM2&quot;</span><span class="va">)</span></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="va">outdir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/gem3&quot;</span><span class="va">)</span></span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="va">pheno</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/pheno/GEM-PLINK-INTERACTION.csv&quot;</span><span class="va">)</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="va">genoindir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/genotypeQC/GEM2&quot;</span><span class="va">)</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="va">outdir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/gem5&quot;</span><span class="va">)</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="va">pheno</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/pheno/09112022/BioxVeg_pheno_09112022.csv&quot;</span><span class="va">)</span></span>
 <span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> j <span class="kw">in</span> <span class="va">${phenotypes</span><span class="op">[@]</span><span class="va">}</span> </span>
 <span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">do</span></span>
 <span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> /work/kylab/mike/BioxVeg/GEM3/byPheno/<span class="va">$j</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> /work/kylab/mike/BioxVeg/GEM5/byPheno/<span class="va">$j</span></span>
 <span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="bu">echo</span> <span class="st">&quot;#!/bin/bash</span></span>
@@ -588,7 +568,7 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="
 <span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="st">i=</span><span class="dt">\$</span><span class="st">SLURM_ARRAY_TASK_ID</span></span>
 <span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="st">cd /work/kylab/mike/BioxVeg/GEM3/byPheno/</span><span class="va">$j</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="st">cd /work/kylab/mike/BioxVeg/GEM5/byPheno/</span><span class="va">$j</span></span>
 <span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="st">ml GEM/1.4.3-intel-2020b</span></span>
 <span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
@@ -611,10 +591,10 @@ class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="
 <span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="st">--output-style meta </span><span class="dt">\</span></span>
 <span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="st">--out </span><span class="va">$outdir</span><span class="st">/</span><span class="va">$j</span><span class="st">/chr</span><span class="dt">\$</span><span class="st">i</span></span>
 <span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span> <span class="op">&gt;</span> /work/kylab/mike/BioxVeg/GEM3/byPheno/<span class="va">$j</span>/GEM3-<span class="va">$j</span>.sh</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a><span class="st">&quot;</span> <span class="op">&gt;</span> /work/kylab/mike/BioxVeg/GEM5/byPheno/<span class="va">$j</span>/GEM5-<span class="va">$j</span>.sh</span>
 <span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a><span class="co">#Uncomment to run all those scripts</span></span>
-<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> /work/kylab/mike/BioxVeg/GEM3/byPheno/<span class="va">$j</span>/GEM3-<span class="va">$j</span>.sh</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="ex">sbatch</span> /work/kylab/mike/BioxVeg/GEM5/byPheno/<span class="va">$j</span>/GEM5-<span class="va">$j</span>.sh</span>
 <span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="co">#end pheno loop</span></span></code></pre></div>

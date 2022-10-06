@@ -44,103 +44,6 @@
 
 
 
-<style type="text/css">
-  code {
-    white-space: pre;
-  }
-  .sourceCode {
-    overflow: visible;
-  }
-</style>
-<style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
-code span.al { color: #ff0000; } /* Alert */
-code span.an { color: #008000; } /* Annotation */
-code span.at { } /* Attribute */
-code span.bu { } /* BuiltIn */
-code span.cf { color: #0000ff; } /* ControlFlow */
-code span.ch { color: #008080; } /* Char */
-code span.cn { } /* Constant */
-code span.co { color: #008000; } /* Comment */
-code span.cv { color: #008000; } /* CommentVar */
-code span.do { color: #008000; } /* Documentation */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.im { } /* Import */
-code span.in { color: #008000; } /* Information */
-code span.kw { color: #0000ff; } /* Keyword */
-code span.op { } /* Operator */
-code span.ot { color: #ff4000; } /* Other */
-code span.pp { color: #ff4000; } /* Preprocessor */
-code span.sc { color: #008080; } /* SpecialChar */
-code span.ss { color: #008080; } /* SpecialString */
-code span.st { color: #008080; } /* String */
-code span.va { } /* Variable */
-code span.vs { color: #008080; } /* VerbatimString */
-code span.wa { color: #008000; font-weight: bold; } /* Warning */
-
-</style>
-<script>
-// apply pandoc div.sourceCode style to pre.sourceCode instead
-(function() {
-  var sheets = document.styleSheets;
-  for (var i = 0; i < sheets.length; i++) {
-    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
-    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    var j = 0;
-    while (j < rules.length) {
-      var rule = rules[j];
-      // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
-        j++;
-        continue;
-      }
-      var style = rule.style.cssText;
-      // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') {
-        j++;
-        continue;
-      }
-      // replace div.sourceCode by a pre.sourceCode rule
-      sheets[i].deleteRule(j);
-      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
-    }
-  }
-})();
-</script>
 
 
 
@@ -419,26 +322,12 @@ $(document).ready(function () {
         </li>
       </ul>
     </li>
-    <li class="dropdown-submenu">
-      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <li>
+      <a href="GWAS.html">
         <span class="fa fa-solid fa-dna"></span>
          
         3. Vegetarianism GWAS
       </a>
-      <ul class="dropdown-menu" role="menu">
-        <li>
-          <a href="GWAS.html">GWAS in regenie</a>
-        </li>
-        <li>
-          <a href="plotGWAS.html">Plot GWAS results</a>
-        </li>
-        <li>
-          <a href="skim-gwas.html">SKIM GWAS sumstats</a>
-        </li>
-        <li>
-          <a href="prepGWASsumstats.html">Prep GWAS sumstats</a>
-        </li>
-      </ul>
     </li>
     <li class="dropdown-submenu">
       <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -449,15 +338,6 @@ $(document).ready(function () {
       <ul class="dropdown-menu" role="menu">
         <li>
           <a href="GWIS.html">GWIS in GEM</a>
-        </li>
-        <li>
-          <a href="plotGWIS.html">Plot GWIS results</a>
-        </li>
-        <li>
-          <a href="GWIS_summary.html">SKIM GWIS sumstats</a>
-        </li>
-        <li>
-          <a href="prepGWISsumstats.html">Prep GWIS sumstats</a>
         </li>
         <li>
           <a href="hudson.html">Make interactive Manhattan plots</a>
@@ -527,27 +407,68 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Gene-vegetarianism interactions</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-10-05 17:52:05</h4>
+<h4 class="date">2022-10-05 22:08:24</h4>
 
 </div>
 
 
-<p><img src="images/Picture1v-01.png" /></p>
-<p>Here, you will find the code used in the manuscript,
+<div id="section" class="section level3">
+<h3><img src="images/paste-C5ECBF03.png" /></h3>
+</div>
+<div
+id="here-you-will-find-the-code-used-in-the-manuscript-gene-vegetarianism-interactions-detected-in-genome-wide-analyses-across-30-serum-biomarkers"
+class="section level3">
+<h3>Here, you will find the code used in the manuscript,
 “<strong>Gene-vegetarianism interactions detected in genome-wide
-analyses across 30 serum biomarkers</strong>”</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(downloadthis)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">download_link</span>(</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">link =</span> <span class="st">&quot;https://github.com/michaelofrancis/VegetarianGDI/blob/main/GenexVegetarian-MAGMA-sumstats.zip?raw=true&quot;</span>,</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_label =</span> <span class="st">&quot;Download GWIS interaction gene-level sumstats (MAGMA)&quot;</span>,</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">button_type =</span> <span class="st">&quot;primary&quot;</span>,</span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">has_icon =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">icon =</span> <span class="st">&quot;fa fa-save&quot;</span>,</span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">self_contained =</span> <span class="cn">FALSE</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+analyses across 30 serum biomarkers</strong>”</h3>
+</div>
+<div
+id="our-goal-in-this-website-was-to-make-this-study-as-transparent-and-helpful-as-possible."
+class="section level3">
+<h3>Our goal in this website was to make this study as transparent and
+helpful as possible.<br/></h3>
+</div>
+<div id="please-feel-free-to-use-our-code-and-cite-our-paper"
+class="section level3">
+<h3>Please feel free to use our code and cite our
+paper!<br/><br/><br/></h3>
+</div>
+<div id="site-highlights" class="section level2">
+<h2>Site highlights:</h2>
+<ul>
+<li><p><a
+href="https://michaelofrancis.github.io/VegetarianGDI/DefineVeg.html"><strong>Defining
+vegetarians</strong></a></p></li>
+<li><p><a
+href="https://michaelofrancis.github.io/VegetarianGDI/MatchEffect.html"><strong>Matching
+and effects analysis</strong></a></p></li>
+<li><p><a
+href="https://michaelofrancis.github.io/VegetarianGDI/GxEplots.html"><strong>Interactive
+Manhattan plots</strong></a></p></li>
+</ul>
+<p><br/><br/><br/></p>
+<div id="summary-statistics" class="section level3">
+<h3>Summary statistics</h3>
+<div id="gwas-and-gwis-summary-statistics-are-hosted-by-gwas-catalog."
+class="section level4">
+<h4>GWAS and GWIS summary statistics are hosted by GWAS Catalog.</h4>
+</div>
+<div id="put-link-to-those-here-when-it-becomes-available"
+class="section level4">
+<h4>[put link to those here when it becomes available]</h4>
+<p><br/></p>
+</div>
+<div id="download-interaction-gene-level-summary-statistics"
+class="section level4">
+<h4>Download interaction gene-level summary statistics: <br/></h4>
 <a href="https://github.com/michaelofrancis/VegetarianGDI/blob/main/GenexVegetarian-MAGMA-sumstats.zip?raw=true">
 <button class="btn btn-primary"><i class="fa fa-save"></i> Download GWIS interaction gene-level sumstats (MAGMA)</button>
 </a>
+<p><br/><br/><br/> Questions? Contact Michael Francis at
+michaelfrancisphd@protonmail.com</p>
+</div>
+</div>
+</div>
 
 
 

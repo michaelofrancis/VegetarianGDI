@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Mike Francis" />
+
+
+<title>Use Hudson package to make interactive Manhattan plots</title>
+
+<script src="site_libs/header-attrs-2.16.2/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } /* Alert */
+code span.an { color: #008000; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #0000ff; } /* ControlFlow */
+code span.ch { color: #008080; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #008000; } /* Comment */
+code span.cv { color: #008000; } /* CommentVar */
+code span.do { color: #008000; } /* Documentation */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.im { } /* Import */
+code span.in { color: #008000; } /* Information */
+code span.kw { color: #0000ff; } /* Keyword */
+code span.op { } /* Operator */
+code span.ot { color: #ff4000; } /* Other */
+code span.pp { color: #ff4000; } /* Preprocessor */
+code span.sc { color: #008080; } /* SpecialChar */
+code span.ss { color: #008080; } /* SpecialString */
+code span.st { color: #008080; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #008080; } /* VerbatimString */
+code span.wa { color: #008000; font-weight: bold; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Gene-vegetarianism interactions</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">
+    <span class="fa fa-home"></span>
+     
+    Home
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-seedling"></span>
+     
+    Full analysis code
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="DefineVeg.html">
+        <span class="fa fa-solid fa-seedling"></span>
+         
+        1a. Define Vegetarians
+      </a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-clipboard-check"></span>
+         
+        1b. Phenotype prep
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="UKB_participantQC.html">
+            <span class="fa fa-solid fa-user"></span>
+             
+            Participant QC
+          </a>
+        </li>
+        <li>
+          <a href="pheno.html">
+            <span class="fa fa-solid fa-syringe"></span>
+             
+            Prepare phenotype table
+          </a>
+        </li>
+        <li>
+          <a href="skim-phenotype.html">
+            <span class="fa fa-solid fa-list"></span>
+             
+            Pheno skim
+          </a>
+        </li>
+        <li>
+          <a href="facetpheno.html">
+            <span class="fa fa-solid fa-square"></span>
+             
+            Compare raw pheno
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="genoQC.html">
+        <span class="fa fa-solid fa-filter"></span>
+         
+        1c. Genotype prep
+      </a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-users"></span>
+         
+        2. Matching + Veg. Effect
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="MatchEffect.html">
+            <span class="fa fa-solid fa-users"></span>
+             
+            2. Matching + Veg. Effect
+          </a>
+        </li>
+        <li>
+          <a href="CompareRaw.html">
+            <span class="fa fa-regular fa-square"></span>
+             
+            Compare raw phenotype values
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li>
+      <a href="GWAS.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        3. Vegetarianism GWAS
+      </a>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-solid fa-bolt"></span>
+         
+        4. Gene x Vegetarianism GWIS
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="GWIS.html">GWIS in GEM</a>
+        </li>
+        <li>
+          <a href="hudson.html">Make interactive Manhattan plots</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <span class="fa fa-regular fa-folder"></span>
+         
+        Extra scripts
+      </a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="medcodesextra.html">Medication code lists and extra formulas</a>
+        </li>
+        <li>
+          <a href="maxunrelated.html">Max unrelated script</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <span class="fa fa-solid fa-dna"></span>
+     
+    Interactive Manhattan Plots
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="GxEplots.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWIS (variant level)
+      </a>
+    </li>
+    <li>
+      <a href="GxEplots.gene.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWIS (gene level)
+      </a>
+    </li>
+    <li>
+      <a href="GWASplot.html">
+        <span class="fa fa-solid fa-dna"></span>
+         
+        GWAS
+      </a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Use Hudson package to make interactive
+Manhattan plots</h1>
+<h4 class="author">Mike Francis</h4>
+<h4 class="date">2022-10-05 22:08:23</h4>
+
+</div>
+
+
+<div id="load-packages-functions" class="section level3">
+<h3>Load packages + functions</h3>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(silent <span class="ot">&lt;-</span> <span class="fu">lapply</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="fu">c</span>(<span class="st">&quot;biomaRt&quot;</span>, <span class="st">&quot;tidyverse&quot;</span>,<span class="st">&quot;vroom&quot;</span>, <span class="st">&quot;ggrastr&quot;</span>, <span class="st">&quot;hudson&quot;</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    library, <span class="at">character.only=</span>T))</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>table <span class="ot">=</span> <span class="cf">function</span> (..., <span class="at">useNA =</span> <span class="st">&#39;always&#39;</span>) base<span class="sc">::</span><span class="fu">table</span>(..., <span class="at">useNA =</span> useNA)</span></code></pre></div>
+</div>
+<div id="interactive-gwas" class="section level3">
+<h3>Interactive GWAS</h3>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>p<span class="ot">=</span><span class="st">&quot;Veg5yr1&quot;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>dir<span class="ot">=</span><span class="st">&quot;/Users/mike/Documents/Research/Vegetarian/regenie-GWAS/sumstats-raw/noBMI/&quot;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>outdir<span class="ot">=</span><span class="st">&quot;Interactive.GWAS&quot;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>chr<span class="ot">=</span><span class="fu">list</span>()</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">22</span>){</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    chr[[c]]<span class="ot">=</span><span class="fu">vroom</span>(<span class="fu">paste</span>(</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        dir, <span class="st">&quot;/Veg5yr1_GWAS_chr&quot;</span>,c,<span class="st">&quot;_&quot;</span>,p,<span class="st">&quot;.regenie&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>,<span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>file<span class="ot">=</span><span class="fu">do.call</span>(rbind,chr)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>dirbmi<span class="ot">=</span><span class="st">&quot;/Users/mike/Documents/Research/Vegetarian/regenie-GWAS/sumstats-raw/adjBMI&quot;</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>bmi<span class="ot">=</span><span class="fu">list</span>()</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (c <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">22</span>){</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    bmi[[c]]<span class="ot">=</span><span class="fu">vroom</span>(<span class="fu">paste</span>(</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        dirbmi, <span class="st">&quot;/Veg5yr1_GWAS_chr&quot;</span>,c,<span class="st">&quot;_&quot;</span>,p,<span class="st">&quot;.regenie&quot;</span>, <span class="at">sep=</span><span class="st">&quot;&quot;</span>), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>,<span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>filebmi<span class="ot">=</span><span class="fu">do.call</span>(rbind,bmi)</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="co"># interactive GWAS</span></span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>file<span class="sc">$</span>P<span class="ot">=</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span>file<span class="sc">$</span>LOG10P)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>file<span class="ot">=</span>file<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="sc">-</span>LOG10P)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(file)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;CHR&quot;</span>, <span class="st">&quot;POS&quot;</span>, <span class="st">&quot;SNP&quot;</span>, </span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;ALLELE0&quot;</span>,<span class="st">&quot;ALLELE1&quot;</span>,<span class="st">&quot;A1FREQ&quot;</span>,<span class="st">&quot;INFO&quot;</span> ,<span class="st">&quot;N&quot;</span>,</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;TEST&quot;</span>,<span class="st">&quot;BETA&quot;</span>,<span class="st">&quot;SE&quot;</span>,<span class="st">&quot;CHISQ&quot;</span>,<span class="st">&quot;EXTRA&quot;</span>,<span class="st">&quot;pvalue&quot;</span>)</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>file<span class="sc">$</span>Link<span class="ot">=</span><span class="fu">ifelse</span>(file<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">5e-05</span>,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>                        <span class="fu">paste0</span>(<span class="st">&quot;https://www.ncbi.nlm.nih.gov/snp/&quot;</span>, </span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>                        file<span class="sc">$</span>SNP),</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>                        <span class="cn">NA</span>)</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>file<span class="sc">$</span>Hover<span class="ot">=</span> <span class="fu">ifelse</span>(file<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">5e-05</span>,</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">paste0</span>(<span class="st">&quot;SNP: &quot;</span>, file<span class="sc">$</span>SNP,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;</span><span class="sc">\n</span><span class="st">POS: &quot;</span>, file<span class="sc">$</span>CHR, <span class="st">&quot;:&quot;</span>, file<span class="sc">$</span>POS,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Allele: &quot;</span>, file<span class="sc">$</span>ALLELE1, </span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;</span><span class="sc">\n</span><span class="st">p-value: &quot;</span>, <span class="fu">formatC</span>(file<span class="sc">$</span>pvalue, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Beta (SE): &quot;</span>, <span class="fu">paste</span>(<span class="fu">signif</span>(filebmi<span class="sc">$</span>BETA, <span class="at">digits =</span> <span class="dv">4</span>), <span class="st">&quot;(&quot;</span>, <span class="fu">signif</span>(filebmi<span class="sc">$</span>SE, <span class="at">digits =</span> <span class="dv">4</span>),<span class="st">&quot;)&quot;</span>),</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>                   <span class="st">&quot;</span><span class="sc">\n</span><span class="st">N: &quot;</span>, file<span class="sc">$</span>N),</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>                   <span class="cn">NA</span>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>filebmi<span class="sc">$</span>P<span class="ot">=</span><span class="dv">10</span><span class="sc">^</span>(<span class="sc">-</span>filebmi<span class="sc">$</span>LOG10P)</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>filebmi<span class="ot">=</span>filebmi<span class="sc">%&gt;%</span><span class="fu">select</span>(<span class="sc">-</span>LOG10P)</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(filebmi)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;CHR&quot;</span>, <span class="st">&quot;POS&quot;</span>, <span class="st">&quot;SNP&quot;</span>, </span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;ALLELE0&quot;</span>,<span class="st">&quot;ALLELE1&quot;</span>,<span class="st">&quot;A1FREQ&quot;</span>,<span class="st">&quot;INFO&quot;</span> ,<span class="st">&quot;N&quot;</span>,</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;TEST&quot;</span>,<span class="st">&quot;BETA&quot;</span>,<span class="st">&quot;SE&quot;</span>,<span class="st">&quot;CHISQ&quot;</span>,<span class="st">&quot;EXTRA&quot;</span>,<span class="st">&quot;pvalue&quot;</span>)</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>filebmi<span class="sc">$</span>Link<span class="ot">=</span><span class="fu">ifelse</span>(filebmi<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">5e-05</span>,</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">paste0</span>(<span class="st">&quot;https://www.ncbi.nlm.nih.gov/snp/&quot;</span>, </span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>                        filebmi<span class="sc">$</span>SNP),</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>                 <span class="cn">NA</span>)</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>filebmi<span class="sc">$</span>Hover<span class="ot">=</span> <span class="fu">ifelse</span>(filebmi<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">5e-05</span>,</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">paste0</span>(<span class="st">&quot;SNP: &quot;</span>, filebmi<span class="sc">$</span>SNP,</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">POS: &quot;</span>, filebmi<span class="sc">$</span>CHR, <span class="st">&quot;:&quot;</span>, filebmi<span class="sc">$</span>POS,</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Allele: &quot;</span>, filebmi<span class="sc">$</span>ALLELE1, </span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">p-value: &quot;</span>, <span class="fu">formatC</span>(filebmi<span class="sc">$</span>pvalue, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Beta (SE): &quot;</span>, <span class="fu">paste</span>(<span class="fu">signif</span>(filebmi<span class="sc">$</span>BETA, <span class="at">digits =</span> <span class="dv">4</span>), <span class="st">&quot;(&quot;</span>, <span class="fu">signif</span>(filebmi<span class="sc">$</span>SE, <span class="at">digits =</span> <span class="dv">4</span>),<span class="st">&quot;)&quot;</span>),</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">N: &quot;</span>, filebmi<span class="sc">$</span>N),</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>                   <span class="cn">NA</span>)</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a><span class="fu">igmirror</span>(<span class="at">top=</span>file, <span class="at">bottom=</span>filebmi,</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>         <span class="at">tline=</span><span class="fl">5e-08</span>,</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>         <span class="at">bline=</span><span class="fl">5e-08</span>,</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>         <span class="at">toptitle=</span><span class="st">&quot;GWAS of Vegetarianism (no BMI in model)&quot;</span>,</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>         <span class="at">bottomtitle =</span> <span class="st">&quot;GWAS of Vegetarianism (BMI adjusted)&quot;</span>,</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>         <span class="at">highlight_p =</span> <span class="fu">c</span>(<span class="fl">5e-05</span>, <span class="fl">5e-05</span>),</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>         <span class="at">highlighter=</span><span class="st">&quot;green&quot;</span>,</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>         <span class="at">file=</span><span class="fu">paste0</span>(outdir, <span class="st">&quot;/PlotVegGWAS.html&quot;</span>)</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="interactive-gwis-variant-level" class="section level3">
+<h3>Interactive GWIS (variant-level)</h3>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>pheno1<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Alanine_aminotransferase_rint&quot;</span>, <span class="st">&quot;Albumin_rint&quot;</span>, <span class="st">&quot;Alkaline_phosphatase_rint&quot;</span>,</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Apolipoprotein_A_rint&quot;</span>, <span class="st">&quot;Apolipoprotein_B_rint&quot;</span>, <span class="st">&quot;Aspartate_aminotransferase_rint&quot;</span> ,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;C_reactive_protein_rint&quot;</span>, <span class="st">&quot;Calcium_rint&quot;</span>, <span class="st">&quot;Cholesterol_rint&quot;</span>, <span class="st">&quot;Creatinine_rint&quot;</span> ,</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Cystatin_C_rint&quot;</span>, <span class="st">&quot;Direct_bilirubin_rint&quot;</span>, <span class="st">&quot;Gamma_glutamyltransferase_rint&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;HbA1c_rint&quot;</span>, <span class="st">&quot;HDL_cholesterol_rint&quot;</span>, <span class="st">&quot;IGF_1_rint&quot;</span> ,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;LDL_direct_rint&quot;</span>, <span class="st">&quot;Lipoprotein_A_rint&quot;</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Phosphate_rint&quot;</span>, <span class="st">&quot;SHBG_rint&quot;</span>, <span class="st">&quot;Testosterone_rint&quot;</span> ,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Total_bilirubin_rint&quot;</span>, <span class="st">&quot;Total_protein_rint&quot;</span>, <span class="st">&quot;Triglycerides_rint&quot;</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;Urate_rint&quot;</span>, <span class="st">&quot;Urea_rint&quot;</span>, <span class="st">&quot;Vitamin_D_rint&quot;</span>, <span class="st">&quot;eGFR_rint&quot;</span> ,</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        <span class="st">&quot;bioavailableTest_rint&quot;</span>, <span class="st">&quot;freeTest_rint&quot;</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>phenob<span class="ot">=</span><span class="fu">paste0</span>(pheno, <span class="st">&quot;.adjBMI.1df.tsv&quot;</span>)</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>pheno<span class="ot">=</span><span class="fu">paste0</span>(pheno1, <span class="st">&quot;.1df.tsv&quot;</span>)</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>phenotypenames<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Alanine aminotransferase&quot;</span>, <span class="st">&quot;Albumin&quot;</span>, <span class="st">&quot;Alkaline phosphatase&quot;</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Apolipoprotein A&quot;</span>, <span class="st">&quot;Apolipoprotein B&quot;</span>, <span class="st">&quot;Aspartate aminotransferase&quot;</span> ,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;C-reactive protein&quot;</span>, <span class="st">&quot;Calcium&quot;</span>, <span class="st">&quot;Cholesterol&quot;</span>, <span class="st">&quot;Creatinine&quot;</span> ,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Cystatin C&quot;</span>, <span class="st">&quot;Direct bilirubin&quot;</span>, <span class="st">&quot;Gamma glutamyltransferase&quot;</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;HbA1c&quot;</span>, <span class="st">&quot;HDL cholesterol&quot;</span>, <span class="st">&quot;IGF 1&quot;</span> ,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;LDL direct&quot;</span>, <span class="st">&quot;Lipoprotein A&quot;</span>,</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Phosphate&quot;</span>, <span class="st">&quot;SHBG&quot;</span>, <span class="st">&quot;Total testosterone&quot;</span> ,</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Total bilirubin&quot;</span>, <span class="st">&quot;Total protein&quot;</span>, <span class="st">&quot;Triglycerides&quot;</span>,</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Urate&quot;</span>, <span class="st">&quot;Urea&quot;</span>, <span class="st">&quot;Vitamin D&quot;</span>, <span class="st">&quot;eGFR&quot;</span> ,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>                 <span class="st">&quot;Bioavailable testosterone&quot;</span>, <span class="st">&quot;Free testosterone&quot;</span>)</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a>dir<span class="ot">=</span><span class="st">&quot;/Users/mike/Documents/Research/Vegetarian/GEM5/summary/noBMI/&quot;</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>dirbmi<span class="ot">=</span><span class="st">&quot;/Users/mike/Documents/Research/Vegetarian/GEM5/summary/adjBMI/&quot;</span></span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>outdir<span class="ot">=</span><span class="st">&quot;Interactive.GWIS.variant&quot;</span></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (p <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pheno)){</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>file<span class="ot">=</span><span class="fu">vroom</span>(<span class="fu">paste0</span>(dir, pheno[p]), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>,<span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>filebmi<span class="ot">=</span><span class="fu">vroom</span>(<span class="fu">paste0</span>(dirbmi, phenob[p]), <span class="at">show_col_types =</span> <span class="cn">FALSE</span>,<span class="at">progress =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>filebmi</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="co">#Set colnames to hudson format</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(file)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;SNP&quot;</span>, <span class="st">&quot;CHR&quot;</span>, <span class="st">&quot;POS&quot;</span>, </span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;ALLELE0&quot;</span>,<span class="st">&quot;ALLELE1&quot;</span>,<span class="st">&quot;N&quot;</span>,<span class="st">&quot;A1FREQ&quot;</span>,</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;N_nonveg&quot;</span>,<span class="st">&quot;effect_allele_frequency_nonveg&quot;</span>,<span class="st">&quot;N_veg&quot;</span>,</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;effect_allele_frequency_veg&quot;</span>, <span class="st">&quot;beta_marginal&quot;</span> ,                </span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;robust_SE_beta_marginal&quot;</span>, <span class="st">&quot;beta_mainG&quot;</span>, <span class="st">&quot;beta_interaction&quot;</span>,</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;robust_SE_beta_mainG&quot;</span>,<span class="st">&quot;robust_SE_beta_interaction&quot;</span>,</span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;robust_Cov_main_int&quot;</span>,<span class="st">&quot;robust_p_value_Marginal&quot;</span>, <span class="st">&quot;pvalue&quot;</span>  ,                     </span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;robust_p_value_joint&quot;</span>)</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(filebmi)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;SNP&quot;</span>, <span class="st">&quot;CHR&quot;</span>, <span class="st">&quot;POS&quot;</span>, </span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;ALLELE0&quot;</span>,<span class="st">&quot;ALLELE1&quot;</span>,<span class="st">&quot;N&quot;</span>,<span class="st">&quot;A1FREQ&quot;</span>,</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;N_nonveg&quot;</span>,<span class="st">&quot;effect_allele_frequency_nonveg&quot;</span>,<span class="st">&quot;N_veg&quot;</span>,</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;effect_allele_frequency_veg&quot;</span>, <span class="st">&quot;beta_marginal&quot;</span> ,                </span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;robust_SE_beta_marginal&quot;</span>, <span class="st">&quot;beta_mainG&quot;</span>, <span class="st">&quot;beta_interaction&quot;</span>,</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;robust_SE_beta_mainG&quot;</span>,<span class="st">&quot;robust_SE_beta_interaction&quot;</span>,</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;robust_Cov_main_int&quot;</span>,<span class="st">&quot;robust_p_value_Marginal&quot;</span>, <span class="st">&quot;pvalue&quot;</span>  ,                     </span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a>                    <span class="st">&quot;robust_p_value_joint&quot;</span>)</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Link col</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a>file<span class="sc">$</span>Link<span class="ot">=</span><span class="fu">ifelse</span>(file<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">5e-05</span>,</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">paste0</span>(<span class="st">&quot;https://www.ncbi.nlm.nih.gov/snp/&quot;</span>, </span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a>                           file<span class="sc">$</span>SNP),</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a>                    <span class="cn">NA</span>)</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a>filebmi<span class="sc">$</span>Link<span class="ot">=</span><span class="fu">ifelse</span>(filebmi<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">5e-05</span>,</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">paste0</span>(<span class="st">&quot;https://www.ncbi.nlm.nih.gov/snp/&quot;</span>, </span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a>                           filebmi<span class="sc">$</span>SNP),</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a>                    <span class="cn">NA</span>)</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="co">#Add Hover col</span></span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a>file<span class="sc">$</span>Hover<span class="ot">=</span> <span class="fu">ifelse</span>(file<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">5e-05</span>,</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="fu">paste0</span>(<span class="st">&quot;rsID: &quot;</span>, file<span class="sc">$</span>SNP,</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">CHR:POS: &quot;</span>, file<span class="sc">$</span>CHR, <span class="st">&quot;:&quot;</span>, file<span class="sc">$</span>POS,</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">EA/NEA: &quot;</span>, <span class="fu">paste0</span>(file<span class="sc">$</span>ALLELE1, <span class="st">&quot;/&quot;</span>, file<span class="sc">$</span>ALLELE0),</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">EA freq: &quot;</span>, file<span class="sc">$</span>A1FREQ, </span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Beta (SE) Interaction : &quot;</span>, <span class="fu">paste0</span>(<span class="fu">signif</span>(file<span class="sc">$</span>beta_interaction, <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">&quot; (&quot;</span>, <span class="fu">signif</span>(file<span class="sc">$</span>robust_SE_beta_interaction, <span class="at">digits =</span> <span class="dv">3</span>),<span class="st">&quot;)&quot;</span>),</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P-value interaction: &quot;</span>, <span class="fu">formatC</span>(file<span class="sc">$</span>pvalue, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Beta (SE) Marginal : &quot;</span>, <span class="fu">paste0</span>(<span class="fu">signif</span>(file<span class="sc">$</span>beta_marginal, <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">&quot; (&quot;</span>, <span class="fu">signif</span>(file<span class="sc">$</span>robust_SE_beta_marginal, <span class="at">digits =</span> <span class="dv">3</span>),<span class="st">&quot;)&quot;</span>),</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P-value marginal: &quot;</span>, <span class="fu">formatC</span>(file<span class="sc">$</span>robust_p_value_Marginal, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a>       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">N: &quot;</span>, file<span class="sc">$</span>N),</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a>            <span class="cn">NA</span>)</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a>filebmi<span class="sc">$</span>Hover<span class="ot">=</span> <span class="fu">ifelse</span>(filebmi<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">5e-05</span>,</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a>                   <span class="fu">paste0</span>(<span class="st">&quot;rsID: &quot;</span>, filebmi<span class="sc">$</span>SNP,</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">CHR:POS: &quot;</span>, filebmi<span class="sc">$</span>CHR, <span class="st">&quot;:&quot;</span>, filebmi<span class="sc">$</span>POS,</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">EA/NEA: &quot;</span>, <span class="fu">paste0</span>(filebmi<span class="sc">$</span>ALLELE1, <span class="st">&quot;/&quot;</span>, filebmi<span class="sc">$</span>ALLELE0),</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">EA freq: &quot;</span>, filebmi<span class="sc">$</span>A1FREQ, </span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Beta (SE) Interaction : &quot;</span>, <span class="fu">paste0</span>(<span class="fu">signif</span>(filebmi<span class="sc">$</span>beta_interaction, <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">&quot; (&quot;</span>, <span class="fu">signif</span>(filebmi<span class="sc">$</span>robust_SE_beta_interaction, <span class="at">digits =</span> <span class="dv">3</span>),<span class="st">&quot;)&quot;</span>),</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P-value interaction: &quot;</span>, <span class="fu">formatC</span>(filebmi<span class="sc">$</span>pvalue, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Beta (SE) Marginal : &quot;</span>, <span class="fu">paste0</span>(<span class="fu">signif</span>(filebmi<span class="sc">$</span>beta_marginal, <span class="at">digits =</span> <span class="dv">3</span>), <span class="st">&quot; (&quot;</span>, <span class="fu">signif</span>(filebmi<span class="sc">$</span>robust_SE_beta_marginal, <span class="at">digits =</span> <span class="dv">3</span>),<span class="st">&quot;)&quot;</span>),</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P-value marginal: &quot;</span>, <span class="fu">formatC</span>(filebmi<span class="sc">$</span>robust_p_value_Marginal, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a>                          <span class="st">&quot;</span><span class="sc">\n</span><span class="st">N: &quot;</span>, filebmi<span class="sc">$</span>N),</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a>                   <span class="cn">NA</span>)</span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a><span class="co">#Run Hudson</span></span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a><span class="fu">igmirror</span>(<span class="at">top=</span>file, <span class="at">bottom=</span>filebmi,</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a>         <span class="at">tline=</span><span class="fl">5e-08</span>,</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a>         <span class="at">bline=</span><span class="fl">5e-08</span>,</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a>         <span class="at">toptitle=</span><span class="fu">paste</span>(phenotypenames[p], <span class="st">&quot;Interaction&quot;</span>),</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a>         <span class="at">bottomtitle =</span> <span class="fu">paste</span>(phenotypenames[p], <span class="st">&quot;Interaction (BMI-adjusted)&quot;</span>),</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a>         <span class="at">highlight_p =</span> <span class="fu">c</span>(<span class="fl">5e-05</span>, <span class="fl">5e-05</span>),</span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a>         <span class="at">highlighter=</span><span class="st">&quot;#36E072&quot;</span>,</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a>         <span class="at">file=</span><span class="fu">paste0</span>(outdir, <span class="st">&quot;/&quot;</span>,pheno1[p])</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a>         )</span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+<div id="interactive-gwis-gene-level" class="section level3">
+<h3>Interactive GWiS (gene-level)</h3>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dir<span class="ot">=</span><span class="st">&quot;/Users/mike/Documents/Research/Vegetarian/MAGMA5/sumstats/noBMI&quot;</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dirbmi<span class="ot">=</span><span class="st">&quot;/Users/mike/Documents/Research/Vegetarian/MAGMA5/sumstats/adjBMI&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>outdir<span class="ot">=</span><span class="st">&quot;Interactive.GWIS.gene&quot;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#Prep gene annotation file</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>geneloc<span class="ot">=</span><span class="fu">as_tibble</span>(<span class="fu">read.table</span>(<span class="fu">paste0</span>(dir, <span class="st">&quot;/NCBI37.3.gene.loc&quot;</span>)))</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(geneloc)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;GENE&quot;</span>,<span class="st">&quot;CHR&quot;</span>,<span class="st">&quot;START&quot;</span>,<span class="st">&quot;STOP&quot;</span>, <span class="st">&quot;STRAND&quot;</span>, <span class="st">&quot;GENE_NAME&quot;</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>geneloc<span class="ot">=</span>geneloc<span class="sc">%&gt;%</span><span class="fu">filter</span>(CHR<span class="sc">!=</span><span class="st">&quot;X&quot;</span> <span class="sc">&amp;</span> CHR<span class="sc">!=</span><span class="st">&quot;Y&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>geneloc<span class="sc">$</span>CHR<span class="ot">=</span><span class="fu">as.integer</span>(geneloc<span class="sc">$</span>CHR)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>geneloc<span class="ot">=</span>geneloc<span class="sc">%&gt;%</span><span class="fu">select</span>(GENE, GENE_NAME)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (p <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(pheno)){</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    file<span class="ot">=</span><span class="fu">read_table</span>(<span class="fu">paste0</span>(dir, <span class="st">&quot;/&quot;</span>,pheno1[p],<span class="st">&quot;/2.geneanalysis.genes.out&quot;</span>))</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>    filebmi<span class="ot">=</span><span class="fu">read_table</span>(<span class="fu">paste0</span>(dirbmi, <span class="st">&quot;/&quot;</span>,pheno1[p],<span class="st">&quot;/2.geneanalysis.genes.out&quot;</span>))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="co">#only use ID and name as start and stop will be different because of the +2kb and -1kb window added during analysis</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>    file<span class="ot">=</span><span class="fu">left_join</span>(file,geneloc)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    file<span class="ot">=</span>file<span class="sc">%&gt;%</span><span class="fu">select</span>(GENE_NAME, <span class="fu">everything</span>())</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>    filebmi<span class="ot">=</span><span class="fu">left_join</span>(filebmi,geneloc)</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    filebmi<span class="ot">=</span>filebmi<span class="sc">%&gt;%</span><span class="fu">select</span>(GENE_NAME, <span class="fu">everything</span>())</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Set colnames to hudson format</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colnames</span>(file)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;SNP&quot;</span>,<span class="st">&quot;GENE_ID_NUMBER&quot;</span>, <span class="st">&quot;CHR&quot;</span>, <span class="st">&quot;POS&quot;</span>, </span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;STOP&quot;</span>,<span class="st">&quot;NSNPS&quot;</span>,<span class="st">&quot;NPARAM&quot;</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;N&quot;</span>,<span class="st">&quot;ZSTAT&quot;</span>,<span class="st">&quot;pvalue&quot;</span>, </span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>                     <span class="st">&quot;P_SNPWISE_MEAN&quot;</span>, <span class="st">&quot;P_SNPWISE_TOP1&quot;</span>)</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">colnames</span>(filebmi)<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;SNP&quot;</span>,<span class="st">&quot;GENE_ID_NUMBER&quot;</span>, <span class="st">&quot;CHR&quot;</span>, <span class="st">&quot;POS&quot;</span>, </span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;STOP&quot;</span>,<span class="st">&quot;NSNPS&quot;</span>,<span class="st">&quot;NPARAM&quot;</span>,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;N&quot;</span>,<span class="st">&quot;ZSTAT&quot;</span>,<span class="st">&quot;pvalue&quot;</span>, </span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>                        <span class="st">&quot;P_SNPWISE_MEAN&quot;</span>, <span class="st">&quot;P_SNPWISE_TOP1&quot;</span>)</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Add Link col</span></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    file<span class="sc">$</span>Link<span class="ot">=</span><span class="fu">ifelse</span>(file<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">1e-3</span>,<span class="fu">paste0</span>(<span class="st">&quot;https://www.ncbi.nlm.nih.gov/gene/?term=&quot;</span>, file<span class="sc">$</span>SNP),<span class="cn">NA</span>)</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    filebmi<span class="sc">$</span>Link<span class="ot">=</span><span class="fu">ifelse</span>(file<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">1e-3</span>,<span class="fu">paste0</span>(<span class="st">&quot;https://www.ncbi.nlm.nih.gov/gene/?term=&quot;</span>, filebmi<span class="sc">$</span>SNP),<span class="cn">NA</span>)         </span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Add Hover col</span></span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    file<span class="sc">$</span>Hover<span class="ot">=</span> <span class="fu">ifelse</span>(file<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">1e-3</span>,<span class="fu">paste0</span>(<span class="st">&quot;Gene: &quot;</span>, file<span class="sc">$</span>SNP,</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Start-Stop: &quot;</span>, file<span class="sc">$</span>CHR, <span class="st">&quot;:&quot;</span>, file<span class="sc">$</span>POS, <span class="st">&quot;-&quot;</span>, file<span class="sc">$</span>STOP,</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;</span><span class="sc">\n</span><span class="st">NSNPS: &quot;</span>, file<span class="sc">$</span>NSNPS,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;</span><span class="sc">\n</span><span class="st">NPARAM: &quot;</span>, file<span class="sc">$</span>NPARAM, </span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P_MULTI: &quot;</span>, <span class="fu">formatC</span>(file<span class="sc">$</span>pvalue, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P_SNPWISE_MEAN: &quot;</span>, <span class="fu">formatC</span>(file<span class="sc">$</span>P_SNPWISE_MEAN, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P_SNPWISE_TOP1: &quot;</span>, <span class="fu">formatC</span>(file<span class="sc">$</span>P_SNPWISE_TOP1, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>                              <span class="st">&quot;</span><span class="sc">\n</span><span class="st">N: &quot;</span>, file<span class="sc">$</span>N), <span class="cn">NA</span>)</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    filebmi<span class="sc">$</span>Hover<span class="ot">=</span> <span class="fu">ifelse</span>(filebmi<span class="sc">$</span>pvalue<span class="sc">&lt;</span><span class="fl">1e-3</span>,<span class="fu">paste0</span>(<span class="st">&quot;Gene: &quot;</span>, filebmi<span class="sc">$</span>SNP,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">Start-Stop: &quot;</span>, filebmi<span class="sc">$</span>CHR, <span class="st">&quot;:&quot;</span>, filebmi<span class="sc">$</span>POS, <span class="st">&quot;-&quot;</span>, filebmi<span class="sc">$</span>STOP,</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">NSNPS: &quot;</span>, filebmi<span class="sc">$</span>NSNPS,</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">NPARAM: &quot;</span>, filebmi<span class="sc">$</span>NPARAM, </span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P_MULTI: &quot;</span>, <span class="fu">formatC</span>(filebmi<span class="sc">$</span>pvalue, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P_SNPWISE_MEAN: &quot;</span>, <span class="fu">formatC</span>(filebmi<span class="sc">$</span>P_SNPWISE_MEAN, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">P_SNPWISE_TOP1: &quot;</span>, <span class="fu">formatC</span>(filebmi<span class="sc">$</span>P_SNPWISE_TOP1, <span class="at">format =</span> <span class="st">&quot;e&quot;</span>, <span class="at">digits =</span> <span class="dv">3</span>),</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;</span><span class="sc">\n</span><span class="st">N: &quot;</span>, filebmi<span class="sc">$</span>N) , <span class="cn">NA</span>)</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>    <span class="co">#Run Hudson</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>    <span class="fu">igmirror</span>(<span class="at">top=</span>file, <span class="at">bottom=</span>filebmi,</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>             <span class="at">tline=</span><span class="fl">2.75e-06</span>,</span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>             <span class="at">bline=</span><span class="fl">2.75e-06</span>,</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>             <span class="at">toptitle=</span><span class="fu">paste</span>(phenotypenames[p], <span class="st">&quot;Interaction gene-level&quot;</span>),</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>             <span class="at">bottomtitle =</span> <span class="fu">paste</span>(phenotypenames[p], <span class="st">&quot;Interaction (BMI-adjusted) gene-level&quot;</span>),</span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>             <span class="at">highlight_p =</span> <span class="fu">c</span>(<span class="fl">1e-3</span>,<span class="fl">1e-3</span>),</span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>             <span class="at">highlighter=</span><span class="st">&quot;#2DEDDD&quot;</span>,</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>             <span class="at">file=</span><span class="fu">paste0</span>(outdir, <span class="st">&quot;/&quot;</span>, pheno1[p],<span class="st">&quot;.gene&quot;</span>)</span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

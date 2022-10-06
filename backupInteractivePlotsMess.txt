@@ -1,0 +1,699 @@
+---
+title: "Gene-vegetarianism interactionplots"
+author: "Mike Francis"
+date: "`r Sys.time()`"
+output:
+  html_document:
+    number_sections: no
+    toc: no
+    self_contained: true
+---
+
+```{r, include=FALSE}
+pheno=c("Alanine_aminotransferase_rint", "Albumin_rint", "Alkaline_phosphatase_rint",
+        "Apolipoprotein_A_rint", "Apolipoprotein_B_rint", "Aspartate_aminotransferase_rint" , "bioavailableTest_rint", 
+        "C_reactive_protein_rint", "Calcium_rint", "Cholesterol_rint", "Creatinine_rint" ,
+        "Cystatin_C_rint", "Direct_bilirubin_rint", "eGFR_rint","freeTest_rint", "Gamma_glutamyltransferase_rint",
+        "HbA1c_rint", "HDL_cholesterol_rint", "IGF_1_rint" ,
+        "LDL_direct_rint", "Lipoprotein_A_rint",
+        "Phosphate_rint", "SHBG_rint", "Testosterone_rint" ,
+        "Total_bilirubin_rint", "Total_protein_rint", "Triglycerides_rint",
+        "Urate_rint", "Urea_rint", "Vitamin_D_rint" 
+        )
+pheno=pheno=paste0(pheno, ".1df.tsv.html")
+```
+
+
+## Gene-vegetarianism interaction: interactive Manhattan plots
+
+#### Mouse hover over a point to see summary statistics for that SNP. Click on it to go to its dbSNP page.
+
+# The Tabset Section {.tabset .tabset-fade}
+
+## First Tab
+Here is the first tab's content.
+
+## Alanine aminotransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[1])
+```
+
+## Trait select {.tabset .tabset-dropdown}
+
+### Alanine aminotransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[1])
+```
+### Albumin
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[2])
+```
+
+### Alkaline phosphatase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[3])
+```
+
+### Apolipoprotein A
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[4])
+```
+
+### Apolipoprotein B
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[5])
+```
+
+### Aspartate aminotransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[6])
+```
+
+### Bioavailable testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[7])
+```
+
+### C-reactive protein
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[8])
+```
+
+### Calcium
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[9])
+```
+
+### Cholesterol
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[10])
+```
+
+### Creatinine
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[11])
+```
+
+### Cystatin C
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[12])
+```
+
+### Direct bilirubin
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[13])
+```
+
+### eGFR
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[14])
+```
+
+### Free testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[15])
+```
+
+### Gamma glutamyltransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[16])
+```
+
+### HbA1c
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[17])
+```
+
+### HDL cholesterol
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[18])
+```
+
+### IGF-1
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[19])
+```
+
+### LDL direct
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[20])
+```
+
+### Lipoprotein A
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[21])
+```
+
+### Phosphate
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[22])
+```
+
+### SHBG
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[23])
+```
+
+### Testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[24])
+```
+
+### Total bilirubin
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[25])
+```
+
+### Total protein
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[26])
+```
+
+### Triglycerides
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[27])
+```
+
+### Urate
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[28])
+```
+
+### Urea
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[29])
+```
+
+### Vitamin D
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[30])
+```
+
+
+
+
+
+
+
+
+
+
+
+# Trait select {.tabset .tabset-dropdown}
+
+## Alanine aminotransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[1])
+```
+
+## Albumin
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[2])
+```
+
+## Alkaline phosphatase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[3])
+```
+
+## Apolipoprotein A
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[4])
+```
+
+## Apolipoprotein B
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[5])
+```
+
+## Aspartate aminotransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[6])
+```
+
+## Bioavailable testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[7])
+```
+
+## C-reactive protein
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[8])
+```
+
+## Calcium
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[9])
+```
+
+## Cholesterol
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[10])
+```
+
+## Creatinine
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[11])
+```
+
+## Cystatin C
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[12])
+```
+
+## Direct bilirubin
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[13])
+```
+
+## eGFR
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[14])
+```
+
+## Free testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[15])
+```
+
+## Gamma glutamyltransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[16])
+```
+
+## HbA1c
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[17])
+```
+
+## HDL cholesterol
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[18])
+```
+
+## IGF-1
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[19])
+```
+
+## LDL direct
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[20])
+```
+
+## Lipoprotein A
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[21])
+```
+
+## Phosphate
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[22])
+```
+
+## SHBG
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[23])
+```
+
+## Testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[24])
+```
+
+## Total bilirubin
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[25])
+```
+
+## Total protein
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[26])
+```
+
+## Triglycerides
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[27])
+```
+
+## Urate
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[28])
+```
+
+## Urea
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[29])
+```
+
+## Vitamin D
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[30])
+```
+
+----------------------------------------------------------------------
+---
+title: "Gene-vegetarianism interactionplots"
+author: "Mike Francis"
+date: "`r Sys.time()`"
+output:
+  html_document:
+    number_sections: no
+    toc: no
+    self_contained: true
+---
+
+```{r, include=FALSE}
+pheno1=c("Alanine_aminotransferase_rint", "Albumin_rint", "Alkaline_phosphatase_rint",
+        "Apolipoprotein_A_rint", "Apolipoprotein_B_rint", "Aspartate_aminotransferase_rint" , "bioavailableTest_rint", 
+        "C_reactive_protein_rint", "Calcium_rint", "Cholesterol_rint", "Creatinine_rint" ,
+        "Cystatin_C_rint", "Direct_bilirubin_rint", "eGFR_rint","freeTest_rint", "Gamma_glutamyltransferase_rint",
+        "HbA1c_rint", "HDL_cholesterol_rint", "IGF_1_rint" ,
+        "LDL_direct_rint", "Lipoprotein_A_rint",
+        "Phosphate_rint", "SHBG_rint", "Testosterone_rint" ,
+        "Total_bilirubin_rint", "Total_protein_rint", "Triglycerides_rint",
+        "Urate_rint", "Urea_rint", "Vitamin_D_rint" 
+        )
+pheno=paste0(pheno1, ".1df.tsv.html")
+phenogene=paste0(pheno1, ".gene.html")
+
+```
+
+
+## Gene-vegetarianism interaction: interactive Manhattan plots
+
+#### Mouse hover over a point to see summary statistics for that SNP. Click on it to go to its dbSNP page.
+
+# The Tabset Section {.tabset .tabset-fade}
+
+## Variant-level GWIS results {.tabset .tabset-dropdown}
+
+### Alanine aminotransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[1])
+```
+### Albumin
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[2])
+```
+
+### Alkaline phosphatase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[3])
+```
+
+### Apolipoprotein A
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[4])
+```
+
+### Apolipoprotein B
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[5])
+```
+
+### Aspartate aminotransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[6])
+```
+
+### Bioavailable testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[7])
+```
+
+### C-reactive protein
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[8])
+```
+
+### Calcium
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[9])
+```
+
+### Cholesterol
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[10])
+```
+
+### Creatinine
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[11])
+```
+
+### Cystatin C
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[12])
+```
+
+### Direct bilirubin
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[13])
+```
+
+### eGFR
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[14])
+```
+
+### Free testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[15])
+```
+
+### Gamma glutamyltransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[16])
+```
+
+### HbA1c
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[17])
+```
+
+### HDL cholesterol
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[18])
+```
+
+### IGF-1
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[19])
+```
+
+### LDL direct
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[20])
+```
+
+### Lipoprotein A
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[21])
+```
+
+### Phosphate
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[22])
+```
+
+### SHBG
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[23])
+```
+
+### Testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[24])
+```
+
+### Total bilirubin
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[25])
+```
+
+### Total protein
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[26])
+```
+
+### Triglycerides
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[27])
+```
+
+### Urate
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[28])
+```
+
+### Urea
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[29])
+```
+
+### Vitamin D
+```{r, echo=FALSE}
+htmltools::includeHTML(pheno[30])
+```
+
+## Gene-level GWIS results {.tabset .tabset-dropdown}
+
+### Alanine aminotransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[1])
+```
+### Albumin
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[2])
+```
+
+### Alkaline phosphatase
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[3])
+```
+
+### Apolipoprotein A
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[4])
+```
+
+### Apolipoprotein B
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[5])
+```
+
+### Aspartate aminotransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[6])
+```
+
+### Bioavailable testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[7])
+```
+
+### C-reactive protein
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[8])
+```
+
+### Calcium
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[9])
+```
+
+### Cholesterol
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[10])
+```
+
+### Creatinine
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[11])
+```
+
+### Cystatin C
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[12])
+```
+
+### Direct bilirubin
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[13])
+```
+
+### eGFR
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[14])
+```
+
+### Free testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[15])
+```
+
+### Gamma glutamyltransferase
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[16])
+```
+
+### HbA1c
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[17])
+```
+
+### HDL cholesterol
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[18])
+```
+
+### IGF-1
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[19])
+```
+
+### LDL direct
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[20])
+```
+
+### Lipoprotein A
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[21])
+```
+
+### Phosphate
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[22])
+```
+
+### SHBG
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[23])
+```
+
+### Testosterone
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[24])
+```
+
+### Total bilirubin
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[25])
+```
+
+### Total protein
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[26])
+```
+
+### Triglycerides
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[27])
+```
+
+### Urate
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[28])
+```
+
+### Urea
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[29])
+```
+
+### Vitamin D
+```{r, echo=FALSE}
+htmltools::includeHTML(phenogene[30])
+```
+
+## GWAS {.tabset .tabset-dropdown}
+
+### Vegetarianism as a trait
+```{r, echo=FALSE}
+htmltools::includeHTML("gmirror.html")
+```
+
+
+
