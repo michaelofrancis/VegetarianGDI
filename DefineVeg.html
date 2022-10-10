@@ -38,6 +38,7 @@
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link rel="shortcut icon" href="favicon_package_v0.16/favicon-32x32.png">
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -459,13 +460,6 @@ div.tocify {
             Pheno skim
           </a>
         </li>
-        <li>
-          <a href="facetpheno.html">
-            <span class="fa fa-solid fa-square"></span>
-             
-            Compare raw pheno
-          </a>
-        </li>
       </ul>
     </li>
     <li>
@@ -583,7 +577,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Define Vegetarians</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-10-05 21:33:11</h4>
+<h4 class="date">2022-10-09 21:03:25</h4>
 
 </div>
 
@@ -996,16 +990,11 @@ it “manually”.</p>
 <span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">$</span>RecallTP<span class="ot">=</span>i</span>
 <span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    y<span class="ot">=</span><span class="fu">rbind</span>(y,x)</span>
 <span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;RecallTP0&#39;. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by &#39;RecallTP1&#39;. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by &#39;RecallTP2&#39;. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by &#39;RecallTP3&#39;. You can override using the
-## `.groups` argument.
-## `summarise()` has grouped output by &#39;RecallTP4&#39;. You can override using the
-## `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;RecallTP0&#39;. You can override using the `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP1&#39;. You can override using the `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP2&#39;. You can override using the `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP3&#39;. You can override using the `.groups` argument.
+## `summarise()` has grouped output by &#39;RecallTP4&#39;. You can override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>y<span class="sc">$</span>group<span class="ot">=</span><span class="fu">mapvalues</span>(y<span class="sc">$</span>group, <span class="at">from=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>), </span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;First time taking&quot;</span>,</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                       <span class="st">&quot;Second time taking&quot;</span>,</span>
@@ -2408,8 +2397,8 @@ study</h3>
 <span id="cb71-2"><a href="#cb71-2" aria-hidden="true" tabindex="-1"></a>dq<span class="sc">$</span>nextMeatFish24[dq<span class="sc">$</span>nextMeat24<span class="sc">==</span><span class="dv">1</span> <span class="sc">|</span> dq<span class="sc">$</span>nextFish24<span class="sc">==</span><span class="dv">1</span>]<span class="ot">=</span><span class="dv">1</span></span>
 <span id="cb71-3"><a href="#cb71-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb71-4"><a href="#cb71-4" aria-hidden="true" tabindex="-1"></a>dq1<span class="ot">=</span><span class="fu">as.data.frame</span>(dq<span class="sc">%&gt;%</span><span class="fu">group_by</span>(nextSpecialVeg, nextMeatFish24,IAveg, DietChanges5yr)<span class="sc">%&gt;%</span><span class="fu">summarize</span>(<span class="fu">n</span>()))</span></code></pre></div>
-<pre><code>## `summarise()` has grouped output by &#39;nextSpecialVeg&#39;, &#39;nextMeatFish24&#39;, &#39;IAveg&#39;.
-## You can override using the `.groups` argument.</code></pre>
+<pre><code>## `summarise()` has grouped output by &#39;nextSpecialVeg&#39;, &#39;nextMeatFish24&#39;, &#39;IAveg&#39;. You can
+## override using the `.groups` argument.</code></pre>
 <div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">$</span>nextSpecialVeg<span class="ot">=</span><span class="fu">mapvalues</span>(dq1<span class="sc">$</span>nextSpecialVeg, <span class="at">from=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
 <span id="cb73-2"><a href="#cb73-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">to=</span><span class="fu">c</span>(<span class="st">&quot;No&quot;</span>, <span class="st">&quot;Yes&quot;</span>))</span>
 <span id="cb73-3"><a href="#cb73-3" aria-hidden="true" tabindex="-1"></a>dq1<span class="sc">$</span>IAveg<span class="ot">=</span><span class="fu">mapvalues</span>(dq1<span class="sc">$</span>IAveg, <span class="at">from=</span><span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span>, <span class="st">&quot;FALSE&quot;</span>),</span>
