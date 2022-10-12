@@ -1,0 +1,95 @@
+---
+title: "Gene-vegetarianism interactions"
+author: Mike Francis
+date: "`r Sys.time()`"
+output:
+  html_document:
+    toc: false
+    includes:
+      in_header: "favicon.html"
+---
+
+### ![](images/paste-C5ECBF03.png)
+
+### Here, you will find the code used in the manuscript, "**Gene-vegetarianism interactions detected in genome-wide analyses across 30 serum biomarkers**"<br/><br/>
+
+### Our goal in this website was to make the analysis in our study as transparent and helpful as possible.<br/><br/>
+
+### Please feel free to use our code and cite our paper!<br/>
+
+------------------------------------------------------------------------
+
+## Site highlights:
+
+#### **· [Defining vegetarians](https://michaelofrancis.github.io/VegetarianGDI/DefineVeg.html)**
+
+#### **· [Matching and effects analysis](https://michaelofrancis.github.io/VegetarianGDI/MatchEffect.html)**
+
+#### **· [Interactive Manhattan plots](https://michaelofrancis.github.io/VegetarianGDI/GxEplots.html)**
+
+------------------------------------------------------------------------
+
+## Download summary statistics
+
+<br/>
+
+#### GWAS and GWIS summary statistics are hosted by GWAS Catalog.
+
+#### They can be downloaded using the accessions found in this table:<br/>
+
+```{r, echo=FALSE}
+library(fontawesome)
+library(downloadthis)
+download_link(
+  link = "https://github.com/michaelofrancis/VegetarianGDI/blob/main/Gene-Veg_GWASCatalog_Accessions.xlsx?raw=true",
+  button_label = "Download sumstats accessions table",
+  button_type = "primary",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = TRUE
+)
+```
+
+<br/><br/>
+
+#### Download gene-level summary statistics (MAGMA output): <br/>
+
+```{r, echo=FALSE}
+
+download_link(
+  link = "https://github.com/michaelofrancis/VegetarianGDI/blob/main/GenexVegetarian-MAGMA-sumstats.zip?raw=true",
+  button_label = "Download gene-level sumstats",
+  button_type = "primary",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = TRUE
+)
+```
+
+<br/>
+
+------------------------------------------------------------------------
+
+<br/><br/>
+
+#### Download Supplementary Figures: <br/>
+
+```{r, echo=FALSE}
+
+download_link(
+  link = "https://github.com/michaelofrancis/VegetarianGDI/blob/main/SupplementaryFigures.pdf?raw=true",
+  button_label = "Download Supplementary Figures 1-10",
+  button_type = "danger",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = TRUE
+)
+```
+
+<br/>
+
+------------------------------------------------------------------------
+
+#### Questions about this study or this website? Contact Michael Francis at michaelfrancisphd\@protonmail.com
+
+#### Github repository for this website is [here](https://github.com/michaelofrancis/VegetarianGDI)
