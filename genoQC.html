@@ -14,7 +14,7 @@
 
 <title>Vegetarianism gene-diet interactions</title>
 
-<script src="site_libs/header-attrs-2.16.2/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/lumen.min.css" rel="stylesheet" />
@@ -30,12 +30,12 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
-<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.0/css/v4-shims.min.css" rel="stylesheet" />
 <link rel="shortcut icon" href="favicon_package_v0.16/favicon-32x32.png">
 
 <style type="text/css">
@@ -575,7 +575,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Vegetarianism gene-diet interactions</h1>
 <h4 class="author">Mike Francis</h4>
-<h4 class="date">2022-10-09 21:39:06</h4>
+<h4 class="date">2024-03-16 14:26:23</h4>
 
 </div>
 
@@ -596,74 +596,71 @@ class="section level3">
 </ul>
 <p>Set major allele as reference allele</p>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash </span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=highmem_p </span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=genoQC</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --nodes=1 </span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=16 </span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=144:00:00 </span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=180000 </span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=%x.%j.out </span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --error=%x.%j.err </span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --array=1-22</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="va">i</span><span class="op">=</span><span class="va">$SLURM_ARRAY_TASK_ID</span></span>
-<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> <span class="va">$SLURM_SUBMIT_DIR</span></span>
-<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="ex">ml</span> PLINK/2.00-alpha2.3-x86_64-20210920-dev</span>
-<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="co">###-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- </span></span>
-<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="co">###GENOTYPE QC PLINK-=-=-=-=-=-=-=-=-=-=-=-=</span></span>
-<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co">###-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- </span></span>
-<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a><span class="va">genoindir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/bgen_v1.2_UKBsource&quot;</span><span class="va">)</span> </span>
-<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="va">mfiscoredir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/work/kylab/mike/UKB/quality-scores/mfi&quot;</span><span class="va">)</span></span>
-<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="va">keeplist</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/work/kylab/mike/BioxVeg/pheno/keeplist.txt&quot;</span><span class="va">)</span></span>
-<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a><span class="va">outdir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/genotypeQC&quot;</span><span class="va">)</span> </span>
-<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="va">$outdir</span></span>
-<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ex">plink2</span> <span class="dt">\</span></span>
-<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>--bgen <span class="va">$genoindir</span>/ukb_imp_chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span><span class="dt">\_</span>v3.bgen ref-first <span class="dt">\</span></span>
-<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>--sample <span class="dt">\$</span>genoindir/ukb_imp_v3.sample <span class="dt">\</span></span>
-<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>--extract <span class="va">$mfiscoredir</span>/ukb_mfi_keepsnps_chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span>.txt <span class="dt">\</span></span>
-<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>--mind 0.05 <span class="dt">\</span></span>
-<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>--geno 0.02 <span class="dt">\</span></span>
-<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>--hwe 1e-06 <span class="dt">\</span></span>
-<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>--maf 0.01 <span class="dt">\</span></span>
-<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>--maj-ref <span class="dt">\</span></span>
-<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>--keep <span class="va">$keeplist</span> <span class="dt">\</span></span>
-<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>--max-alleles 2 <span class="dt">\</span></span>
-<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>--export bgen-1.2 bits=8 <span class="dt">\</span></span>
-<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>--out <span class="st">&quot;</span><span class="va">$outdir</span><span class="st">&quot;</span>/chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
-<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co">###-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- </span></span>
-<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="co">###GENERATE SNP FREQUENCY REPORT =-=-=-=-=-=</span></span>
-<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a><span class="co">###-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- </span></span>
-<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="va">freqdir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/genotypeQC/freq&quot;</span><span class="va">)</span></span>
-<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="va">$outdir</span></span>
-<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ex">plink2</span> <span class="dt">\</span></span>
-<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>--bgen <span class="va">$outdir</span>/chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span>.bgen ref-first <span class="dt">\</span></span>
-<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>--sample <span class="va">$outdir</span>/chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span>.sample <span class="dt">\</span></span>
-<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>--freq <span class="dt">\</span></span>
-<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>--out <span class="st">&quot;</span><span class="va">$freqdir</span><span class="st">&quot;</span>/chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span></code></pre></div>
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co">#!/bin/bash </span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="co">#SBATCH --partition=highmem_p </span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co">#SBATCH --job-name=genoQC</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co">#SBATCH --nodes=1 </span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#SBATCH --ntasks-per-node=16 </span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#SBATCH --time=144:00:00 </span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co">#SBATCH --mem=180000 </span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a><span class="co">#SBATCH --output=%x.%j.out </span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a><span class="co">#SBATCH --error=%x.%j.err </span></span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a><span class="co">#SBATCH --array=1-22</span></span>
+<span id="cb1-11"><a href="#cb1-11" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" tabindex="-1"></a><span class="va">i</span><span class="op">=</span><span class="va">$SLURM_ARRAY_TASK_ID</span></span>
+<span id="cb1-13"><a href="#cb1-13" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" tabindex="-1"></a><span class="bu">cd</span> <span class="va">$SLURM_SUBMIT_DIR</span></span>
+<span id="cb1-15"><a href="#cb1-15" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" tabindex="-1"></a><span class="ex">ml</span> PLINK/2.00-alpha2.3-x86_64-20210920-dev</span>
+<span id="cb1-17"><a href="#cb1-17" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" tabindex="-1"></a><span class="co">###-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- </span></span>
+<span id="cb1-19"><a href="#cb1-19" tabindex="-1"></a><span class="co">###GENOTYPE QC PLINK-=-=-=-=-=-=-=-=-=-=-=-=</span></span>
+<span id="cb1-20"><a href="#cb1-20" tabindex="-1"></a><span class="co">###-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- </span></span>
+<span id="cb1-21"><a href="#cb1-21" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" tabindex="-1"></a><span class="va">genoindir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/bgen_v1.2_UKBsource&quot;</span><span class="va">)</span> </span>
+<span id="cb1-23"><a href="#cb1-23" tabindex="-1"></a><span class="va">mfiscoredir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/work/kylab/mike/UKB/quality-scores/mfi&quot;</span><span class="va">)</span></span>
+<span id="cb1-24"><a href="#cb1-24" tabindex="-1"></a><span class="va">keeplist</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/work/kylab/mike/BioxVeg/pheno/keeplist.txt&quot;</span><span class="va">)</span></span>
+<span id="cb1-25"><a href="#cb1-25" tabindex="-1"></a><span class="va">outdir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/genotypeQC&quot;</span><span class="va">)</span> </span>
+<span id="cb1-26"><a href="#cb1-26" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="va">$outdir</span></span>
+<span id="cb1-28"><a href="#cb1-28" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" tabindex="-1"></a><span class="ex">plink2</span> <span class="dt">\</span></span>
+<span id="cb1-30"><a href="#cb1-30" tabindex="-1"></a>--bgen <span class="va">$genoindir</span>/ukb_imp_chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span><span class="dt">\_</span>v3.bgen ref-first <span class="dt">\</span></span>
+<span id="cb1-31"><a href="#cb1-31" tabindex="-1"></a>--sample <span class="dt">\$</span>genoindir/ukb_imp_v3.sample <span class="dt">\</span></span>
+<span id="cb1-32"><a href="#cb1-32" tabindex="-1"></a>--extract <span class="va">$mfiscoredir</span>/ukb_mfi_keepsnps_chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span>.txt <span class="dt">\</span></span>
+<span id="cb1-33"><a href="#cb1-33" tabindex="-1"></a>--mind 0.05 <span class="dt">\</span></span>
+<span id="cb1-34"><a href="#cb1-34" tabindex="-1"></a>--geno 0.02 <span class="dt">\</span></span>
+<span id="cb1-35"><a href="#cb1-35" tabindex="-1"></a>--hwe 1e-06 <span class="dt">\</span></span>
+<span id="cb1-36"><a href="#cb1-36" tabindex="-1"></a>--maf 0.01 <span class="dt">\</span></span>
+<span id="cb1-37"><a href="#cb1-37" tabindex="-1"></a>--maj-ref <span class="dt">\</span></span>
+<span id="cb1-38"><a href="#cb1-38" tabindex="-1"></a>--keep <span class="va">$keeplist</span> <span class="dt">\</span></span>
+<span id="cb1-39"><a href="#cb1-39" tabindex="-1"></a>--max-alleles 2 <span class="dt">\</span></span>
+<span id="cb1-40"><a href="#cb1-40" tabindex="-1"></a>--export bgen-1.2 bits=8 <span class="dt">\</span></span>
+<span id="cb1-41"><a href="#cb1-41" tabindex="-1"></a>--out <span class="st">&quot;</span><span class="va">$outdir</span><span class="st">&quot;</span>/chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span>
+<span id="cb1-42"><a href="#cb1-42" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" tabindex="-1"></a><span class="co">###-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- </span></span>
+<span id="cb1-45"><a href="#cb1-45" tabindex="-1"></a><span class="co">###GENERATE SNP FREQUENCY REPORT =-=-=-=-=-=</span></span>
+<span id="cb1-46"><a href="#cb1-46" tabindex="-1"></a><span class="co">###-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- </span></span>
+<span id="cb1-47"><a href="#cb1-47" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" tabindex="-1"></a><span class="va">freqdir</span><span class="op">=</span><span class="va">(</span><span class="st">&quot;/scratch/mf91122/BioxVeg/genotypeQC/freq&quot;</span><span class="va">)</span></span>
+<span id="cb1-49"><a href="#cb1-49" tabindex="-1"></a><span class="fu">mkdir</span> <span class="at">-p</span> <span class="va">$outdir</span></span>
+<span id="cb1-50"><a href="#cb1-50" tabindex="-1"></a></span>
+<span id="cb1-51"><a href="#cb1-51" tabindex="-1"></a><span class="ex">plink2</span> <span class="dt">\</span></span>
+<span id="cb1-52"><a href="#cb1-52" tabindex="-1"></a>--bgen <span class="va">$outdir</span>/chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span>.bgen ref-first <span class="dt">\</span></span>
+<span id="cb1-53"><a href="#cb1-53" tabindex="-1"></a>--sample <span class="va">$outdir</span>/chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span>.sample <span class="dt">\</span></span>
+<span id="cb1-54"><a href="#cb1-54" tabindex="-1"></a>--freq <span class="dt">\</span></span>
+<span id="cb1-55"><a href="#cb1-55" tabindex="-1"></a>--out <span class="st">&quot;</span><span class="va">$freqdir</span><span class="st">&quot;</span>/chr<span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span></span></code></pre></div>
 <p>Extra input file format:</p>
 <p>Keep snps that have INFO &gt; 0.5</p>
 <div class="sourceCode" id="cb2"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> /work/kylab/mike/UKB/quality-scores/mfi/ukb_mfi_keepsnps_chr1.txt </span></code></pre></div>
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">head</span> /work/kylab/mike/UKB/quality-scores/mfi/ukb_mfi_keepsnps_chr1.txt </span></code></pre></div>
 <p><img src="images/paste-A1E114D2.png" width="68" /></p>
 <p>Keep participants that passed previous Phenotype QC</p>
 <div class="sourceCode" id="cb3"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span> /work/kylab/mike/BioxVeg/pheno/keeplist.txt </span></code></pre></div>
-<p><img src="images/paste-0530FAE8.png" width="95" /></p>
-<div class="sourceCode" id="cb4"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> /work/kylab/mike/BioxVeg/pheno/keeplist.txt </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#155347</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#=155346 participants + header</span></span></code></pre></div>
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">wc</span> <span class="at">-l</span> /work/kylab/mike/BioxVeg/pheno/keeplist.txt </span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#155347</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co">#=155346 participants + header</span></span></code></pre></div>
 </div>
 
 
