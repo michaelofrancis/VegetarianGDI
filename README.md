@@ -1,4 +1,3 @@
-<img width="867" alt="image" src="https://github.com/michaelofrancis/VegetarianGDI/blob/main/images/logo-transparent.png">
 
 # Gene-vegetarianism interactions detected in genome-wide analyses across 30 serum biomarkers
 
